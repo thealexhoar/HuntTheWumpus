@@ -1,41 +1,46 @@
 using System;
 using System.Collections.Generic;
+using System.Xml;
 
 namespace HuntTheWumpus
 {
+    /// <summary>
+    /// Manages the storage and sorting of scores.
+    /// </summary>
 	class ScoreHandler
 	{
-		public uint Turns { get; private set; }
-		public uint Score { get; private set; }
+        /// <summary>
+        /// Represents the list of highscores from the file
+        /// </summary>
+        public List<Score> HighScores = new List<Score>();
 
-		public ScoreHandler()
-		{
-			Turns = 0;
-			Score = 0;
-		}
+        /// <summary>
+        /// Represents a single score
+        /// </summary>
+        public class Score : XmlNode, IComparable
+        {
+            /// <summary>
+            /// Name of the user
+            /// </summary>
+            public string name = "";
 
-		public void OnTurn()
-		{
-			Turns++;
-		}
+            /// <summary>
+            /// Points recieved from questions/money
+            /// </summary>
+            public ulong Points = 0;
 
-		public void OnGameEnd()
-		{
-		}
+            /// <summary>
+            /// Number of turns the user has taken
+            /// </summary>
+            public ulong Turns = 0;
 
-		public void OnGameStart()
-		{
-		}
+            /// <summary>
+            /// Seconds taken during the game
+            /// </summary>
+            public ulong Time = 0;
+        }
 
-		public void OnTriviaAnswer(bool isRight)
-		{
-		}
-
-		void OnSave(string filename)
-		{
-		}
-
-		void OnLoad(string filename)	
+		public ScoreHandler(Score score)
 		{
 		}
 	}
