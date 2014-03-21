@@ -7,8 +7,8 @@ namespace HuntTheWumpus
     /// <summary>
     /// Manages the storage and sorting of scores.
     /// </summary>
-	class ScoreHandler
-	{
+    class ScoreHandler
+    {
         /// <summary>
         /// Represents the list of highscores from the file
         /// </summary>
@@ -40,8 +40,8 @@ namespace HuntTheWumpus
             public ulong Time = 0;
         }
 
-		public ScoreHandler(Score score)
-		{
-		}
-	}
+        public ScoreHandler(Score score)
+        {
+        }
+    }
 }
