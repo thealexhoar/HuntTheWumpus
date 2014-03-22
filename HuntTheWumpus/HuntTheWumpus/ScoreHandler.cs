@@ -111,7 +111,7 @@ namespace HuntTheWumpus
 
             HighScores.Sort();
 
-            using (var file = new StreamWriter(".scores"))
+            using (var file = new StreamWriter(".scores", false))
             {
                 foreach (var highScore in HighScores)
                     file.Write(highScore);
@@ -157,7 +157,5 @@ namespace HuntTheWumpus
                 }
             }
         }
-
-
     }
 }
