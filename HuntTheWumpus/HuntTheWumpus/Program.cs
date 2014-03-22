@@ -2,7 +2,6 @@ using System;
 
 namespace HuntTheWumpus
 {
-#if WINDOWS || XBOX
     static class Program
     {
         /// <summary>
@@ -16,6 +15,4 @@ namespace HuntTheWumpus
             }
         }
     }
-#endif
 }
-

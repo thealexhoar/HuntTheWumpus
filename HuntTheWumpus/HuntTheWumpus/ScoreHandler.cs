@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Text;
 using System.IO;
 
 namespace HuntTheWumpus
@@ -70,9 +71,24 @@ namespace HuntTheWumpus
             }
         }
 
+        /// <summary>
+        /// Contructor for the score management system. Call once the game has ended
+        /// </summary>
+        /// <param name="score">The score of the game</param>
         public ScoreHandler(Score score)
         {
             HighScores.Add(score);
+
+            if (File.Exists(".scores"))
+            {
+                var read = new StreamReader(".scores");
+                var text = read.ReadToEnd();
+                Deserialize(text);
+            }
+            else
+            {
+                File.Create(".scores");
+            }
         }
 
         /// <summary>
@@ -114,5 +130,7 @@ namespace HuntTheWumpus
                 }
             }
         }
+
+
     }
 }
