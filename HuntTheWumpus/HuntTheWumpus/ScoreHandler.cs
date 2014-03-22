@@ -18,7 +18,7 @@ namespace HuntTheWumpus
         /// <summary>
         /// Represents a single score
         /// </summary>
-        public class Score
+        public class Score : IComparable<Score>
         {
             /// <summary>
             /// Name of the user
@@ -69,6 +69,29 @@ namespace HuntTheWumpus
             {
                 return Name + ';' + Convert.ToString(Points) + ':' + Convert.ToString(Turns) + '|' + Convert.ToString(Time) + '\n';
             }
+
+            /// <summary>
+            /// Allows comparing to take place between different scores
+            /// </summary>
+            /// <param name="obj">The other score</param>
+            /// <returns>Represents whether equal to, greater than, or less than</returns>
+            public int CompareTo(Score obj)
+            {
+                if (Points > obj.Points)
+                    return -1;
+                else if (Points < obj.Points)
+                    return 1;
+                else if (Time < obj.Time)
+                    return -1;
+                else if (Time > obj.Time)
+                    return 1;
+                else if (Turns < obj.Turns)
+                    return -1;
+                else if (Turns > obj.Turns)
+                    return 1;
+                else
+                    return 0;
+            }
         }
 
         /// <summary>
@@ -85,9 +108,13 @@ namespace HuntTheWumpus
                 var text = read.ReadToEnd();
                 Deserialize(text);
             }
-            else
+
+            HighScores.Sort();
+
+            using (var file = new StreamWriter(".scores"))
             {
-                File.Create(".scores");
+                foreach (var highScore in HighScores)
+                    file.Write(highScore);
             }
         }
 
