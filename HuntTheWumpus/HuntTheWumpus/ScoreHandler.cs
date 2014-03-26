@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Threading;
 using System.IO;
 
 namespace HuntTheWumpus
@@ -14,6 +14,11 @@ namespace HuntTheWumpus
         /// Represents the list of highscores from the file
         /// </summary>
         public List<Score> HighScores = new List<Score>();
+
+        /// <summary>
+        /// Represents whether the loading thread is done
+        /// </summary>
+        public bool HasLoaded = false;
 
         /// <summary>
         /// Represents a single score
@@ -100,6 +105,17 @@ namespace HuntTheWumpus
         /// <param name="score">The score of the game</param>
         public ScoreHandler(Score score)
         {
+            var thread = new Thread(new ParameterizedThreadStart(LoadScores));
+            thread.Start(score);
+        }
+
+        /// <summary>
+        /// Handles loading from file, sorting, and rewriting the file
+        /// </summary>
+        /// <param name="score">The score of the game</param>
+        void LoadScores(Object obj)
+        {
+            var score = (Score)obj;
             HighScores.Add(score);
 
             if (File.Exists(".scores"))
@@ -116,6 +132,8 @@ namespace HuntTheWumpus
                 foreach (var highScore in HighScores)
                     file.Write(highScore);
             }
+
+            HasLoaded = true;
         }
 
         /// <summary>
