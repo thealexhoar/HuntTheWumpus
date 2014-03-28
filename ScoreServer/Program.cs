@@ -5,6 +5,9 @@ using System.Threading;
 
 namespace ScoreServer
 {
+	/// <summary>
+	/// Contains the server for storing high scores
+	/// </summary>
     class Program
     {
 		/// <summary>
