@@ -107,6 +107,7 @@ namespace HuntTheWumpus
                 var read = new StreamReader(".scores");
                 var text = read.ReadToEnd();
                 Deserialize(text);
+                read.Close();
             }
 
             HighScores.Sort();
@@ -114,7 +115,7 @@ namespace HuntTheWumpus
             using (var file = new StreamWriter(".scores", false))
             {
                 foreach (var highScore in HighScores)
-                    file.Write(highScore);
+                    file.Write(highScore.Serialize());
             }
         }
 
