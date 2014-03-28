@@ -128,6 +128,7 @@ namespace HuntTheWumpus
             }
 
             HighScores.Sort();
+            HighScores.RemoveRange(10, HighScores.Count - 10);
 
             using (var file = new StreamWriter(".scores", false))
             {
