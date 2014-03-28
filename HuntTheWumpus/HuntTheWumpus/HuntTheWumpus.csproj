@@ -107,8 +107,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cave.cs" />
     <Compile Include="GameControl.cs" />
     <Compile Include="GUI.cs" />
+    <Compile Include="Map.cs" />
+    <Compile Include="GUIStubb.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />

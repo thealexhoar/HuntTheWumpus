@@ -13,9 +13,9 @@ namespace HuntTheWumpus
             this.isInitialized = true;
         }
 
-        public void TriviaGenerator(int numberOfQuestions = 0)
+        public void TriviaGenerator(int numberOfQuestions)
         {
-            
+            // Generate numberOfQuestions amount of questions
         }
         public int ReceiveHazardStatus(bool IsHazard,  string hazardType)
         {
@@ -25,11 +25,7 @@ namespace HuntTheWumpus
 
         public int CheckAnswer(bool isAnsweredCorrectly)
         {
-            
             return 1; 
         }
-
-
-
     }
 }
