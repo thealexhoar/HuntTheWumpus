@@ -21,6 +21,11 @@ namespace HuntTheWumpus
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
+        // GameControl class
+        public GameControl()
+        {
+        }
+
         public GameControl(Game game)
             : base(game)
         {
@@ -34,6 +39,9 @@ namespace HuntTheWumpus
         public override void Initialize()
         {
             // TODO: Add your initialization code here
+            GUIStubb graphicsInterface = new GUIStubb();
+            Trivia trivia = new Trivia();
+            Player player = new Player();
 
             base.Initialize();
         }
@@ -42,7 +50,7 @@ namespace HuntTheWumpus
         /// Allows the game component to update itself.
         /// 
         /// Updates game objects
-        /// Sends objects to be Drawn to GUI which then draws them
+        /// Sends objects to be drawn to GUI which then draws them
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Update(GameTime gameTime)
@@ -90,6 +98,7 @@ namespace HuntTheWumpus
             GetTrivia(3);
 
             // Insert trivia class method which checks if user answered correctly
+            // Check if trivia answered correctly
 
             if (triviaCorrect)
             {
@@ -123,12 +132,13 @@ namespace HuntTheWumpus
         /// </summary>
         public static void EncounterWumpus()
         {
-            GetTrivia(6);
+            GetTrivia(6); // if answered correctly wumpusDefeated = true
             bool wumpusDefeated = true;
 
             if (wumpusDefeated)
             {
                 // Wumpus runs away
+                // Define who owns WumpusRun()
             }
 
             else

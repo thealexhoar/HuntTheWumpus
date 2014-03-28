@@ -24,6 +24,8 @@ namespace HuntTheWumpus
 
         protected override void Initialize()
         {
+            GameControl gameControl = new GameControl();
+            gameControl.Initialize();
             base.Initialize();
         }
 
