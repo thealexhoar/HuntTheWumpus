@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 
 namespace HuntTheWumpus
 {
@@ -9,9 +10,19 @@ namespace HuntTheWumpus
         /// </summary>
         static void Main(string[] args)
         {
-            using (Game1 game = new Game1())
+            try
             {
-                game.Run();
+                using (Game1 game = new Game1())
+                {
+                    game.Run();
+                }
+            }
+            catch (Exception e)
+            {
+                using (var file = new StreamWriter(".crashlog", true))
+                {
+                    file.WriteLine(DateTime.Now.ToString() + ": " + e.ToString());
+                }
             }
         }
     }
