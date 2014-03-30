@@ -18,16 +18,9 @@ namespace ScoreServer
         }
 
         /// <summary>
-        /// Receives a request from a client
+        /// Stub method for connecting to a client, getting new score, sorting with scores, and sending back a list
         /// </summary>
-        static void ReceiveRequest()
-        {
-        }
-
-        /// <summary>
-        /// Sends the top ten highest scores for the client to use.
-        /// </summary>
-        static void SendTopTen()
+        static void HandleConnection()
         {
         }
     }

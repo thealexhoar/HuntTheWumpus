@@ -17,9 +17,19 @@ namespace HuntTheWumpus
         public List<Score> HighScores = new List<Score>();
 
         /// <summary>
+        /// The list of downloaded highscores
+        /// </summary>
+        public List<Score> GlobalScores = new List<Score>();
+
+        /// <summary>
         /// Represents whether the loading thread is done
         /// </summary>
-        public bool HasLoaded = false;
+        public bool HasLocalLoaded = false;
+
+        /// <summary>
+        /// Represents whether download of highscores has finished
+        /// </summary>
+        public bool HasGlobalLoaded = false;
 
         /// <summary>
         /// Represents a single score
@@ -136,7 +146,7 @@ namespace HuntTheWumpus
                     file.Write(highScore.Serialize());
             }
 
-            HasLoaded = true;
+            HasLocalLoaded = true;
         }
 
         /// <summary>
@@ -177,6 +187,13 @@ namespace HuntTheWumpus
                     temp += serial[i];
                 }
             }
+        }
+
+        /// <summary>
+        /// Stub method for connecting to a server, sending score, and downloading new scores
+        /// </summary>
+        void ManageServer()
+        {
         }
     }
 }

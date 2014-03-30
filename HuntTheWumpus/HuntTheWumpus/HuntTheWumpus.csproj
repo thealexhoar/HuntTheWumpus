@@ -109,7 +109,6 @@
   <ItemGroup>
     <Compile Include="Cave.cs" />
     <Compile Include="GameControl.cs" />
-    <Compile Include="GUI.cs" />
     <Compile Include="Map.cs" />
     <Compile Include="GUIStubb.cs" />
     <Compile Include="Player.cs" />

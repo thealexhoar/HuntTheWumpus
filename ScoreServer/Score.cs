@@ -79,6 +79,46 @@ namespace ScoreServer
             else
                 return 0;
         }
+
+        /// <summary>
+        /// Takes the contents of a file and converts it into highscores
+        /// </summary>
+        /// <param name="serial">Contents of the file</param>
+        public static void Deserialize(string serial)
+        {
+            string temp = "";
+            Score score = new Score();
+
+            for (int i = 0; i < serial.Length; i++)
+            {
+                if (serial[i] == ';')
+                {
+                    score.Name = temp;
+                    temp = "";
+                }
+                else if (serial[i] == ':')
+                {
+                    ulong.TryParse(temp, out score.Points);
+                    temp = "";
+                }
+                else if (serial[i] == '|')
+                {
+                    ulong.TryParse(temp, out score.Turns);
+                    temp = "";
+                }
+                else if (serial[i] == '\n')
+                {
+                    ulong.TryParse(temp, out score.Time);
+                    temp = "";
+                    HighScores.Add(score);
+                    score = new Score();
+                }
+                else
+                {
+                    temp += serial[i];
+                }
+            }
+        }
     }
 }
 
