@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Net;
+using System.Net.Sockets;
 using System.IO;
 
 namespace HuntTheWumpus
@@ -131,10 +132,11 @@ namespace HuntTheWumpus
 
             if (File.Exists(".scores"))
             {
-                var read = new StreamReader(".scores");
-                var text = read.ReadToEnd();
-                Deserialize(text);
-                read.Close();
+                using (var read = new StreamReader(".scores"))
+                {
+                    var text = read.ReadToEnd();
+                    Deserialize(text);
+                }
             }
 
             HighScores.Sort();

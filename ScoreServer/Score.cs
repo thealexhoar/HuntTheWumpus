@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace ScoreServer
 {
@@ -84,10 +85,11 @@ namespace ScoreServer
         /// Takes the contents of a file and converts it into highscores
         /// </summary>
         /// <param name="serial">Contents of the file</param>
-        public static void Deserialize(string serial)
+        public static void Deserialize(string serial, out List<Score> scores)
         {
             string temp = "";
             Score score = new Score();
+            List<Score> HighScores = new List<Score>();
 
             for (int i = 0; i < serial.Length; i++)
             {
@@ -118,6 +120,8 @@ namespace ScoreServer
                     temp += serial[i];
                 }
             }
+
+            scores = HighScores;
         }
     }
 }
