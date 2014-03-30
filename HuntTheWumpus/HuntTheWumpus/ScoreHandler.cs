@@ -4,6 +4,7 @@ using System.Threading;
 using System.Net;
 using System.Net.Sockets;
 using System.IO;
+using System.Text;
 
 namespace HuntTheWumpus
 {
@@ -56,6 +57,11 @@ namespace HuntTheWumpus
             /// Seconds taken during the game
             /// </summary>
             public ulong Time = 0;
+
+            /// <summary>
+            /// Networking client
+            /// </summary>
+            public UdpClient udp = new UdpClient(10000);
 
             /// <summary>
             /// Basic constructor
@@ -117,8 +123,11 @@ namespace HuntTheWumpus
         /// <param name="score">The score of the game</param>
         public ScoreHandler(Score score)
         {
-            var thread = new Thread(new ParameterizedThreadStart(LoadScores));
-            thread.Start(score);
+            var localThread = new Thread(new ParameterizedThreadStart(LoadScores));
+            localThread.Start(score);
+
+            var globalThread = new Thread(new ParameterizedThreadStart(ManageServer));
+            globalThread.Start(score);
         }
 
         /// <summary>
@@ -194,8 +203,10 @@ namespace HuntTheWumpus
         /// <summary>
         /// Stub method for connecting to a server, sending score, and downloading new scores
         /// </summary>
-        void ManageServer()
+        /// <param name="obj">The score value</param>
+        void ManageServer(Object obj)
         {
+            var score = (Score)obj;
         }
     }
 }
