@@ -28,16 +28,6 @@ namespace ScoreServer
         static IPEndPoint groupEP = new IPEndPoint(IPAddress.Any, 10000);
 
         /// <summary>
-        /// Container for unproccessed data
-        /// </summary>
-        static byte[] byteArray;
-
-        /// <summary>
-        /// A string representing complete data
-        /// </summary>
-        static string recievedData;
-
-        /// <summary>
         /// The entry point of the program, where the program control starts and ends.
         /// </summary>
         static void Main()
@@ -55,16 +45,19 @@ namespace ScoreServer
             {
                 while (true)
                 {
-                    byteArray = udp.Receive(ref groupEP);
-                    recievedData = Encoding.ASCII.GetString(byteArray, 0, byteArray.Length);
+                    var byteArray = udp.Receive(ref groupEP);
+                    var recievedData = Encoding.ASCII.GetString(byteArray, 0, byteArray.Length);
                 }
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.ToString());
+                using (var file = new StreamWriter(".crashlog", true))
+                {
+                    file.WriteLine(DateTime.Now.ToString() + ": " + e.ToString());
+                }
             }
 
-            using (var file = new StreamWriter(".scores"))
+            using (var file = new StreamWriter(".scores", false))
             {
                 foreach (var score in HighScores)
                     file.Write(score.Serialize());
