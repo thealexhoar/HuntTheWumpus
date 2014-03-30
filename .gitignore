@@ -149,6 +149,7 @@ $RECYCLE.BIN/
 
 # Data files for the highscore system
 .scores
+.crashlog
 
 # Mac crap
 .DS_Store
