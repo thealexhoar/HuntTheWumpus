@@ -148,6 +148,10 @@ Desktop.ini
 # Recycle Bin used on file shares
 $RECYCLE.BIN/
 
+# Data files for the highscore system
+.scores
+.crashlog
+
 # Mac crap
 .DS_Store
 
