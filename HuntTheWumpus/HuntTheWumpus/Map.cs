@@ -12,7 +12,5 @@ namespace wumpus
         {
 
         }
-
-        public OnR
     }
 }

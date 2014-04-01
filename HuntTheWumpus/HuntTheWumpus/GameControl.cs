@@ -18,14 +18,14 @@ namespace HuntTheWumpus
     public class GameControl : Microsoft.Xna.Framework.GameComponent
     {
 
+        GameTime gameTime;
+
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        public static Game game;
+        public Player player = new Player(game);
 
         // GameControl class
-        public GameControl()
-        {
-        }
-
         public GameControl(Game game)
             : base(game)
         {
@@ -41,7 +41,6 @@ namespace HuntTheWumpus
             // TODO: Add your initialization code here
             GUIStubb graphicsInterface = new GUIStubb();
             Trivia trivia = new Trivia();
-            Player player = new Player();
 
             base.Initialize();
         }
@@ -56,6 +55,22 @@ namespace HuntTheWumpus
         public override void Update(GameTime gameTime)
         {
             // TODO: Add your update code here
+            
+            // Create a KeyboardState and Player object to be used when checking for key presses
+            KeyboardState keyboardState = Keyboard.GetState();
+
+            // Check for keyboard input
+            if (keyboardState.IsKeyDown(Keys.Left))
+                player.position.X += player.speed;
+            if (keyboardState.IsKeyDown(Keys.Right))
+                player.position.X -= player.speed;
+            if (keyboardState.IsKeyDown(Keys.Up))
+                player.position.Y += player.speed;
+            if (keyboardState.IsKeyDown(Keys.Down))
+                player.position.Y -= player.speed;     
+
+            // Console.WriteLine the position to check that the position is in fact changing
+            Console.WriteLine(player.position);
 
             // Update all the game objects
             // Send these updates to GUI to be drawn

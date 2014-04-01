@@ -15,6 +15,8 @@ namespace HuntTheWumpus
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        public static Game game;
+        GameControl gameControl = new GameControl(game);
 
         public Game1()
         {
@@ -24,7 +26,6 @@ namespace HuntTheWumpus
 
         protected override void Initialize()
         {
-            GameControl gameControl = new GameControl();
             gameControl.Initialize();
             base.Initialize();
         }
@@ -43,6 +44,7 @@ namespace HuntTheWumpus
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
+            gameControl.Update(gameTime);
             base.Update(gameTime);
         }
 
