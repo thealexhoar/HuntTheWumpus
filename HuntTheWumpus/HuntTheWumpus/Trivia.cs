@@ -13,9 +13,15 @@ namespace HuntTheWumpus
             this.isInitialized = true;
         }
 
-        public void TriviaGenerator(int numberOfQuestions)
+        public static string[] TriviaGenerator(int numberOfQuestions)
         {
             // Generate numberOfQuestions amount of questions
+            String[] questions = new string[numberOfQuestions];
+            for (int i=0; i<numberOfQuestions;i++)
+            {
+                questions[i] = "question number: " + i;
+            }
+            return questions;
         }
         public int ReceiveHazardStatus(bool IsHazard,  string hazardType)
         {

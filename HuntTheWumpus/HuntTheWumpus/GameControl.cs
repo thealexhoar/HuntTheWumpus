@@ -17,15 +17,10 @@ namespace HuntTheWumpus
     /// </summary>
     public class GameControl : Microsoft.Xna.Framework.GameComponent
     {
-
-        GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
+        public static Game game;
+        public Player player = new Player(game);
 
         // GameControl class
-        public GameControl()
-        {
-        }
-
         public GameControl(Game game)
             : base(game)
         {
@@ -41,7 +36,6 @@ namespace HuntTheWumpus
             // TODO: Add your initialization code here
             GUIStubb graphicsInterface = new GUIStubb();
             Trivia trivia = new Trivia();
-            Player player = new Player();
 
             base.Initialize();
         }
@@ -56,9 +50,47 @@ namespace HuntTheWumpus
         public override void Update(GameTime gameTime)
         {
             // TODO: Add your update code here
+            player.speed.X = 0;
+            player.speed.Y = 0;
+            // Create a KeyboardState and Player object to be used when checking for key presses
+            KeyboardState keyboardState = Keyboard.GetState();
+
+            // Check for keyboard input
+            if (keyboardState.IsKeyDown(Keys.Left))
+            {
+                player.speed.X -= 3;
+                player.position.X += player.speed.X;
+            }
+            if (keyboardState.IsKeyDown(Keys.Right))
+            {
+                player.speed.X += 3;
+                player.position.X += player.speed.X;
+            }
+            if (keyboardState.IsKeyDown(Keys.Up))
+            {
+                player.speed.Y -= 3;
+                player.position.Y += player.speed.Y;
+            }
+            if (keyboardState.IsKeyDown(Keys.Down))
+            {
+                player.speed.Y += 3;
+                player.position.Y += player.speed.Y;
+            }
+
+            // if user presses buy arrows, get 3 questions from Trivia
+            if (keyboardState.IsKeyDown(Keys.B))
+            {
+                GetTrivia(3);
+            }
+
+
+            // Console.WriteLine the position to check that the position is in fact changing
+            Console.WriteLine(player.position);
 
             // Update all the game objects
             // Send these updates to GUI to be drawn
+
+            player.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -71,16 +103,20 @@ namespace HuntTheWumpus
         /// </summary>
         public static void GetTrivia(int questions)
         {
-            // Get # of gold from player
-            int gold = 0;
-            if (gold > questions)
+            if (Player.gold > questions)
             {
                 // Ask Trivia for 3 questions
+                Trivia.TriviaGenerator(questions);
 
+                Console.WriteLine("Questions Recieved");
                 // Subtract the amount of gold used
-                gold -= questions;
+                Player.gold -= questions;
 
                 // Send new # of gold back to Player class
+            }
+            else
+            {
+                Console.WriteLine("Not enough gold");
             }
         }
 
