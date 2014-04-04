@@ -95,6 +95,16 @@ namespace HuntTheWumpus
             base.Update(gameTime);
         }
 
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            player.Draw(spriteBatch);
+        }
+
+        public void LoadContent(ContentManager content)
+        {
+            player.LoadContent(content);
+        }
+
         /// <summary>
         /// Get # of gold from Player.
         /// if gold > # of questions needed:
