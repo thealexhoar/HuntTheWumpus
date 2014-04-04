@@ -37,7 +37,7 @@ namespace ScoreServer
                 using (var file = new StreamReader(".scores"))
                 {
                     var text = file.ReadToEnd();
-                    Score.Deserialize(text, out HighScores);
+                    Score.Deserialize(text, ref HighScores);
                 }
             }
 
@@ -47,6 +47,13 @@ namespace ScoreServer
                 {
                     var byteArray = udp.Receive(ref groupEP);
                     var recievedData = Encoding.ASCII.GetString(byteArray, 0, byteArray.Length);
+                    Score.Deserialize(recievedData, ref HighScores);
+                    HighScores.Sort();
+                    if (HighScores.Count > 10)
+                        HighScores.RemoveRange(10, HighScores.Count - 10);
+                    string tosendback = "";
+                    foreach (var s in HighScores)
+                        tosendback += s.Serialize();
                 }
             }
             catch (Exception e)
