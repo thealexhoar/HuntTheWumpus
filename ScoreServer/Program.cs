@@ -41,8 +41,10 @@ namespace ScoreServer
                 }
             }
 
+#if (!DEBUG)
             try
             {
+#endif
                 while (true)
                 {
                     var byteArray = udp.Receive(ref groupEP);
@@ -55,7 +57,8 @@ namespace ScoreServer
                     foreach (var s in HighScores)
                         tosendback += s.Serialize();
                 }
-            }
+#if (!DEBUG)
+	    }
             catch (Exception e)
             {
                 using (var file = new StreamWriter(".crashlog", true))
@@ -63,6 +66,7 @@ namespace ScoreServer
                     file.WriteLine(DateTime.Now.ToString() + ": " + e.ToString());
                 }
             }
+#endif
 
             using (var file = new StreamWriter(".scores", false))
             {
