@@ -83,16 +83,22 @@ namespace HuntTheWumpus
                 GetTrivia(3);
             }
 
-
-            // Console.WriteLine the position to check that the position is in fact changing
-            Console.WriteLine(player.position);
-
             // Update all the game objects
             // Send these updates to GUI to be drawn
 
             player.Update(gameTime);
 
             base.Update(gameTime);
+        }
+
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            player.Draw(spriteBatch);
+        }
+
+        public void LoadContent(ContentManager content)
+        {
+            player.LoadContent(content);
         }
 
         /// <summary>
@@ -111,8 +117,6 @@ namespace HuntTheWumpus
                 Console.WriteLine("Questions Recieved");
                 // Subtract the amount of gold used
                 Player.gold -= questions;
-
-                // Send new # of gold back to Player class
             }
             else
             {
@@ -171,9 +175,9 @@ namespace HuntTheWumpus
             GetTrivia(6); // if answered correctly wumpusDefeated = true
             bool wumpusDefeated = true;
 
-            if (wumpusDefeated)
+            if (wumpusDefeated)                    // Work out with trivia how to check if answered correctly
             {
-                // Wumpus runs away
+                // Wumpus runs away                 // Send to map that wumpus has run away, or find how other stuff
                 // Define who owns WumpusRun()
             }
 
@@ -213,8 +217,14 @@ namespace HuntTheWumpus
             }
             else
             {
+                // arrows -= 1;
                 // Wumpus runs away
             }
+        }
+
+        public void GetHint()
+        {
+
         }
     }
 }

@@ -15,8 +15,15 @@ namespace HuntTheWumpus
     /// <summary>
     /// This is a game component that implements IUpdateable.
     /// </summary>
-    public class Player : Microsoft.Xna.Framework.GameComponent
+    /// 
+    public class Player : GameComponent
     {
+        Point playerFrameSize = new Point(30, 50);
+        Point playerCurrentFrame = new Point(0, 0);
+        Point playerSheetSize = new Point(4, 1);
+        Texture2D playerTextureLeft;
+        Texture2D playerTextureRight;
+        Texture2D playerTextureStanding;
         // Animation variables
         int timeSinceLastFrame = 0;
         const int millisecondsPerFrame = 50;
@@ -52,6 +59,14 @@ namespace HuntTheWumpus
             base.Initialize();
         }
 
+        public void LoadContent(ContentManager content)
+        {
+
+            playerTextureLeft = content.Load<Texture2D>(@"Textures/MasterChief_WalkLeft");
+            playerTextureRight = content.Load<Texture2D>(@"Textures/MasterChief_WalkRight");
+            playerTextureStanding = content.Load<Texture2D>(@"Textures/MasterChief_Standing");
+        }
+
         /// <summary>
         /// Allows the game component to update itself.
         /// </summary>
@@ -65,16 +80,51 @@ namespace HuntTheWumpus
             if (timeSinceLastFrame > millisecondsPerFrame)
             {
                 timeSinceLastFrame -= millisecondsPerFrame;
-                ++Game1.playerCurrentFrame.X;
-                if (Game1.playerCurrentFrame.X >= Game1.playerSheetSize.X)
+                ++playerCurrentFrame.X;
+                if (playerCurrentFrame.X >= playerSheetSize.X)
                 {
-                    Game1.playerCurrentFrame.X = 0;
-                    ++Game1.playerCurrentFrame.Y;
-                    if (Game1.playerCurrentFrame.Y >= Game1.playerSheetSize.Y)
-                        Game1.playerCurrentFrame.Y = 0;
+                    playerCurrentFrame.X = 0;
+                    ++playerCurrentFrame.Y;
+                    if (playerCurrentFrame.Y >= playerSheetSize.Y)
+                        playerCurrentFrame.Y = 0;
                 }
             }
             base.Update(gameTime);
+        }
+
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            if (speed.X < 0)
+            {
+                spriteBatch.Draw(playerTextureLeft, position,
+                    new Rectangle(playerCurrentFrame.X * playerFrameSize.X,
+                        playerCurrentFrame.Y * playerFrameSize.Y,
+                        playerFrameSize.X,
+                        playerFrameSize.Y),
+                        Color.White, 0, Vector2.Zero,
+                1, SpriteEffects.None, 1);
+            }
+
+           // If the player is moving Right, play the right movement animation
+            else if (speed.X > 0)
+            {
+                spriteBatch.Draw(playerTextureRight, position,
+                    new Rectangle(90 - (playerCurrentFrame.X * playerFrameSize.X),
+                        playerCurrentFrame.Y * playerFrameSize.Y,
+                        playerFrameSize.X,
+                        playerFrameSize.Y),
+                        Color.White, 0, Vector2.Zero,
+                1, SpriteEffects.None, 1);
+            }
+
+            // And if the player isn't moving, play the stationary animation
+            else
+            {
+                spriteBatch.Draw(playerTextureStanding, position,
+                    new Rectangle(0, 0, 30, 50),
+                    Color.White, 0, Vector2.Zero,
+                    1, SpriteEffects.None, 1);
+            }
         }
     }
 }

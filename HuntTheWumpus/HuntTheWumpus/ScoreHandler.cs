@@ -164,7 +164,7 @@ namespace HuntTheWumpus
         /// Takes the contents of a file and converts it into highscores
         /// </summary>
         /// <param name="serial">Contents of the file</param>
-        void Deserialize(string serial)
+        void Deserialize(string serial)                                 // Find what string to put in
         {
             string temp = "";
             Score score = new Score();

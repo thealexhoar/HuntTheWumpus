@@ -10,7 +10,8 @@ namespace wumpus
     {
         public Map()
         {
-
+            // Determine which methods work together
+            // Who determines initial player position
         }
     }
 }
