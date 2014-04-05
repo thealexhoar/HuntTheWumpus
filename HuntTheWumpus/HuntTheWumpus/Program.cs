@@ -10,12 +10,15 @@ namespace HuntTheWumpus
         /// </summary>
         static void Main(string[] args)
         {
+#if (!DEBUG)
             try
             {
+#endif
                 using (Game1 game = new Game1())
                 {
                     game.Run();
                 }
+#if (!DEBUG)
             }
             catch (Exception e)
             {
@@ -24,6 +27,7 @@ namespace HuntTheWumpus
                     file.WriteLine(DateTime.Now.ToString() + ": " + e.ToString());
                 }
             }
+#endif
         }
     }
 }
