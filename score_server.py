@@ -16,7 +16,7 @@ class Score:
 		self.points = 0
 
 	def __str__(self):
-		return self.name + ';' + str(self.points) + ':' + str(self.turns) + '|' + str(self.time) : '\n'
+		return self.name +';'+ str(self.points) +':'+ str(self.turns) +'|'+ str(self.time) +':'+ '\n'
 
 def deserialize(input_string):
 	global score_list
