@@ -89,7 +89,7 @@ def main():
 		write_cache()
 	except Exception as e:
 		with open(crash_path, 'w+') as crash_log:
-			crash_log.write('%Y:%m:%d:%H:%M:%S ' + e)
+			crash_log.write('%Y:%m:%d:%H:%M:%S ' + e + '\n')
 
 if __name__ == '__main__':
 	main()
