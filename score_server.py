@@ -1,11 +1,13 @@
 from operator import itemgetter, attrgetter
 from os.path import isfile
 from os import access, R_OK
-from socket import socket
+from time import strftime
+import socket
 
 global score_list, cache_path
 score_list = []
-cache_path = './.scores'
+cache_path = './.wumpus-server-scores'
+crash_path = './.wumpus-server-crashes'
 
 class Score:
 	__slots__ = ['name', 'time', 'turns', 'points', 'flag']
@@ -29,13 +31,13 @@ def deserialize(input_string):
 			temp_score.name = value_string
 			value_string = ''
 		elif char == ':':
-			temp_score.points = value_string
+			temp_score.points = int(value_string)
 			value_string = ''
 		elif char == '|':
-			temp_score.turns = value_string
+			temp_score.turns = int(value_string)
 			value_string = ''
 		elif char == '\n':
-			temp_score.time = value_string
+			temp_score.time = int(value_string)
 			value_string = ''
 			score_list.append(temp_score)
 			temp_score = Score()
@@ -58,18 +60,36 @@ def trim_list():
 	global score_list
 	score_list = sorted(score_list, key=attrgetter('points'))
 	score_list.reverse()
-	for i in range(10): score_list[i].flag = True
+	for i in range(10):
+		score_list[i].flag = True
 	score_list = sorted(score_list, key=attrgetter('turns'))
-	for i in range(10): score_list[i].flag = True
+	for i in range(10):
+		score_list[i].flag = True
 	score_list = sorted(score_list, key=attrgetter('time'))
-	for i in range(10): score_list[i].flag = True
+	for i in range(10):
+		score_list[i].flag = True
 	for i in score_list:
-		if not i.flag: score_list.remove(i)
+		if not i.flag:
+			score_list.remove(i)
+
+def manage_socket():
+	global score_list
+	sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+	sock.bind(('127.0.0.1', 5005))
+	while True:
+		data, addr = sock.recvfrom(256)
+		deserialize(data)
+		trim_list()
 
 def main():
-	load_cache()
-	# do stuff here
-	write_cache()
+	global crash_path
+	try:
+		load_cache()
+		manage_socket()
+		write_cache()
+	except Exception as e:
+		with open(crash_path, 'w+') as crash_log:
+			crash_log.write('%Y:%m:%d:%H:%M:%S ' + e)
 
 if __name__ == '__main__':
 	main()
