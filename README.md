@@ -13,4 +13,10 @@ This brach is maintained by Dylan, and contains experimental features for the hi
 
 Loading system works in a different thread in order to not disrupt the GUI if something takes too long for some reason.
 
-Material is in place for a networked global score system. There is an additional project called `ScoreServer`, which proccesses highscores, saves them, and pushes the top ten to the client. Within the client there is code that sends highscore data to the server.
+There is a networked high score table, so you can see how you stack up against the rest of the world.
+
+The client for this is integrated with the regular high score class, so that the API remains consistant.
+
+The additional `.py` file is the score server, which hosts the global high score board, and sends data to the client.
+
+There still needs to be testing, and the networked stuff is far from finished.
