@@ -1,19 +1,21 @@
 from operator import itemgetter, attrgetter
 from os.path import isfile
 from os import access, R_OK
+from socket import socket
 
 global score_list, cache_path
 score_list = []
 cache_path = './.scores'
 
 class Score:
-	__slots__ = ['name', 'time', 'turns', 'points']
+	__slots__ = ['name', 'time', 'turns', 'points', 'flag']
 
 	def __init__(self):
 		self.name = ''
 		self.time = 0
 		self.turns = 0
 		self.points = 0
+		self.flag = False
 
 	def __str__(self):
 		return self.name +';'+ str(self.points) +':'+ str(self.turns) +'|'+ str(self.time) +':'+ '\n'
@@ -51,6 +53,18 @@ def write_cache():
 	with open(cache_path, 'w') as score_cache:
 		for score in score_list:
 			score_cache.write(str(score))
+
+def trim_list():
+	global score_list
+	score_list = sorted(score_list, key=attrgetter('points'))
+	score_list.reverse()
+	for i in range(10): score_list[i].flag = True
+	score_list = sorted(score_list, key=attrgetter('turns'))
+	for i in range(10): score_list[i].flag = True
+	score_list = sorted(score_list, key=attrgetter('time'))
+	for i in range(10): score_list[i].flag = True
+	for i in score_list:
+		if not i.flag: score_list.remove(i)
 
 def main():
 	load_cache()
