@@ -35,6 +35,12 @@ namespace HuntTheWumpus
         /// </summary>
         public bool HasGlobalLoaded = false;
 
+
+        /// <summary>
+        /// Networking client
+        /// </summary>
+        public UdpClient udp = new UdpClient(10000);
+
         /// <summary>
         /// Represents a single score
         /// </summary>
@@ -59,11 +65,6 @@ namespace HuntTheWumpus
             /// Seconds taken during the game
             /// </summary>
             public ulong Time = 0;
-
-            /// <summary>
-            /// Networking client
-            /// </summary>
-            public UdpClient udp = new UdpClient(10000);
 
             /// <summary>
             /// Basic constructor
@@ -125,6 +126,14 @@ namespace HuntTheWumpus
         /// <param name="score">The score of the game</param>
         public ScoreHandler(Score score)
         {
+            if (File.Exsists(".serverip"))
+            {
+                using (var read = new StreamReader(".serverip"))
+                {
+                    // ...
+                }
+            }
+            
 #if LOCAL_THREAD
             var localThread = new Thread(new ParameterizedThreadStart(LoadScores));
             localThread.Start(score);
