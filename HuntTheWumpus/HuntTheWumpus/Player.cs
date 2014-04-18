@@ -32,6 +32,7 @@ namespace HuntTheWumpus
         public Vector2 position = new Vector2(0,0);
         public Vector2 speed = new Vector2(0,0);
 
+        public int arrows = 5;
         public static int gold = 5;
 
         public bool isInitialized
@@ -61,7 +62,6 @@ namespace HuntTheWumpus
 
         public void LoadContent(ContentManager content)
         {
-
             playerTextureLeft = content.Load<Texture2D>(@"Textures/MasterChief_WalkLeft");
             playerTextureRight = content.Load<Texture2D>(@"Textures/MasterChief_WalkRight");
             playerTextureStanding = content.Load<Texture2D>(@"Textures/MasterChief_Standing");
