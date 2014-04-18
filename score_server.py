@@ -4,7 +4,7 @@ from os import access, R_OK
 from time import strftime
 import socket
 
-global score_list, cache_path
+global score_list, cache_path, crash_path
 score_list = []
 cache_path = './.wumpus-server-scores'
 crash_path = './.wumpus-server-crashes'
