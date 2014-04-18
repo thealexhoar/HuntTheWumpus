@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace HuntTheWumpus
 {
     /// <summary>
     /// The whole cave
     /// </summary>
-    class Cave
+    public class Cave
     {
         /// <summary>
         /// One hexagonal room of the cave
@@ -27,6 +28,7 @@ namespace HuntTheWumpus
             public ushort CaveW { get; private set; }
             public ushort CaveH { get; private set; }
 
+            public uint Gold { get; private set; }
 
             /// <summary>
             /// Room exits start at top left and increase in number clockwise
@@ -45,6 +47,9 @@ namespace HuntTheWumpus
 
                 this.CaveW = caveW;
                 this.CaveH = caveH;
+
+                // tweak min, max values;
+                this.Gold = (uint)rand.Next(0, 10);
             }
 
             /// <summary>
@@ -80,22 +85,72 @@ namespace HuntTheWumpus
             }
         }
 
+        private static Random rand = new Random((int)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds);
+
         public ushort Width { get; private set; } 
         public ushort Height { get; private set; }
+
+        public string Filename { get; private set; }
 
         Room[,] Rooms;
 
         /// <summary>
-        /// Cave constructor
+        /// Stupid constructor, makes an empty cave
         /// </summary>
         /// <param name="Width">Height of the cave in number of hexagonal rooms</param>
         /// <param name="Height">Width of the cave in number of hexagonal rooms</param>
-        public Cave(ushort Width, ushort Height)
+        private Cave(ushort Width, ushort Height)
         {
             this.Width = Width;
             this.Height = Height;
 
             Rooms = new Room[Width, Height];
+        }
+
+        /// <summary>
+        /// Constructor that loads .cave file
+        /// </summary>
+        /// <param name="filename">Cave file</param>
+        public Cave(string filename)
+        {
+            FileStream fStream = new FileStream(filename, FileMode.Open, FileAccess.Read);
+            StreamReader strmReader = new StreamReader(fStream);
+            
+            // first two lines of the file are width and height
+            this.Width = ushort.Parse(strmReader.ReadLine());
+            this.Height = ushort.Parse(strmReader.ReadLine());
+
+            // after that, each line is a 6-long string of 0s or 1s - exits or walls, respectively, for each room of the cave (going clockwise from top-left)
+            // rooms represented going sideways, then down
+            for (uint i = 0; i < (uint)(this.Width * this.Height); ++i)
+            {
+                string line = strmReader.ReadLine();
+
+                for (ushort s = 0; s < 6; ++s)
+                    this.Rooms[i%this.Width, i - i%this.Width].Exits[s] = (line[s] == 0) ? (true) : (false);
+            }    
+            // write your own caves nerd
+
+            this.Filename = filename;
+        }
+
+        /// <summary>
+        /// debug function
+        /// </summary>
+        public void _PrintStatus()
+        {
+        #if DEBUG
+            Console.WriteLine("Cave status:\n");
+            Console.WriteLine("Width = " + this.Width.ToString());
+            Console.WriteLine("Height = " + this.Height.ToString());
+
+            for (uint i = 0; i < (uint)(this.Width * this.Height); ++i)
+            {
+                Console.WriteLine("Room " + (i % this.Width).ToString() + "*" + (i - i % this.Width).ToString());
+                for (ushort s = 0; s < 6; ++s)
+                    Console.WriteLine("\tExit " + s.ToString() + ": " + ((this.Rooms[i % this.Width, i - i % this.Width].Exits[s] == true) ? ("hole") : ("wall")));
+            }
+        #endif
         }
     }
 }

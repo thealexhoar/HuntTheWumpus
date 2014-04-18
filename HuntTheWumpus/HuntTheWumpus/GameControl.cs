@@ -18,7 +18,11 @@ namespace HuntTheWumpus
     public class GameControl : Microsoft.Xna.Framework.GameComponent
     {
         public static Game game;
-        public Player player = new Player(game);
+        public static Player player = new Player(game);
+
+        Texture2D introImage;
+        Texture2D highscoreImage;
+        Texture2D arrow;
 
         // GameControl class
         public GameControl(Game game)
@@ -80,7 +84,19 @@ namespace HuntTheWumpus
             // if user presses buy arrows, get 3 questions from Trivia
             if (keyboardState.IsKeyDown(Keys.B))
             {
-                GetTrivia(3);
+                BuyArrow();
+            }
+
+            if (keyboardState.IsKeyDown(Keys.S))
+            {
+                player.arrows -= 1;
+                ShootWumpus();
+                Console.WriteLine(player.arrows);
+            }
+
+            if (keyboardState.IsKeyDown(Keys.W))
+            {
+                EncounterWumpus();
             }
 
             // Update all the game objects
@@ -98,6 +114,9 @@ namespace HuntTheWumpus
 
         public void LoadContent(ContentManager content)
         {
+            introImage = content.Load<Texture2D>(@"Images/MainMenu");
+            highscoreImage = content.Load<Texture2D>(@"Images/Highscores");
+            arrow = content.Load<Texture2D>(@"Images/ArrowSprite");
             player.LoadContent(content);
         }
 
@@ -109,6 +128,7 @@ namespace HuntTheWumpus
         /// </summary>
         public static void GetTrivia(int questions)
         {
+            string[] questionsString = new string[questions];
             if (Player.gold > questions)
             {
                 // Ask Trivia for 3 questions
@@ -173,19 +193,17 @@ namespace HuntTheWumpus
         public static void EncounterWumpus()
         {
             GetTrivia(6); // if answered correctly wumpusDefeated = true
-            bool wumpusDefeated = true;
+            bool wumpusDefeated = false;
 
             if (wumpusDefeated)                    // Work out with trivia how to check if answered correctly
             {
-                // Wumpus runs away                 // Send to map that wumpus has run away, or find how other stuff
+                // Wumpus runs away                // Send to map that wumpus has run away, or find how other stuff
                 // Define who owns WumpusRun()
             }
 
             else
             {
-                // Get all information from objects (gold, arrows, time, etc.)
-                // Remove all objects from update list except GUI
-                // Initialize highscore object, send it previously gathered information
+                Game1.currentGameState = Game1.GameState.GameOver;
             }
 
         }
@@ -198,11 +216,11 @@ namespace HuntTheWumpus
         public static void BuyArrow()
         {
             GetTrivia(3);
-
-            /* if (triviaCorrect)
-             * {
-             *      arrows += 1;
-             * } */
+            bool answeredCorrectly = true;
+            if (answeredCorrectly)
+            {
+                player.arrows += 3;
+            }
         }
 
         public static void ShootWumpus()
@@ -211,13 +229,11 @@ namespace HuntTheWumpus
 
             if (didHit)
             {
-                // Gather info from all objects
-                // Remove all objects from update list except GUI
-                // Initialize highscore
+                Game1.currentGameState = Game1.GameState.GameOver;
             }
             else
             {
-                // arrows -= 1;
+                player.arrows -= 1;
                 // Wumpus runs away
             }
         }
@@ -225,6 +241,21 @@ namespace HuntTheWumpus
         public void GetHint()
         {
 
+        }
+
+        public void UpdateIntro(GameTime gameTime)
+        {
+            base.Update(gameTime);
+        }
+
+        public void DrawIntro(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(introImage, new Rectangle(0,0,819,460), Color.White);
+        }
+
+        public void DrawGameOver(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(highscoreImage, new Rectangle(0, 0, 819, 460), Color.White);
         }
     }
 }

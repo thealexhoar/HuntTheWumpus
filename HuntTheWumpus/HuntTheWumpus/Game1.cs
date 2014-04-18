@@ -18,9 +18,8 @@ namespace HuntTheWumpus
         public static Game game;
         GameControl gameControl = new GameControl(game);
 
-        
-        
-
+        public enum GameState { IntroScreen, InGame, GameOver };
+        public static GameState currentGameState = GameState.InGame;
 
         public Game1()
         {
@@ -54,24 +53,53 @@ namespace HuntTheWumpus
 
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
                 this.Exit();
+            switch (currentGameState)
+            {
+                case GameState.IntroScreen:
+                    if (Keyboard.GetState().IsKeyDown(Keys.Enter))
+                        currentGameState = GameState.InGame;
+                    gameControl.UpdateIntro(gameTime);
+                    break;
+                case GameState.InGame:            
+                // Update gameControl (a.k.a. playerPosition and controller input)
+                // gameControl.Update also currently calls player.Update, which does the animation and updates the player position
+                    gameControl.Update(gameTime);                    
+                    if (Keyboard.GetState().IsKeyDown(Keys.P))
+                        currentGameState = GameState.GameOver;
+                    break;
+                case GameState.GameOver:
+                    break;
+            }
 
-            // Update gameControl (a.k.a. playerPosition and controller input)
-            // gameControl.Update also currently calls player.Update, which does the animation and updates the player position
-            gameControl.Update(gameTime);
 
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
-            spriteBatch.Begin();
-            GraphicsDevice.Clear(Color.AliceBlue);
+            switch (currentGameState)
+            {
+                case GameState.IntroScreen:
+                    spriteBatch.Begin();
+                    gameControl.DrawIntro(spriteBatch);
+                    spriteBatch.End();
+                    break;
+                case GameState.InGame:
+                    spriteBatch.Begin();
+                    GraphicsDevice.Clear(Color.AliceBlue);
 
-            gameControl.Draw(spriteBatch);
+                    gameControl.Draw(spriteBatch);
 
-
+                    spriteBatch.End();   
+                    break;
+                case GameState.GameOver:
+                    spriteBatch.Begin();
+                    gameControl.DrawGameOver(spriteBatch);
+                    spriteBatch.End();
+                    break;
+            }
+         
             base.Draw(gameTime);
-            spriteBatch.End();
         }
     }
 }
