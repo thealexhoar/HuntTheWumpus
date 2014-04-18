@@ -88,7 +88,7 @@ def main():
 		manage_socket()
 		write_cache()
 	except Exception as e:
-		with open(crash_path, 'w+') as crash_log:
+		with open(crash_path, 'a') as crash_log:
 			crash_log.write('%Y:%m:%d:%H:%M:%S ' + e + '\n')
 
 if __name__ == '__main__':
