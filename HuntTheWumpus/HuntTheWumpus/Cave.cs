@@ -11,7 +11,7 @@ namespace HuntTheWumpus
     /// <summary>
     /// The whole cave
     /// </summary>
-    class Cave
+    public class Cave
     {
         /// <summary>
         /// One hexagonal room of the cave
