@@ -29,6 +29,7 @@ namespace HuntTheWumpus
             public ushort CaveW { get; private set; }
             public ushort CaveH { get; private set; }
 
+            public uint Gold { get; private set; }
 
             /// <summary>
             /// Room exits start at top left and increase in number clockwise
@@ -47,6 +48,9 @@ namespace HuntTheWumpus
 
                 this.CaveW = caveW;
                 this.CaveH = caveH;
+
+                // tweak min, max values;
+                this.Gold = (uint)rand.Next(0, 10);
             }
 
             /// <summary>
@@ -81,6 +85,8 @@ namespace HuntTheWumpus
                 return e;
             }
         }
+
+        private static Random rand = new Random((int)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds);
 
         public ushort Width { get; private set; } 
         public ushort Height { get; private set; }
