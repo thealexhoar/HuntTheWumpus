@@ -19,7 +19,7 @@ namespace HuntTheWumpus
         GameControl gameControl = new GameControl(game);
 
         public enum GameState { IntroScreen, InGame, GameOver };
-        public static GameState currentGameState = GameState.IntroScreen;
+        public static GameState currentGameState = GameState.InGame;
 
         public Game1()
         {

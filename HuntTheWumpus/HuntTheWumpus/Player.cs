@@ -18,9 +18,14 @@ namespace HuntTheWumpus
     /// 
     public class Player : GameComponent
     {
+        // Position and speed variables which are used in the GameControl class
+        public Vector2 position = new Vector2(0,0);
+        public Vector2 speed = new Vector2(0,0);
+
         Point playerFrameSize = new Point(30, 50);
         Point playerCurrentFrame = new Point(0, 0);
         Point playerSheetSize = new Point(4, 1);
+        Rectangle playerHitBox = new Rectangle(0, 0, 20, 25);
         Texture2D playerTextureLeft;
         Texture2D playerTextureRight;
         Texture2D playerTextureStanding;
@@ -28,9 +33,7 @@ namespace HuntTheWumpus
         int timeSinceLastFrame = 0;
         const int millisecondsPerFrame = 50;
 
-        // Position and speed variables which are used in the GameControl class
-        public Vector2 position = new Vector2(0,0);
-        public Vector2 speed = new Vector2(0,0);
+        
 
         public int arrows = 5;
         public static int gold = 5;
