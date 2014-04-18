@@ -23,10 +23,12 @@ namespace HuntTheWumpus
         /// </summary>
         public List<Score> GlobalScores = new List<Score>();
 
+#if LOCAL_THREAD
         /// <summary>
         /// Represents whether the loading thread is done
         /// </summary>
         public bool HasLocalLoaded = false;
+#endif
 
         /// <summary>
         /// Represents whether download of highscores has finished
@@ -123,8 +125,12 @@ namespace HuntTheWumpus
         /// <param name="score">The score of the game</param>
         public ScoreHandler(Score score)
         {
+#if LOCAL_THREAD
             var localThread = new Thread(new ParameterizedThreadStart(LoadScores));
             localThread.Start(score);
+#else
+            LoadScores(score);
+#endif
 
             var globalThread = new Thread(new ParameterizedThreadStart(ManageServer));
             globalThread.Start(score);
@@ -157,7 +163,9 @@ namespace HuntTheWumpus
                     file.Write(highScore.Serialize());
             }
 
+#if LOCAL_THREAD
             HasLocalLoaded = true;
+#endif
         }
 
         /// <summary>
