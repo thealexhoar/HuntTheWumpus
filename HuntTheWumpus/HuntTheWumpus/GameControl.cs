@@ -18,11 +18,13 @@ namespace HuntTheWumpus
     public class GameControl : Microsoft.Xna.Framework.GameComponent
     {
         public static Game game;
-        public static Player player = new Player(game);
+        public Player player = new Player(game);
 
         Texture2D introImage;
         Texture2D highscoreImage;
-        Texture2D arrow;
+        public Texture2D arrow;
+
+        public SpriteManager spriteManager;
 
         // GameControl class
         public GameControl(Game game)
@@ -40,6 +42,7 @@ namespace HuntTheWumpus
             // TODO: Add your initialization code here
             GUIStubb graphicsInterface = new GUIStubb();
             Trivia trivia = new Trivia();
+            spriteManager = new SpriteManager(game);
 
             base.Initialize();
         }
@@ -92,6 +95,7 @@ namespace HuntTheWumpus
             {
                 player.arrows -= 1;
                 ShootWumpus();
+                spriteManager.SpawnArrow(player);
                 Console.WriteLine(player.arrows);
             }
 
@@ -226,8 +230,8 @@ namespace HuntTheWumpus
 
         public static void ShootWumpus()
         {
-            bool didHit = true;
-
+            bool didHit = false;
+            
             if (didHit)
             {
                 Game1.currentGameState = Game1.GameState.GameOver;

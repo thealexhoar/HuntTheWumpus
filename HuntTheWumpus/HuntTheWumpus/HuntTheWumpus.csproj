@@ -118,6 +118,8 @@
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="ScoreHandler.cs" />
+    <Compile Include="Sprite.cs" />
+    <Compile Include="SpriteManager.cs" />
     <Compile Include="Trivia.cs" />
   </ItemGroup>
   <ItemGroup>
