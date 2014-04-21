@@ -22,6 +22,7 @@ namespace HuntTheWumpus
 
         Texture2D introImage;
         Texture2D highscoreImage;
+        Texture2D arrow;
 
         // GameControl class
         public GameControl(Game game)
@@ -116,6 +117,7 @@ namespace HuntTheWumpus
         {
             introImage = content.Load<Texture2D>(@"Images/MainMenu");
             highscoreImage = content.Load<Texture2D>(@"Images/Highscores");
+            arrow = content.Load<Texture2D>(@"Images/ArrowSprite");
             player.LoadContent(content);
         }
 
@@ -127,6 +129,7 @@ namespace HuntTheWumpus
         /// </summary>
         public static void GetTrivia(int questions)
         {
+            string[] questionsString = new string[questions];
             if (Player.gold > questions)
             {
                 // Ask Trivia for 3 questions
