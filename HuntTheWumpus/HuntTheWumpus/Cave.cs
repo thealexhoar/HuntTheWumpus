@@ -127,20 +127,28 @@ namespace HuntTheWumpus
             this.Width = ushort.Parse(strmReader.ReadLine());
             this.Height = ushort.Parse(strmReader.ReadLine());
 
+            Rooms = new Room[Width, Height];
+
             // after that, each line is a 3-number string, representing the enum values of the 3 exits for each room 
             // going left-ro-right, then down
             // (e.g. "135" means this room has exits on top left, top right, bottom middle)
-            for (uint i = 0; i < (uint)(this.Width * this.Height); ++i)
+            for (uint y = 0; y < this.Height; ++y)
             {
-                string line = strmReader.ReadLine();
+                for (uint x = 0; x < this.Width; ++x)
+                {
+                    string line = strmReader.ReadLine();
 
-                // parse the cave-exit string
-                for (ushort s = 0; s < 3; ++s)
-                    this.Rooms[i % this.Width, i - i % this.Width].Exits[s] = (Room.Exit)ushort.Parse(line.Substring(s, 1));
-            }    
+                    // parse the cave-exit string and assign exits
+                    for (ushort s = 0; s < 3; ++s)
+                        this.Rooms[x, y].Exits[s] = (Room.Exit)ushort.Parse(line.Substring(s, 1));
+                }
+            }
             // write your own caves nerd
 
             this.Filename = filename;
+
+            strmReader.Close();
+            fStream.Close();
         }
 
         /// <summary>
@@ -152,12 +160,17 @@ namespace HuntTheWumpus
             Console.WriteLine("Cave status:\n");
             Console.WriteLine("Width = " + this.Width.ToString());
             Console.WriteLine("Height = " + this.Height.ToString());
+            Console.WriteLine("________________________________");
 
-            for (uint i = 0; i < (uint)(this.Width * this.Height); ++i)
+            for (uint y = 0; y < this.Height; ++y)
             {
-                Console.WriteLine("Room " + (i % this.Width).ToString() + "*" + (i - i % this.Width).ToString());
-                for (ushort s = 0; s < 6; ++s)
-                    Console.WriteLine("\tExit " + s.ToString() + ": " + ((this.Rooms[i % this.Width, i - i % this.Width].Exits[s] == true) ? ("hole") : ("wall")));
+                for (uint x = 0; x < this.Width; ++x)
+                {
+                    Console.WriteLine("Room " + x.ToString() + "x" + y.ToString() + ": ");
+
+                    for (ushort s = 0; s < 3; ++s)
+                        Console.WriteLine("\tExit 1: " + this.Rooms[x, y].Exits[s].ToString());
+                }
             }
         #endif
         }
