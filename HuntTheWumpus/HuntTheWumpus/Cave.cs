@@ -120,7 +120,7 @@ namespace HuntTheWumpus
         /// <param name="filename">Cave file</param>
         public Cave(string filename)
         {
-            FileStream fStream = new FileStream(filename, FileMode.Open, FileAccess.Read);
+            FileStream fStream = new FileStream(@"Content\Caves\" + filename, FileMode.Open, FileAccess.Read);
             StreamReader strmReader = new StreamReader(fStream);
             
             // first two lines of the file are cave width and height
