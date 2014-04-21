@@ -72,6 +72,13 @@ def trim_list():
 		if not i.flag:
 			score_list.remove(i)
 
+def get_serial():
+	global score_list
+	s = ''
+	for i in score_list:
+		s += i.__str__()
+	return s
+
 def manage_socket():
 	global score_list
 	sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -80,6 +87,7 @@ def manage_socket():
 		data, addr = sock.recvfrom(256)
 		deserialize(data)
 		trim_list()
+		sock.sendto(get_serial(), addr)
 
 def main():
 	global crash_path
