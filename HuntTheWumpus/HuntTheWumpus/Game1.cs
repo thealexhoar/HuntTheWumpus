@@ -64,7 +64,7 @@ namespace HuntTheWumpus
                 // Update gameControl (a.k.a. playerPosition and controller input)
                 // gameControl.Update also currently calls player.Update, which does the animation and updates the player position
                     gameControl.Update(gameTime);                    
-                    if (Keyboard.GetState().IsKeyDown(Keys.P))
+                    if (Input.isKeyPressed(Keys.P))
                         currentGameState = GameState.GameOver;
                     break;
                 case GameState.GameOver:
