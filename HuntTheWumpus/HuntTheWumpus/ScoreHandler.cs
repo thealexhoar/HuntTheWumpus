@@ -126,14 +126,6 @@ namespace HuntTheWumpus
         /// <param name="score">The score of the game</param>
         public ScoreHandler(Score score)
         {
-            if (File.Exsists(".serverip"))
-            {
-                using (var read = new StreamReader(".serverip"))
-                {
-                    // ...
-                }
-            }
-            
 #if LOCAL_THREAD
             var localThread = new Thread(new ParameterizedThreadStart(LoadScores));
             localThread.Start(score);
