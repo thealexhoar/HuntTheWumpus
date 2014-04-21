@@ -130,7 +130,7 @@ namespace HuntTheWumpus
             Rooms = new Room[Width, Height];
 
             // after that, each line is a 3-number string, representing the enum values of the 3 exits for each room 
-            // going left-ro-right, then down
+            // going left-to-right, then down
             // (e.g. "135" means this room has exits on top left, top right, bottom middle)
             for (uint y = 0; y < this.Height; ++y)
             {
