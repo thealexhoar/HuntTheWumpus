@@ -95,6 +95,34 @@ namespace HuntTheWumpus
             base.Update(gameTime);
         }
 
+        public bool checkLineCollision(Point l1p1, Point l1p2) {
+            //l1p1 = line 1 point 1
+            //l1p2 = line 1 point 2
+
+            if (checkTwoLines(l1p1, l1p2, new Point(playerHitBox.X, playerHitBox.Y), new Point(playerHitBox.X + playerHitBox.Width, playerHitBox.Y)) ||
+                checkTwoLines(l1p1, l1p2, new Point(playerHitBox.X + playerHitBox.Width, playerHitBox.Y), new Point(playerHitBox.X + playerHitBox.Width, playerHitBox.Y + playerHitBox.Height)) ||
+                checkTwoLines(l1p1, l1p2, new Point(playerHitBox.X + playerHitBox.Width, playerHitBox.Y + playerHitBox.Height), new Point(playerHitBox.X, playerHitBox.Y + playerHitBox.Height)) ||
+                checkTwoLines(l1p1, l1p2, new Point(playerHitBox.X, playerHitBox.Y + playerHitBox.Height), new Point(playerHitBox.X, playerHitBox.Y))
+                ) {
+                return true;
+            }
+            else {
+                return false;
+            }
+
+        }
+
+        private bool checkTwoLines(Point l1p1, Point l1p2, Point l2p1, Point l2p2) {
+            int slope = (l1p2.Y - l1p1.Y) / (l1p2.X - l1p2.X);
+
+            if ((l2p1.Y > l1p1.Y + slope * (l2p1.X - l1p1.X)) != (l2p2.Y > l1p1.Y + slope * (l2p2.X - l1p1.X))) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+
         public void Draw(SpriteBatch spriteBatch)
         {
             if (speed.X < 0)

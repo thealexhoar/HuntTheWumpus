@@ -17,10 +17,22 @@ namespace HuntTheWumpus
         /// </summary>
         public class Room
         {
+            // enum representing an exit (door) in the room
+            public enum Exit
+            {
+                NONE,   // just in case, each room should have 3 exits though
+                TL,
+                TM,
+                TR,
+                BR,
+                BM,
+                BL
+            }
+
             /// <summary>
-            /// Exits start at the top left, increase in number clockwise
+            /// 3 exits per room, can leave some as Exit.NONE if necessary
             /// </summary>
-            public bool[] Exits = new bool[6];
+            public Exit[] Exits = new Exit[3];
 
             public ushort X { get; private set; }
             public ushort Y { get; private set; }
@@ -31,19 +43,13 @@ namespace HuntTheWumpus
             public uint Gold { get; private set; }
 
             /// <summary>
-            /// Room exits start at top left and increase in number clockwise
-            /// Cave sould do generation of exits
+            /// A hexagonal (flat ends on top and bottom) room of the cave
             /// </summary>
-            /// <param name="x">Room x position in cave, increases left to right</param>
-            /// <param name="y">Room y position in cave, increases up to down</param>
-            public Room(bool exit0, bool exit1, bool exit2, bool exit3, bool exit4, bool exit5, ushort x, ushort y, ushort caveW, ushort caveH)
+            public Room(Exit exit0, Exit exit1, Exit exit2, ushort x, ushort y, ushort caveW, ushort caveH)
             {
                 this.Exits[0] = exit0;
                 this.Exits[1] = exit1;
                 this.Exits[2] = exit2;
-                this.Exits[3] = exit3;
-                this.Exits[4] = exit4;
-                this.Exits[5] = exit5;
 
                 this.CaveW = caveW;
                 this.CaveH = caveH;
@@ -85,6 +91,7 @@ namespace HuntTheWumpus
             }
         }
 
+        // RNG for getting gold value
         private static Random rand = new Random((int)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds);
 
         public ushort Width { get; private set; } 
@@ -116,18 +123,20 @@ namespace HuntTheWumpus
             FileStream fStream = new FileStream(filename, FileMode.Open, FileAccess.Read);
             StreamReader strmReader = new StreamReader(fStream);
             
-            // first two lines of the file are width and height
+            // first two lines of the file are cave width and height
             this.Width = ushort.Parse(strmReader.ReadLine());
             this.Height = ushort.Parse(strmReader.ReadLine());
 
-            // after that, each line is a 6-long string of 0s or 1s - exits or walls, respectively, for each room of the cave (going clockwise from top-left)
-            // rooms represented going sideways, then down
+            // after that, each line is a 3-number string, representing the enum values of the 3 exits for each room 
+            // going left-ro-right, then down
+            // (e.g. "135" means this room has exits on top left, top right, bottom middle)
             for (uint i = 0; i < (uint)(this.Width * this.Height); ++i)
             {
                 string line = strmReader.ReadLine();
 
-                for (ushort s = 0; s < 6; ++s)
-                    this.Rooms[i%this.Width, i - i%this.Width].Exits[s] = (line[s] == 0) ? (true) : (false);
+                // parse the cave-exit string
+                for (ushort s = 0; s < 3; ++s)
+                    this.Rooms[i % this.Width, i - i % this.Width].Exits[s] = (Room.Exit)ushort.Parse(line.Substring(s, 1));
             }    
             // write your own caves nerd
 

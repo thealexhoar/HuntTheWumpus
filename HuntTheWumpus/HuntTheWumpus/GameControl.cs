@@ -56,45 +56,46 @@ namespace HuntTheWumpus
             // TODO: Add your update code here
             player.speed.X = 0;
             player.speed.Y = 0;
-            // Create a KeyboardState and Player object to be used when checking for key presses
-            KeyboardState keyboardState = Keyboard.GetState();
+            
+
 
             // Check for keyboard input
-            if (keyboardState.IsKeyDown(Keys.Left))
+            Input.Update();
+            if (Input.isKeyDown(Keys.Left))
             {
                 player.speed.X -= 3;
                 player.position.X += player.speed.X;
             }
-            if (keyboardState.IsKeyDown(Keys.Right))
+            if (Input.isKeyDown(Keys.Right))
             {
                 player.speed.X += 3;
                 player.position.X += player.speed.X;
             }
-            if (keyboardState.IsKeyDown(Keys.Up))
+            if (Input.isKeyDown(Keys.Up))
             {
                 player.speed.Y -= 3;
                 player.position.Y += player.speed.Y;
             }
-            if (keyboardState.IsKeyDown(Keys.Down))
+            if (Input.isKeyDown(Keys.Down))
             {
                 player.speed.Y += 3;
                 player.position.Y += player.speed.Y;
             }
 
             // if user presses buy arrows, get 3 questions from Trivia
-            if (keyboardState.IsKeyDown(Keys.B))
+            if (Input.isKeyDown(Keys.B))
             {
                 BuyArrow();
             }
 
-            if (keyboardState.IsKeyDown(Keys.S))
+            if (Input.isKeyDown(Keys.S))
             {
                 player.arrows -= 1;
                 ShootWumpus();
                 Console.WriteLine(player.arrows);
             }
 
-            if (keyboardState.IsKeyDown(Keys.W))
+            if (Input.isKeyDown(Keys.W))
             {
                 EncounterWumpus();
             }
@@ -247,6 +248,8 @@ namespace HuntTheWumpus
         {
             base.Update(gameTime);
         }
+
+        
 
         public void DrawIntro(SpriteBatch spriteBatch)
         {
