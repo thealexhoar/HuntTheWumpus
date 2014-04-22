@@ -17,7 +17,6 @@ namespace HuntTheWumpus
         public static SpriteBatch spriteBatch;
         public static Game game;
         public static GameControl gameControl = new GameControl(game);
-
         public enum GameState { IntroScreen, InGame, GameOver };
         public static GameState currentGameState = GameState.IntroScreen;
 
@@ -27,6 +26,8 @@ namespace HuntTheWumpus
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            graphics.PreferredBackBufferWidth = 800;
+            graphics.PreferredBackBufferHeight = 600;
         }
 
         protected override void Initialize()
@@ -84,19 +85,20 @@ namespace HuntTheWumpus
             {
                 case GameState.IntroScreen:
                     spriteBatch.Begin();
+                    GraphicsDevice.Clear(Color.Black);
                     gameControl.DrawIntro(spriteBatch);
                     spriteBatch.End();
                     break;
                 case GameState.InGame:
                     spriteBatch.Begin();
-                    GraphicsDevice.Clear(Color.AliceBlue);
-
+                    GraphicsDevice.Clear(Color.CornflowerBlue);
                     gameControl.Draw(spriteBatch);
 
                     spriteBatch.End();   
                     break;
                 case GameState.GameOver:
                     spriteBatch.Begin();
+                    GraphicsDevice.Clear(Color.Black);
                     gameControl.DrawGameOver(spriteBatch);
                     spriteBatch.End();
                     break;

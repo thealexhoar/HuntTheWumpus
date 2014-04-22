@@ -154,7 +154,6 @@ namespace HuntTheWumpus
         /// <summary>
         /// debug function
         /// </summary>
-<<<<<<< HEAD
         //public void _PrintStatus()
         //{
         //#if DEBUG
@@ -170,29 +169,6 @@ namespace HuntTheWumpus
         //    }
         //#endif
         //}
-=======
-        public void _PrintStatus()
-        {
-            /*
-        #if DEBUG
-            Console.WriteLine("Cave status:\n");
-            Console.WriteLine("Width = " + this.Width.ToString());
-            Console.WriteLine("Height = " + this.Height.ToString());
-            Console.WriteLine("________________________________");
-
-            for (uint y = 0; y < this.Height; ++y)
-            {
-                for (uint x = 0; x < this.Width; ++x)
-                {
-                    Console.WriteLine("Room " + x.ToString() + "x" + y.ToString() + ": ");
-
-                    for (ushort s = 0; s < 3; ++s)
-                        Console.WriteLine("\tExit 1: " + this.Rooms[x, y].Exits[s].ToString());
-                }
-            }
-        #endif
-             */
-        }
->>>>>>> 55ca93942dc1bebe1b0e078bb0c5d0b516f5d33d
+        
     }
 }

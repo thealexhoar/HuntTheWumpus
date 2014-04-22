@@ -17,6 +17,7 @@ namespace HuntTheWumpus{
         public static void Update() {
             oldState = currentState;
             currentState = Keyboard.GetState();
+            UpdateMouse();
         }
         public static bool isKeyPressed(Keys k) {
             //returns true if the key is down this tick, not last tick
