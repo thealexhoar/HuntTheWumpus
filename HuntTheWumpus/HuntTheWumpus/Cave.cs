@@ -133,15 +133,18 @@ namespace HuntTheWumpus
                     // after that, each line is a 3-number string, representing the enum values of the 3 exits for each room 
                     // going left-to-right, then down
                     // (e.g. "135" means this room has exits on top left, top right, bottom middle)
-                    for (uint y = 0; y < this.Height; ++y)
+                    for (ushort y = 0; y < this.Height; ++y)
                     {
-                        for (uint x = 0; x < this.Width; ++x)
+                        for (ushort x = 0; x < this.Width; ++x)
                         {
                             string line = strmReader.ReadLine();
 
-                            // parse the cave-exit string and assign exits
-                            for (ushort s = 0; s < 3; ++s)
-                                this.Rooms[x, y].Exits[s] = (Room.Exit)ushort.Parse(line.Substring(s, 1));
+                            // initialize rooms
+                            Room.Exit exit0 = (Room.Exit)ushort.Parse(line.Substring(0, 1));
+                            Room.Exit exit1 = (Room.Exit)ushort.Parse(line.Substring(1, 1));
+                            Room.Exit exit2 = (Room.Exit)ushort.Parse(line.Substring(2, 1));
+
+                            this.Rooms[x, y] = new Room(exit0, exit1, exit2, x, y, this.Width, this.Height);
                         }
                     }
                     // write your own caves nerd
@@ -154,23 +157,6 @@ namespace HuntTheWumpus
         /// <summary>
         /// debug function
         /// </summary>
-<<<<<<< HEAD
-        //public void _PrintStatus()
-        //{
-        //#if DEBUG
-        //    Console.WriteLine("Cave status:\n");
-        //    Console.WriteLine("Width = " + this.Width.ToString());
-        //    Console.WriteLine("Height = " + this.Height.ToString());
-
-        //    for (uint i = 0; i < (uint)(this.Width * this.Height); ++i)
-        //    {
-        //        Console.WriteLine("Room " + (i % this.Width).ToString() + "*" + (i - i % this.Width).ToString());
-        //        for (ushort s = 0; s < 6; ++s)
-        //            Console.WriteLine("\tExit " + s.ToString() + ": " + ((this.Rooms[i % this.Width, i - i % this.Width].Exits[s] == true) ? ("hole") : ("wall")));
-        //    }
-        //#endif
-        //}
-=======
         public void _PrintStatus()
         {
         #if DEBUG
@@ -179,9 +165,9 @@ namespace HuntTheWumpus
             Console.WriteLine("Height = " + this.Height.ToString());
             Console.WriteLine("________________________________");
 
-            for (uint y = 0; y < this.Height; ++y)
+            for (ushort y = 0; y < this.Height; ++y)
             {
-                for (uint x = 0; x < this.Width; ++x)
+                for (ushort x = 0; x < this.Width; ++x)
                 {
                     Console.WriteLine("Room " + x.ToString() + "x" + y.ToString() + ": ");
 
@@ -191,6 +177,5 @@ namespace HuntTheWumpus
             }
         #endif
         }
->>>>>>> 55ca93942dc1bebe1b0e078bb0c5d0b516f5d33d
     }
 }
