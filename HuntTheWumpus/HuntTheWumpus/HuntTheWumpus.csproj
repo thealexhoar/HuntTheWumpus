@@ -107,6 +107,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Button.cs" />
     <Compile Include="Cave.cs" />
     <Compile Include="GameControl.cs" />
     <Compile Include="KeyInput.cs" />

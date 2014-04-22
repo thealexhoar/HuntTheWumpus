@@ -57,7 +57,7 @@ namespace HuntTheWumpus
         public override void Update(GameTime gameTime)
         {
             // TODO: Add your update code here
-            SpawnArrow(GameControl.player);
+            //SpawnArrow(GameControl.player);
             base.Update(gameTime);
         }
 
