@@ -33,6 +33,7 @@ namespace HuntTheWumpus
             /// 3 exits per room, can leave some as Exit.NONE if necessary
             /// </summary>
             public Exit[] Exits = new Exit[3];
+            public RoomImage image;
 
             public ushort X { get; private set; }
             public ushort Y { get; private set; }
@@ -99,7 +100,7 @@ namespace HuntTheWumpus
 
         public string Filename { get; private set; }
 
-        Room[,] Rooms;
+        public Room[,] Rooms;
 
         /// <summary>
         /// Constructor that loads .cave file
@@ -135,6 +136,7 @@ namespace HuntTheWumpus
                         }
                     }
                     // write your own caves nerd
+                    //lel
 
                     this.Filename = filename;
                 }
