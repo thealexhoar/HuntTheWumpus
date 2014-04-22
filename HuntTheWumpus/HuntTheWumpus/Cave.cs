@@ -148,6 +148,7 @@ namespace HuntTheWumpus
         /// </summary>
         public void _PrintStatus()
         {
+            /*
         #if DEBUG
             Console.WriteLine("Cave status:\n");
             Console.WriteLine("Width = " + this.Width.ToString());
@@ -160,6 +161,7 @@ namespace HuntTheWumpus
                     Console.WriteLine("\tExit " + s.ToString() + ": " + ((this.Rooms[i % this.Width, i - i % this.Width].Exits[s] == true) ? ("hole") : ("wall")));
             }
         #endif
+             */
         }
     }
 }
