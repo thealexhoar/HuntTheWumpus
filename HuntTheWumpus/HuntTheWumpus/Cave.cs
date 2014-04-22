@@ -146,20 +146,20 @@ namespace HuntTheWumpus
         /// <summary>
         /// debug function
         /// </summary>
-        public void _PrintStatus()
-        {
-        #if DEBUG
-            Console.WriteLine("Cave status:\n");
-            Console.WriteLine("Width = " + this.Width.ToString());
-            Console.WriteLine("Height = " + this.Height.ToString());
+        //public void _PrintStatus()
+        //{
+        //#if DEBUG
+        //    Console.WriteLine("Cave status:\n");
+        //    Console.WriteLine("Width = " + this.Width.ToString());
+        //    Console.WriteLine("Height = " + this.Height.ToString());
 
-            for (uint i = 0; i < (uint)(this.Width * this.Height); ++i)
-            {
-                Console.WriteLine("Room " + (i % this.Width).ToString() + "*" + (i - i % this.Width).ToString());
-                for (ushort s = 0; s < 6; ++s)
-                    Console.WriteLine("\tExit " + s.ToString() + ": " + ((this.Rooms[i % this.Width, i - i % this.Width].Exits[s] == true) ? ("hole") : ("wall")));
-            }
-        #endif
-        }
+        //    for (uint i = 0; i < (uint)(this.Width * this.Height); ++i)
+        //    {
+        //        Console.WriteLine("Room " + (i % this.Width).ToString() + "*" + (i - i % this.Width).ToString());
+        //        for (ushort s = 0; s < 6; ++s)
+        //            Console.WriteLine("\tExit " + s.ToString() + ": " + ((this.Rooms[i % this.Width, i - i % this.Width].Exits[s] == true) ? ("hole") : ("wall")));
+        //    }
+        //#endif
+        //}
     }
 }

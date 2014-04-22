@@ -17,15 +17,16 @@ namespace HuntTheWumpus
     /// </summary>
     public class SpriteManager : DrawableGameComponent
     {
+        
         List<Sprite> spriteList = new List<Sprite>();
         int arrowSpeed = 3;
 
-        public SpriteManager(Game game)
+        public SpriteManager(Game game, Player player)
             : base(game)
         {
             // TODO: Construct any child components here
         }
-
+        
         public void SpawnArrow(Player player)
         {
             Vector2 speed = new Vector2(3,3);
@@ -47,7 +48,6 @@ namespace HuntTheWumpus
         {
             // TODO: Add your initialization code here
 
-        
         }
 
         /// <summary>
@@ -57,7 +57,7 @@ namespace HuntTheWumpus
         public override void Update(GameTime gameTime)
         {
             // TODO: Add your update code here
-            SpawnArrow(Game1.gameControl.player);
+            SpawnArrow(GameControl.player);
             base.Update(gameTime);
         }
 
