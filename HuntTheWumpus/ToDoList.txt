@@ -5,3 +5,6 @@ Get Trivia to actually create trivia questions which will be returned
 Ask Trivia to write a method which checks if user has answered correctly
 Work out a way to communicate the player movement between GameControl and Map
 Ask Map to write a method which gets the Wumpus to run away
+Write how to display cave.
+ and everything
+

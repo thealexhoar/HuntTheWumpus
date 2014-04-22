@@ -16,10 +16,12 @@ namespace HuntTheWumpus
         GraphicsDeviceManager graphics;
         public static SpriteBatch spriteBatch;
         public static Game game;
-        GameControl gameControl = new GameControl(game);
+        public static GameControl gameControl = new GameControl(game);
 
         public enum GameState { IntroScreen, InGame, GameOver };
-        public static GameState currentGameState = GameState.InGame;
+        public static GameState currentGameState = GameState.IntroScreen;
+
+        public static SpriteManager spriteManager;
 
         public Game1()
         {
@@ -30,6 +32,7 @@ namespace HuntTheWumpus
         protected override void Initialize()
         {
             gameControl.Initialize();
+            Components.Add(gameControl.spriteManager);
             base.Initialize();
         }
 

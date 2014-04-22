@@ -120,32 +120,57 @@ namespace HuntTheWumpus
         /// <param name="filename">Cave file</param>
         public Cave(string filename)
         {
-            FileStream fStream = new FileStream(filename, FileMode.Open, FileAccess.Read);
+            FileStream fStream = new FileStream(@"Content\Caves\" + filename, FileMode.Open, FileAccess.Read);
             StreamReader strmReader = new StreamReader(fStream);
             
             // first two lines of the file are cave width and height
             this.Width = ushort.Parse(strmReader.ReadLine());
             this.Height = ushort.Parse(strmReader.ReadLine());
 
-            // after that, each line is a 3-number string, representing the enum values of the 3 exits for each room 
-            // going left-ro-right, then down
-            // (e.g. "135" means this room has exits on top left, top right, bottom middle)
-            for (uint i = 0; i < (uint)(this.Width * this.Height); ++i)
-            {
-                string line = strmReader.ReadLine();
+            Rooms = new Room[Width, Height];
 
-                // parse the cave-exit string
-                for (ushort s = 0; s < 3; ++s)
-                    this.Rooms[i % this.Width, i - i % this.Width].Exits[s] = (Room.Exit)ushort.Parse(line.Substring(s, 1));
-            }    
+            // after that, each line is a 3-number string, representing the enum values of the 3 exits for each room 
+            // going left-to-right, then down
+            // (e.g. "135" means this room has exits on top left, top right, bottom middle)
+            for (uint y = 0; y < this.Height; ++y)
+            {
+                for (uint x = 0; x < this.Width; ++x)
+                {
+                    string line = strmReader.ReadLine();
+
+                    // parse the cave-exit string and assign exits
+                    for (ushort s = 0; s < 3; ++s)
+                        this.Rooms[x, y].Exits[s] = (Room.Exit)ushort.Parse(line.Substring(s, 1));
+                }
+            }
             // write your own caves nerd
 
             this.Filename = filename;
+
+            strmReader.Close();
+            fStream.Close();
         }
 
         /// <summary>
         /// debug function
         /// </summary>
+<<<<<<< HEAD
+        //public void _PrintStatus()
+        //{
+        //#if DEBUG
+        //    Console.WriteLine("Cave status:\n");
+        //    Console.WriteLine("Width = " + this.Width.ToString());
+        //    Console.WriteLine("Height = " + this.Height.ToString());
+
+        //    for (uint i = 0; i < (uint)(this.Width * this.Height); ++i)
+        //    {
+        //        Console.WriteLine("Room " + (i % this.Width).ToString() + "*" + (i - i % this.Width).ToString());
+        //        for (ushort s = 0; s < 6; ++s)
+        //            Console.WriteLine("\tExit " + s.ToString() + ": " + ((this.Rooms[i % this.Width, i - i % this.Width].Exits[s] == true) ? ("hole") : ("wall")));
+        //    }
+        //#endif
+        //}
+=======
         public void _PrintStatus()
         {
             /*
@@ -153,15 +178,21 @@ namespace HuntTheWumpus
             Console.WriteLine("Cave status:\n");
             Console.WriteLine("Width = " + this.Width.ToString());
             Console.WriteLine("Height = " + this.Height.ToString());
+            Console.WriteLine("________________________________");
 
-            for (uint i = 0; i < (uint)(this.Width * this.Height); ++i)
+            for (uint y = 0; y < this.Height; ++y)
             {
-                Console.WriteLine("Room " + (i % this.Width).ToString() + "*" + (i - i % this.Width).ToString());
-                for (ushort s = 0; s < 6; ++s)
-                    Console.WriteLine("\tExit " + s.ToString() + ": " + ((this.Rooms[i % this.Width, i - i % this.Width].Exits[s] == true) ? ("hole") : ("wall")));
+                for (uint x = 0; x < this.Width; ++x)
+                {
+                    Console.WriteLine("Room " + x.ToString() + "x" + y.ToString() + ": ");
+
+                    for (ushort s = 0; s < 3; ++s)
+                        Console.WriteLine("\tExit 1: " + this.Rooms[x, y].Exits[s].ToString());
+                }
             }
         #endif
              */
         }
+>>>>>>> 55ca93942dc1bebe1b0e078bb0c5d0b516f5d33d
     }
 }
