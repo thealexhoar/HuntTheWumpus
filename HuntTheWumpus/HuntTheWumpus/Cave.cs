@@ -43,6 +43,50 @@ namespace HuntTheWumpus
 
             public uint Gold { get; private set; }
 
+            public bool hasWumpus
+            {
+                get;
+                private set
+                {
+                    if (this.hasPlayer || this.hasBats || this.hasPit)
+                        ; // throw exception
+                    else hasWumpus = value;
+                }
+            }
+
+            public bool hasPlayer
+            {
+                get;
+                private set
+                {
+                    if (this.hasWumpus || this.hasBats || this.hasPit)
+                        ; // throw exception
+                    else hasPlayer = value;
+                }
+            }
+
+            public bool hasPit
+            {
+                get;
+                private set
+                {
+                    if (this.hasWumpus || this.hasPlayer || this.hasBats)
+                        ; // throw exception
+                    else hasPit = value;
+                }
+            }
+
+            public bool hasBats
+            {
+                get;
+                private set
+                {
+                    if (this.hasWumpus || this.hasBats || this.hasPit)
+                        ; // throw exception
+                    else hasBats = value;
+                }
+            }
+
             /// <summary>
             /// A hexagonal (flat ends on top and bottom) room of the cave
             /// </summary>
@@ -101,6 +145,20 @@ namespace HuntTheWumpus
         public string Filename { get; private set; }
 
         public Room[,] Rooms;
+
+        public Room locationWumpus { get; private set; }
+
+        public void moveWumpus()
+        {
+            
+        }
+
+        public Room locationPlayer { get; private set; }
+
+        public void movePlayer()
+        {
+
+        }
 
         /// <summary>
         /// Constructor that loads .cave file
