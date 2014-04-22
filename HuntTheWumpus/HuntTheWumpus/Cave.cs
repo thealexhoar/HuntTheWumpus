@@ -42,10 +42,11 @@ namespace HuntTheWumpus
             public ushort CaveH { get; private set; }
 
             public uint Gold { get; private set; }
-
+            /*
             public bool hasWumpus
             {
                 get;
+
                 private set
                 {
                     if (this.hasPlayer || this.hasBats || this.hasPit)
@@ -53,7 +54,7 @@ namespace HuntTheWumpus
                     else hasWumpus = value;
                 }
             }
-
+            
             public bool hasPlayer
             {
                 get;
@@ -86,7 +87,7 @@ namespace HuntTheWumpus
                     else hasBats = value;
                 }
             }
-
+            */
             /// <summary>
             /// A hexagonal (flat ends on top and bottom) room of the cave
             /// </summary>
