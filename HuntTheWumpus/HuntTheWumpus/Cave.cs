@@ -102,19 +102,6 @@ namespace HuntTheWumpus
         Room[,] Rooms;
 
         /// <summary>
-        /// Stupid constructor, makes an empty cave
-        /// </summary>
-        /// <param name="Width">Height of the cave in number of hexagonal rooms</param>
-        /// <param name="Height">Width of the cave in number of hexagonal rooms</param>
-        private Cave(ushort Width, ushort Height)
-        {
-            this.Width = Width;
-            this.Height = Height;
-
-            Rooms = new Room[Width, Height];
-        }
-
-        /// <summary>
         /// Constructor that loads .cave file
         /// </summary>
         /// <param name="filename">Cave file</param>
@@ -153,25 +140,6 @@ namespace HuntTheWumpus
                 }
             }
         }
-
-        /// <summary>
-        /// debug function
-        /// </summary>
-        //public void _PrintStatus()
-        //{
-        //#if DEBUG
-        //    Console.WriteLine("Cave status:\n");
-        //    Console.WriteLine("Width = " + this.Width.ToString());
-        //    Console.WriteLine("Height = " + this.Height.ToString());
-
-        //    for (uint i = 0; i < (uint)(this.Width * this.Height); ++i)
-        //    {
-        //        Console.WriteLine("Room " + (i % this.Width).ToString() + "*" + (i - i % this.Width).ToString());
-        //        for (ushort s = 0; s < 6; ++s)
-        //            Console.WriteLine("\tExit " + s.ToString() + ": " + ((this.Rooms[i % this.Width, i - i % this.Width].Exits[s] == true) ? ("hole") : ("wall")));
-        //    }
-        //#endif
-        //}
         
         public void _PrintStatus()
         {
