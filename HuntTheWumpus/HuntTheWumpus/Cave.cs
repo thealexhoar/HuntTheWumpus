@@ -33,6 +33,7 @@ namespace HuntTheWumpus
             /// 3 exits per room, can leave some as Exit.NONE if necessary
             /// </summary>
             public Exit[] Exits = new Exit[3];
+            public RoomImage image;
 
             public ushort X { get; private set; }
             public ushort Y { get; private set; }
@@ -41,7 +42,52 @@ namespace HuntTheWumpus
             public ushort CaveH { get; private set; }
 
             public uint Gold { get; private set; }
+            /*
+            public bool hasWumpus
+            {
+                get;
 
+                private set
+                {
+                    if (this.hasPlayer || this.hasBats || this.hasPit)
+                        ; // throw exception
+                    else hasWumpus = value;
+                }
+            }
+            
+            public bool hasPlayer
+            {
+                get;
+                private set
+                {
+                    if (this.hasWumpus || this.hasBats || this.hasPit)
+                        ; // throw exception
+                    else hasPlayer = value;
+                }
+            }
+
+            public bool hasPit
+            {
+                get;
+                private set
+                {
+                    if (this.hasWumpus || this.hasPlayer || this.hasBats)
+                        ; // throw exception
+                    else hasPit = value;
+                }
+            }
+
+            public bool hasBats
+            {
+                get;
+                private set
+                {
+                    if (this.hasWumpus || this.hasBats || this.hasPit)
+                        ; // throw exception
+                    else hasBats = value;
+                }
+            }
+            */
             /// <summary>
             /// A hexagonal (flat ends on top and bottom) room of the cave
             /// </summary>
@@ -99,19 +145,20 @@ namespace HuntTheWumpus
 
         public string Filename { get; private set; }
 
-        Room[,] Rooms;
+        public Room[,] Rooms;
 
-        /// <summary>
-        /// Stupid constructor, makes an empty cave
-        /// </summary>
-        /// <param name="Width">Height of the cave in number of hexagonal rooms</param>
-        /// <param name="Height">Width of the cave in number of hexagonal rooms</param>
-        private Cave(ushort Width, ushort Height)
+        public Room locationWumpus { get; private set; }
+
+        public void moveWumpus()
         {
-            this.Width = Width;
-            this.Height = Height;
+            
+        }
 
-            Rooms = new Room[Width, Height];
+        public Room locationPlayer { get; private set; }
+
+        public void movePlayer()
+        {
+
         }
 
         /// <summary>
@@ -120,44 +167,58 @@ namespace HuntTheWumpus
         /// <param name="filename">Cave file</param>
         public Cave(string filename)
         {
-            FileStream fStream = new FileStream(filename, FileMode.Open, FileAccess.Read);
-            StreamReader strmReader = new StreamReader(fStream);
-            
-            // first two lines of the file are cave width and height
-            this.Width = ushort.Parse(strmReader.ReadLine());
-            this.Height = ushort.Parse(strmReader.ReadLine());
-
-            // after that, each line is a 3-number string, representing the enum values of the 3 exits for each room 
-            // going left-ro-right, then down
-            // (e.g. "135" means this room has exits on top left, top right, bottom middle)
-            for (uint i = 0; i < (uint)(this.Width * this.Height); ++i)
+            using (FileStream fStream = new FileStream(@"Content\Caves\" + filename, FileMode.Open, FileAccess.Read))
             {
-                string line = strmReader.ReadLine();
+                using (StreamReader strmReader = new StreamReader(fStream))
+                {
+                    // first two lines of the file are cave width and height
+                    this.Width = ushort.Parse(strmReader.ReadLine());
+                    this.Height = ushort.Parse(strmReader.ReadLine());
+                    
+                    this.Rooms = new Room[Width, Height];
 
-                // parse the cave-exit string
-                for (ushort s = 0; s < 3; ++s)
-                    this.Rooms[i % this.Width, i - i % this.Width].Exits[s] = (Room.Exit)ushort.Parse(line.Substring(s, 1));
-            }    
-            // write your own caves nerd
+                    // after that, each line is a 3-number string, representing the enum values of the 3 exits for each room 
+                    // going left-to-right, then down
+                    // (e.g. "135" means this room has exits on top left, top right, bottom middle)
+                    for (ushort y = 0; y < this.Height; ++y)
+                    {
+                        for (ushort x = 0; x < this.Width; ++x)
+                        {
+                            string line = strmReader.ReadLine();
 
-            this.Filename = filename;
+                            // initialize rooms
+                            Room.Exit exit0 = (Room.Exit)ushort.Parse(line.Substring(0, 1));
+                            Room.Exit exit1 = (Room.Exit)ushort.Parse(line.Substring(1, 1));
+                            Room.Exit exit2 = (Room.Exit)ushort.Parse(line.Substring(2, 1));
+
+                            this.Rooms[x, y] = new Room(exit0, exit1, exit2, x, y, this.Width, this.Height);
+                        }
+                    }
+                    // write your own caves nerd
+                    //lel
+
+                    this.Filename = filename;
+                }
+            }
         }
-
-        /// <summary>
-        /// debug function
-        /// </summary>
+        
         public void _PrintStatus()
         {
         #if DEBUG
             Console.WriteLine("Cave status:\n");
             Console.WriteLine("Width = " + this.Width.ToString());
             Console.WriteLine("Height = " + this.Height.ToString());
+            Console.WriteLine("________________________________");
 
-            for (uint i = 0; i < (uint)(this.Width * this.Height); ++i)
+            for (ushort y = 0; y < this.Height; ++y)
             {
-                Console.WriteLine("Room " + (i % this.Width).ToString() + "*" + (i - i % this.Width).ToString());
-                for (ushort s = 0; s < 6; ++s)
-                    Console.WriteLine("\tExit " + s.ToString() + ": " + ((this.Rooms[i % this.Width, i - i % this.Width].Exits[s] == true) ? ("hole") : ("wall")));
+                for (ushort x = 0; x < this.Width; ++x)
+                {
+                    Console.WriteLine("Room " + x.ToString() + "x" + y.ToString() + ": ");
+
+                    for (ushort s = 0; s < 3; ++s)
+                        Console.WriteLine("\tExit 1: " + this.Rooms[x, y].Exits[s].ToString());
+                }
             }
         #endif
         }

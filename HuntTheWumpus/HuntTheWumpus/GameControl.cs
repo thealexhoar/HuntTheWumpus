@@ -17,12 +17,17 @@ namespace HuntTheWumpus
     /// </summary>
     public class GameControl : Microsoft.Xna.Framework.GameComponent
     {
+        public static Point[] vertices = { new Point(130, 3), new Point(380, 3), new Point(509, 221), new Point(380, 374), new Point(130, 374), new Point(4, 206) };
+        public static List<RoomImage> roomImages;
         public static Game game;
+        public static Cave cave;
         public static Player player = new Player(game);
 
         Texture2D introImage;
         Texture2D highscoreImage;
-        Texture2D arrow;
+        public Texture2D arrow;
+
+        public SpriteManager spriteManager;
 
         // GameControl class
         public GameControl(Game game)
@@ -32,7 +37,7 @@ namespace HuntTheWumpus
         }
 
         /// <summary>
-        /// Allows the game component to perform any initialization it needs to before starting
+        /// Allows the game component to perform any initiali zation it needs to before starting
         /// to run.  This is where it can query for any required services and load content.
         /// </summary>
         public override void Initialize()
@@ -40,6 +45,21 @@ namespace HuntTheWumpus
             // TODO: Add your initialization code here
             GUIStubb graphicsInterface = new GUIStubb();
             Trivia trivia = new Trivia();
+            spriteManager = new SpriteManager(game, player);
+            roomImages = new List<RoomImage>();
+            cave = new Cave("test.cave");
+            cave._PrintStatus();
+            //creates new images and asigns them to the rooms and room render/draw list
+            Vector2 _position = new Vector2();
+            for (int x = 0; x < cave.Width; x++) {
+                for (int y = 0; y < cave.Height; y++) {
+                    _position.X = (x * 380);
+                    _position.Y = (y * 438) - ((x % 2) * 219);
+                    cave.Rooms[x,y].image = new RoomImage(_position,"Images/hex","Images/hex",game);
+                    roomImages.Add(cave.Rooms[x, y].image);
+                }
+
+            }
 
             base.Initialize();
         }
@@ -92,6 +112,7 @@ namespace HuntTheWumpus
             {
                 player.arrows -= 1;
                 ShootWumpus();
+                spriteManager.SpawnArrow(player);
                 Console.WriteLine(player.arrows);
             }
 
@@ -104,14 +125,21 @@ namespace HuntTheWumpus
             // Send these updates to GUI to be drawn
 
             player.Update(gameTime);
-
+            foreach (RoomImage i in roomImages){
+                i.Update();
+            }
             base.Update(gameTime);
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
             player.Draw(spriteBatch);
+            foreach (RoomImage i in roomImages) {
+                i.Draw(spriteBatch);
+            }
         }
+
+
 
         public void LoadContent(ContentManager content)
         {
@@ -119,6 +147,9 @@ namespace HuntTheWumpus
             highscoreImage = content.Load<Texture2D>(@"Images/Highscores");
             arrow = content.Load<Texture2D>(@"Images/ArrowSprite");
             player.LoadContent(content);
+            foreach (RoomImage i in roomImages) {
+                i.LoadContent(content);
+            }
         }
 
         /// <summary>
@@ -226,8 +257,8 @@ namespace HuntTheWumpus
 
         public static void ShootWumpus()
         {
-            bool didHit = true;
-
+            bool didHit = false;
+            
             if (didHit)
             {
                 Game1.currentGameState = Game1.GameState.GameOver;
@@ -259,6 +290,11 @@ namespace HuntTheWumpus
         public void DrawGameOver(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(highscoreImage, new Rectangle(0, 0, 819, 460), Color.White);
+        }
+
+        public Vector2 GetPlayerPosition(Player player)
+        {
+            return player.position;
         }
     }
 }
