@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using Microsoft.Xna.Framework;
 
 namespace HuntTheWumpus
 {
@@ -33,6 +34,7 @@ namespace HuntTheWumpus
             /// 3 exits per room, can leave some as Exit.NONE if necessary
             /// </summary>
             public Exit[] Exits = new Exit[3];
+
             public RoomImage image;
 
             public ushort X { get; private set; }
@@ -143,6 +145,7 @@ namespace HuntTheWumpus
         public ushort Width { get; private set; } 
         public ushort Height { get; private set; }
 
+        public Point currentRoom = new Point(0, 0); 
         public string Filename { get; private set; }
 
         public Room[,] Rooms;

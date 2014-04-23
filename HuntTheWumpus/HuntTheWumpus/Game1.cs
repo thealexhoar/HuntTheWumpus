@@ -13,6 +13,7 @@ namespace HuntTheWumpus
 {
     public class Game1 : Microsoft.Xna.Framework.Game
     {
+        
         GraphicsDeviceManager graphics;
         public static SpriteBatch spriteBatch;
         public static Game game;

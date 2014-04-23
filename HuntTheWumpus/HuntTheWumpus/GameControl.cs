@@ -17,12 +17,13 @@ namespace HuntTheWumpus
     /// </summary>
     public class GameControl : Microsoft.Xna.Framework.GameComponent
     {
-        public static Point[] vertices = { new Point(130, 3), new Point(380, 3), new Point(509, 221), new Point(380, 374), new Point(130, 374), new Point(4, 206) };
+        public static Point[] vertices = { new Point(4, 256), new Point(130, 38), new Point(380, 38), new Point(509, 256), new Point(380, 474), new Point(130, 474)};
         public static List<RoomImage> roomImages;
         public static Game game;
         public static Cave cave;
         public static Player player = new Player(game);
 
+        Texture2D background;
         Texture2D introImage;
         Texture2D highscoreImage;
         public Texture2D arrow;
@@ -55,11 +56,14 @@ namespace HuntTheWumpus
                 for (int y = 0; y < cave.Height; y++) {
                     _position.X = (x * 380);
                     _position.Y = (y * 438) - ((x % 2) * 219);
-                    cave.Rooms[x,y].image = new RoomImage(_position,"Images/hex","Images/hex",game);
+                    cave.Rooms[x,y].image = new RoomImage(_position,"Images/hex","Images/hex2",game);
+                    cave.Rooms[x, y].image.setExits(cave.Rooms[x, y].Exits);
                     roomImages.Add(cave.Rooms[x, y].image);
                 }
 
             }
+
+            cave.Rooms[cave.currentRoom.X, cave.currentRoom.Y].image.revealed = true;
 
             base.Initialize();
         }
@@ -76,7 +80,7 @@ namespace HuntTheWumpus
             // TODO: Add your update code here
             player.speed.X = 0;
             player.speed.Y = 0;
-            
+
 
 
             // Check for keyboard input
@@ -84,22 +88,18 @@ namespace HuntTheWumpus
             if (Input.isKeyDown(Keys.Left))
             {
                 player.speed.X -= 3;
-                player.position.X += player.speed.X;
             }
             if (Input.isKeyDown(Keys.Right))
             {
                 player.speed.X += 3;
-                player.position.X += player.speed.X;
             }
             if (Input.isKeyDown(Keys.Up))
             {
                 player.speed.Y -= 3;
-                player.position.Y += player.speed.Y;
             }
             if (Input.isKeyDown(Keys.Down))
             {
                 player.speed.Y += 3;
-                player.position.Y += player.speed.Y;
             }
 
             // if user presses buy arrows, get 3 questions from Trivia
@@ -124,19 +124,43 @@ namespace HuntTheWumpus
             // Update all the game objects
             // Send these updates to GUI to be drawn
 
+            player.position += player.speed;
+            
+
+
+            Point lastpoint;
+            Point thispoint;
+
+            thispoint = vertices[5];
+            for (int i = 0; i < 6; i++) {
+                lastpoint = new Point(thispoint.X, thispoint.Y);
+                thispoint = vertices[i];
+                Console.WriteLine(i);
+                if (player.checkCollision(lastpoint, thispoint)) {
+                    if (cave.Rooms[cave.currentRoom.X, cave.currentRoom.Y].image.edgeDraws[i] == true) {
+                        player.resolveCollision(lastpoint, thispoint);
+                    }
+                    else if (cave.Rooms[cave.currentRoom.X, cave.currentRoom.Y].image.edgeDraws[i] != true) {
+                        
+                    }
+                }
+            }
             player.Update(gameTime);
-            foreach (RoomImage i in roomImages){
+            foreach (RoomImage i in roomImages) {
                 i.Update();
             }
-            base.Update(gameTime);
+
+
+                base.Update(gameTime);
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            player.Draw(spriteBatch);
+            spriteBatch.Draw(background, new Vector2(), Color.White);
             foreach (RoomImage i in roomImages) {
                 i.Draw(spriteBatch);
             }
+            player.Draw(spriteBatch);
         }
 
 
@@ -146,6 +170,7 @@ namespace HuntTheWumpus
             introImage = content.Load<Texture2D>(@"Images/MainMenu");
             highscoreImage = content.Load<Texture2D>(@"Images/Highscores");
             arrow = content.Load<Texture2D>(@"Images/ArrowSprite");
+            background = content.Load<Texture2D>(@"Images/SpaceBackground");
             player.LoadContent(content);
             foreach (RoomImage i in roomImages) {
                 i.LoadContent(content);
