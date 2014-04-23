@@ -169,6 +169,9 @@ namespace HuntTheWumpus
             Rooms[x, y].hasPlayer = true;
         }
 
+        // add locationBats and locationPits
+        // lists, can be multiple of these
+
         /// <summary>
         /// Constructor that loads .cave file
         /// </summary>
@@ -205,6 +208,18 @@ namespace HuntTheWumpus
                     // write your own caves nerd
 
                     this.Filename = filename;
+
+                    // need to place features in rooms
+                    // order: player, wumpus, bats, pits
+                    bool placedPlayer = false, placedWumpus = false, placedBats = false, placedWumus = false;
+
+                    // place player
+                    while (!placedPlayer)
+                    {
+                        ushort x = rand.Next(0, this.Width);
+                        u
+                    }
+
                 }
             }
         }
