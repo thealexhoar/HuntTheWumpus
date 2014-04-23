@@ -20,7 +20,7 @@ namespace HuntTheWumpus
         int millisecondsPerFrame;
         const int defaultMILLISECONDS_PER_FRAME = 16;
         protected Vector2 speed;
-        protected Vector2 position;
+        public Vector2 position;
 
         protected float originalScale = 1;
         Vector2 originalSpeed;

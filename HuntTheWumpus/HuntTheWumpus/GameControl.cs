@@ -26,7 +26,10 @@ namespace HuntTheWumpus
         Texture2D background;
         Texture2D introImage;
         Texture2D highscoreImage;
+        Texture2D selectionImage;
         public Texture2D arrow;
+
+        
 
         public SpriteManager spriteManager;
 
@@ -44,6 +47,7 @@ namespace HuntTheWumpus
         public override void Initialize()
         {
             // TODO: Add your initialization code here
+            
             GUIStubb graphicsInterface = new GUIStubb();
             Trivia trivia = new Trivia();
             spriteManager = new SpriteManager(game, player);
@@ -60,7 +64,6 @@ namespace HuntTheWumpus
                     cave.Rooms[x, y].image.setExits(cave.Rooms[x, y].Exits);
                     roomImages.Add(cave.Rooms[x, y].image);
                 }
-
             }
 
             cave.Rooms[cave.currentRoom.X, cave.currentRoom.Y].image.revealed = true;
@@ -127,7 +130,7 @@ namespace HuntTheWumpus
             player.position += player.speed;
             
 
-
+            // WHAT DOES THIS CODE DO???? 
             Point lastpoint;
             Point thispoint;
 
@@ -302,6 +305,11 @@ namespace HuntTheWumpus
 
         public void UpdateIntro(GameTime gameTime)
         {
+            Sprite selectionBox = new Sprite(selectionImage, new Vector2(10,10), new Point(10,10),0,new Point(0,0),new Point(0,0),new Vector2 (0,0));
+            if (Input.isKeyPressed(Keys.Down))
+            {
+                selectionBox.position = new Vector2(0,0);
+            }
             base.Update(gameTime);
         }
 
@@ -317,9 +325,6 @@ namespace HuntTheWumpus
             spriteBatch.Draw(highscoreImage, new Rectangle(0, 0, 819, 460), Color.White);
         }
 
-        public Vector2 GetPlayerPosition(Player player)
-        {
-            return player.position;
-        }
+        
     }
 }
