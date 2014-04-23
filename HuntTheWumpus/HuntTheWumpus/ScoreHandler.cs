@@ -1,7 +1,10 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Threading;
+using System.Net;
+using System.Net.Sockets;
 using System.IO;
+using System.Text;
 
 namespace HuntTheWumpus
 {
@@ -14,6 +17,29 @@ namespace HuntTheWumpus
         /// Represents the list of highscores from the file
         /// </summary>
         public List<Score> HighScores = new List<Score>();
+
+        /// <summary>
+        /// The list of downloaded highscores
+        /// </summary>
+        public List<Score> GlobalScores = new List<Score>();
+
+#if LOCAL_THREAD
+        /// <summary>
+        /// Represents whether the loading thread is done
+        /// </summary>
+        public bool HasLocalLoaded = false;
+#endif
+
+        /// <summary>
+        /// Represents whether download of highscores has finished
+        /// </summary>
+        public bool HasGlobalLoaded = false;
+
+
+        /// <summary>
+        /// Networking client
+        /// </summary>
+        public UdpClient udp = new UdpClient(10000);
 
         /// <summary>
         /// Represents a single score
@@ -100,23 +126,47 @@ namespace HuntTheWumpus
         /// <param name="score">The score of the game</param>
         public ScoreHandler(Score score)
         {
+#if LOCAL_THREAD
+            var localThread = new Thread(new ParameterizedThreadStart(LoadScores));
+            localThread.Start(score);
+#else
+            LoadScores(score);
+#endif
+
+            var globalThread = new Thread(new ParameterizedThreadStart(ManageServer));
+            globalThread.Start(score);
+        }
+
+        /// <summary>
+        /// Handles loading from file, sorting, and rewriting the file
+        /// </summary>
+        /// <param name="score">The score of the game</param>
+        void LoadScores(Object obj)
+        {
+            var score = (Score)obj;
             HighScores.Add(score);
 
             if (File.Exists(".scores"))
             {
-                var read = new StreamReader(".scores");
-                var text = read.ReadToEnd();
-                Deserialize(text);
-                read.Close();
+                using (var read = new StreamReader(".scores"))
+                {
+                    var text = read.ReadToEnd();
+                    Deserialize(text);
+                }
             }
 
             HighScores.Sort();
+            HighScores.RemoveRange(10, HighScores.Count - 10);
 
             using (var file = new StreamWriter(".scores", false))
             {
                 foreach (var highScore in HighScores)
                     file.Write(highScore.Serialize());
             }
+
+#if LOCAL_THREAD
+            HasLocalLoaded = true;
+#endif
         }
 
         /// <summary>
@@ -157,6 +207,32 @@ namespace HuntTheWumpus
                     temp += serial[i];
                 }
             }
+        }
+
+        /// <summary>
+        /// Stub method for connecting to a server, sending score, and downloading new scores
+        /// </summary>
+        /// <param name="obj">The score value</param>
+        void ManageServer(Object obj)
+        {
+            var score = (Score)obj;
+
+			IPAddress serverAddr;
+			if (File.Exists(".serverip"))
+			{
+				using (var sr = new StreamReader(".serverip"))
+				{
+					serverAddr = IPAddress.Parse(sr.ReadToEnd());
+				}
+			}
+			else
+			{ // Change Default Behavior Later
+				serverAddr = IPAddress.Parse("127.0.0.1");
+			}
+
+			IPEndPoint endPoint = new IPEndPoint(serverAddr, 5005);
+			byte[] send_buffer = Encoding.ASCII.GetBytes(score.Serialize());
+			sock.SendTo(send_buffer, endPoint);
         }
     }
 }

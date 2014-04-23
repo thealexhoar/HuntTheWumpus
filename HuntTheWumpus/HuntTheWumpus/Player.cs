@@ -92,36 +92,35 @@ namespace HuntTheWumpus
                         playerCurrentFrame.Y = 0;
                 }
             }
+
+            playerHitBox.X = (int)position.X;
+            playerHitBox.Y = (int)position.Y + 25;
             base.Update(gameTime);
         }
 
-        public bool checkLineCollision(Point l1p1, Point l1p2) {
+        public void resolveCollision(Point l1p1, Point l1p2) {
+            for (float i = 0; i < 1; i += 0.1f) {
+                float dx = speed.X * -1 * i;
+                float dy = speed.Y * -1 * i;
+                position.X += dx;
+                position.Y += dy;
+                playerHitBox.X = (int)position.X;
+                playerHitBox.Y = (int)position.Y + 25;
+                if (!checkCollision(l1p1, l1p2)) {
+                    break;
+                }
+
+            }
+        }
+
+        public bool checkCollision(Point l1p1, Point l1p2) {
             //l1p1 = line 1 point 1
             //l1p2 = line 1 point 2
 
-            if (checkTwoLines(l1p1, l1p2, new Point(playerHitBox.X, playerHitBox.Y), new Point(playerHitBox.X + playerHitBox.Width, playerHitBox.Y)) ||
-                checkTwoLines(l1p1, l1p2, new Point(playerHitBox.X + playerHitBox.Width, playerHitBox.Y), new Point(playerHitBox.X + playerHitBox.Width, playerHitBox.Y + playerHitBox.Height)) ||
-                checkTwoLines(l1p1, l1p2, new Point(playerHitBox.X + playerHitBox.Width, playerHitBox.Y + playerHitBox.Height), new Point(playerHitBox.X, playerHitBox.Y + playerHitBox.Height)) ||
-                checkTwoLines(l1p1, l1p2, new Point(playerHitBox.X, playerHitBox.Y + playerHitBox.Height), new Point(playerHitBox.X, playerHitBox.Y))
-                ) {
-                return true;
-            }
-            else {
-                return false;
-            }
+            return LineIntersectsRect(l1p1, l1p2, playerHitBox);
 
         }
 
-        private bool checkTwoLines(Point l1p1, Point l1p2, Point l2p1, Point l2p2) {
-            int slope = (l1p2.Y - l1p1.Y) / (l1p2.X - l1p2.X);
-
-            if ((l2p1.Y > l1p1.Y + slope * (l2p1.X - l1p1.X)) != (l2p2.Y > l1p1.Y + slope * (l2p2.X - l1p1.X))) {
-                return true;
-            }
-            else {
-                return false;
-            }
-        }
 
         public void Draw(SpriteBatch spriteBatch)
         {
@@ -156,6 +155,34 @@ namespace HuntTheWumpus
                     Color.White, 0, Vector2.Zero,
                     1, SpriteEffects.None, 1);
             }
+        }
+
+        private static bool LineIntersectsRect(Point p1, Point p2, Rectangle r) {
+            return LineIntersectsLine(p1, p2, new Point(r.X, r.Y), new Point(r.X + r.Width, r.Y)) ||
+                   LineIntersectsLine(p1, p2, new Point(r.X + r.Width, r.Y), new Point(r.X + r.Width, r.Y + r.Height)) ||
+                   LineIntersectsLine(p1, p2, new Point(r.X + r.Width, r.Y + r.Height), new Point(r.X, r.Y + r.Height)) ||
+                   LineIntersectsLine(p1, p2, new Point(r.X, r.Y + r.Height), new Point(r.X, r.Y)) ||
+                   (r.Contains(p1) && r.Contains(p2));
+        }
+
+        private static bool LineIntersectsLine(Point l1p1, Point l1p2, Point l2p1, Point l2p2) {
+            float q = (l1p1.Y - l2p1.Y) * (l2p2.X - l2p1.X) - (l1p1.X - l2p1.X) * (l2p2.Y - l2p1.Y);
+            float d = (l1p2.X - l1p1.X) * (l2p2.Y - l2p1.Y) - (l1p2.Y - l1p1.Y) * (l2p2.X - l2p1.X);
+
+            if (d == 0) {
+                return false;
+            }
+
+            float r = q / d;
+
+            q = (l1p1.Y - l2p1.Y) * (l1p2.X - l1p1.X) - (l1p1.X - l2p1.X) * (l1p2.Y - l1p1.Y);
+            float s = q / d;
+
+            if (r < 0 || r > 1 || s < 0 || s > 1) {
+                return false;
+            }
+
+            return true;
         }
     }
 }
