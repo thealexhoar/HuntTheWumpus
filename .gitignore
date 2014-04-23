@@ -6,6 +6,7 @@
 *.user
 *.userprefs
 *.sln.docstates
+*.userprefs
 
 # Build results
 
@@ -151,6 +152,11 @@ $RECYCLE.BIN/
 # Data files for the highscore system
 .scores
 .crashlog
+.wumpus*
 
 # Mac crap
 .DS_Store
+
+# Vim crap
+*.swp
+*~
