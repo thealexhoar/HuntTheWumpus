@@ -2,7 +2,7 @@ from operator import itemgetter, attrgetter
 from os.path import isfile
 from os import access, R_OK
 from time import strftime
-import socket
+from socket import socket, AF_INET, SOCK_DGRAM
 
 global score_list, cache_path, crash_path
 score_list = []
@@ -81,10 +81,12 @@ def get_serial():
 
 def manage_socket():
 	global score_list
-	sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+	sock = socket(AF_INET, SOCK_DGRAM)
 	sock.bind(('127.0.0.1', 5005))
+	print('Socket created')
 	while True:
 		data, addr = sock.recvfrom(256)
+		print('Recieved data: ' + data)
 		deserialize(data)
 		trim_list()
 		sock.sendto(get_serial(), addr)
@@ -93,11 +95,15 @@ def main():
 	global crash_path
 	try:
 		load_cache()
+		print('Loaded cache')
 		manage_socket()
-		write_cache()
 	except Exception as e:
+		print(e)
 		with open(crash_path, 'a') as crash_log:
 			crash_log.write('%Y:%m:%d:%H:%M:%S ' + e + '\n')
+	finally:
+		write_cache()
+		print('Wrote cache')
 
 if __name__ == '__main__':
 	main()
