@@ -83,27 +83,23 @@ def manage_socket():
 	global score_list
 	sock = socket(AF_INET, SOCK_DGRAM)
 	sock.bind(('127.0.0.1', 5005))
-	print('Socket created')
 	while True:
 		data, addr = sock.recvfrom(256)
-		print('Recieved data: ' + data)
+		print('Recieved data: ', data, '\n\tFrom address: ', addr)
 		deserialize(data)
 		trim_list()
 		sock.sendto(get_serial(), addr)
 
 def main():
 	global crash_path
+	load_cache()
 	try:
-		load_cache()
-		print('Loaded cache')
 		manage_socket()
 	except Exception as e:
-		print(e)
 		with open(crash_path, 'a') as crash_log:
 			crash_log.write('%Y:%m:%d:%H:%M:%S ' + e + '\n')
 	finally:
 		write_cache()
-		print('Wrote cache')
 
 if __name__ == '__main__':
 	main()
