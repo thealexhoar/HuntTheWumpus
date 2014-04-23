@@ -217,22 +217,22 @@ namespace HuntTheWumpus
         {
             var score = (Score)obj;
 
-			IPAddress serverAddr;
-			if (File.Exists(".serverip"))
-			{
-				using (var sr = new StreamReader(".serverip"))
-				{
-					serverAddr = IPAddress.Parse(sr.ReadToEnd());
-				}
-			}
-			else
-			{ // Change Default Behavior Later
-				serverAddr = IPAddress.Parse("127.0.0.1");
-			}
+            IPAddress serverAddr;
+            if (File.Exists(".serverip"))
+            {
+                using (var sr = new StreamReader(".serverip"))
+                {
+                    serverAddr = IPAddress.Parse(sr.ReadToEnd());
+                }
+            }
+            else
+            { // Change Default Behavior Later
+                serverAddr = IPAddress.Parse("127.0.0.1");
+            }
 
-			IPEndPoint endPoint = new IPEndPoint(serverAddr, 5005);
-			byte[] send_buffer = Encoding.ASCII.GetBytes(score.Serialize());
-			sock.SendTo(send_buffer, endPoint);
+            IPEndPoint endPoint = new IPEndPoint(serverAddr, 5005);
+            byte[] send_buffer = Encoding.ASCII.GetBytes(score.Serialize());
+            udp.Send(send_buffer, send_buffer.Length, endPoint);
         }
     }
 }
