@@ -45,7 +45,7 @@ namespace HuntTheWumpus
             public bool hasWumpus
             {
                 get;
-                private set
+                set
                 {
                     if (this.hasPlayer || this.hasBats || this.hasPit)
                         ; // throw exception
@@ -56,7 +56,7 @@ namespace HuntTheWumpus
             public bool hasPlayer
             {
                 get;
-                private set
+                set
                 {
                     if (this.hasWumpus || this.hasBats || this.hasPit)
                         ; // throw exception
@@ -67,7 +67,7 @@ namespace HuntTheWumpus
             public bool hasPit
             {
                 get;
-                private set
+                set
                 {
                     if (this.hasWumpus || this.hasPlayer || this.hasBats)
                         ; // throw exception
@@ -78,7 +78,7 @@ namespace HuntTheWumpus
             public bool hasBats
             {
                 get;
-                private set
+                set
                 {
                     if (this.hasWumpus || this.hasBats || this.hasPit)
                         ; // throw exception
@@ -147,16 +147,26 @@ namespace HuntTheWumpus
 
         public Room locationWumpus { get; private set; }
 
-        public void moveWumpus()
+        public void moveWumpus(ushort x, ushort y)
         {
-            
+            // remove wumpus from current location
+            locationWumpus.hasWumpus = false;
+
+            // repoint reference and place wumpus
+            locationWumpus = this.Rooms[x, y];
+            Rooms[x, y].hasWumpus = true;
         }
 
         public Room locationPlayer { get; private set; }
 
-        public void movePlayer()
+        public void movePlayer(ushort x, ushort y)
         {
+            // remove player from current location
+            locationPlayer.hasPlayer = false;
 
+            // repoint reference and place player
+            locationPlayer = this.Rooms[x, y];
+            Rooms[x, y].hasPlayer = true;
         }
 
         /// <summary>
