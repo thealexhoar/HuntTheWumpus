@@ -151,7 +151,7 @@ namespace HuntTheWumpus
                 using (var read = new StreamReader(".scores"))
                 {
                     var text = read.ReadToEnd();
-                    Deserialize(text);
+                    Deserialize(text, ref HighScores);
                 }
             }
 
@@ -173,7 +173,8 @@ namespace HuntTheWumpus
         /// Takes the contents of a file and converts it into highscores
         /// </summary>
         /// <param name="serial">Contents of the file</param>
-        void Deserialize(string serial)                                 // Find what string to put in
+        /// <param name="">List to deposit data</param>
+        void Deserialize(string serial, ref List<Score> scoreList)
         {
             string temp = "";
             Score score = new Score();
@@ -199,7 +200,7 @@ namespace HuntTheWumpus
                 {
                     ulong.TryParse(temp, out score.Time);
                     temp = "";
-                    HighScores.Add(score);
+                    scoreList.Add(score);
                     score = new Score();
                 }
                 else
