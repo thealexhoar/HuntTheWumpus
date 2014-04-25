@@ -107,7 +107,7 @@ namespace HuntTheWumpus
             /// </summary>
             public enum Edge
             {
-                NONE = 0, 
+                NONE = 0,
                 TOP = 0x1 << 1,
                 LEFT = 0x1 << 2,
                 BOTTOM = 0x1 << 3,
@@ -117,7 +117,7 @@ namespace HuntTheWumpus
             public Edge GetEdge()
             {
                 Edge e = Edge.NONE;
-                
+
                 // is on top?
                 if (this.Y == 0)
                     e |= Edge.TOP;
@@ -138,12 +138,12 @@ namespace HuntTheWumpus
         // RNG for getting gold value
         private static Random rand = new Random((int)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds);
 
-        public ushort Width { get; private set; } 
+        public ushort Width { get; private set; }
         public ushort Height { get; private set; }
 
         public string Filename { get; private set; }
 
-        Room[,] Rooms;
+        public Room[,] Rooms;
 
         public Room locationWumpus { get; private set; }
 
@@ -185,7 +185,7 @@ namespace HuntTheWumpus
                     // first two lines of the file are cave width and height
                     this.Width = ushort.Parse(strmReader.ReadLine());
                     this.Height = ushort.Parse(strmReader.ReadLine());
-                    
+
                     this.Rooms = new Room[Width, Height];
 
                     // after that, each line is a 3-number string, representing the enum values of the 3 exits for each room 
@@ -214,19 +214,19 @@ namespace HuntTheWumpus
                     bool placedPlayer = false, placedWumpus = false, placedBats = false, placedWumus = false;
 
                     // place player
-                    while (!placedPlayer)
-                    {
-                        ushort x = rand.Next(0, this.Width);
-                        u
-                    }
+                    //while (!placedPlayer)
+                    //{
+                    //    ushort x = rand.Next(0, this.Width);
+                    //    u
+                    //}
 
                 }
             }
         }
-        
+
         public void _PrintStatus()
         {
-        #if DEBUG
+#if DEBUG
             Console.WriteLine("Cave status:\n");
             Console.WriteLine("Width = " + this.Width.ToString());
             Console.WriteLine("Height = " + this.Height.ToString());
@@ -242,7 +242,7 @@ namespace HuntTheWumpus
                         Console.WriteLine("\tExit 1: " + this.Rooms[x, y].Exits[s].ToString());
                 }
             }
-        #endif
+#endif
         }
     }
 }
