@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace HuntTheWumpus
 {
-    class Sprite
+    public class Sprite
     {
         protected float scale = 1;
 
@@ -100,7 +100,7 @@ namespace HuntTheWumpus
             }
         }
 
-        public virtual void Draw(GameTime gameTime, SpriteBatch spriteBatch)
+        public virtual void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(textureImage,
                 position,

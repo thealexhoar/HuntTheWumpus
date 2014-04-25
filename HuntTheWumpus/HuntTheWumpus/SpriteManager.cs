@@ -67,7 +67,7 @@ namespace HuntTheWumpus
 
             foreach (Sprite s in spriteList)
             {
-                s.Draw(gameTime, Game1.spriteBatch);
+                s.Draw(Game1.spriteBatch);
                 Console.WriteLine("IT DRAWS");
             }
 

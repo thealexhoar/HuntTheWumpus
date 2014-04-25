@@ -11,8 +11,6 @@ Write how to display cave.
 GameControl ================================================================================================
 Currently working on:
 	Displaying information on the screen
-		Arrows
-		Coins
 		(during GameOver) Highscore
 
 

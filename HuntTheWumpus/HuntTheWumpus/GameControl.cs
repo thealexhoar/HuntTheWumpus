@@ -16,9 +16,14 @@ namespace HuntTheWumpus
     /// This is a game component that implements IUpdateable.
     /// </summary>
     public class GameControl : Microsoft.Xna.Framework.GameComponent
-    {
+    {    
+        // Add a SpriteFont object to display text
+        SpriteFont consolas = new SpriteFont();
+        Vector2 fontPos;
+
         public static Point[] vertices = { new Point(4, 256), new Point(130, 38), new Point(380, 38), new Point(509, 256), new Point(380, 474), new Point(130, 474)};
         public static List<RoomImage> roomImages;
+        public static List<Sprite> displaySprites;
         public static Game game;
         public static Cave cave;
         public static Player player = new Player(game);
@@ -29,7 +34,7 @@ namespace HuntTheWumpus
         Texture2D selectionImage;
         public Texture2D arrow;
 
-        
+        byte currentSelectionBox = 0;
 
         public SpriteManager spriteManager;
 
@@ -48,10 +53,13 @@ namespace HuntTheWumpus
         {
             // TODO: Add your initialization code here
             
+
+
             GUIStubb graphicsInterface = new GUIStubb();
             Trivia trivia = new Trivia();
             spriteManager = new SpriteManager(game, player);
             roomImages = new List<RoomImage>();
+            displaySprites = new List<Sprite>();
             cave = new Cave("test.cave");
             cave._PrintStatus();
             //creates new images and asigns them to the rooms and room render/draw list
@@ -159,10 +167,17 @@ namespace HuntTheWumpus
 
         public void Draw(SpriteBatch spriteBatch)
         {
+            string output = "Arrows: " + player.arrows;
+
             spriteBatch.Draw(background, new Vector2(), Color.White);
             foreach (RoomImage i in roomImages) {
                 i.Draw(spriteBatch);
             }
+
+            // Draw the string in output at position 10,10 in golden consolas font
+            spriteBatch.DrawString(consolas, output, fontPos, Color.Gold);
+            // Draw the coins# at position (10,30) in golden consolas font
+            spriteBatch.DrawString(consolas, "Coins: " + Player.gold, new Vector2(10, 30), Color.Gold);
             player.Draw(spriteBatch);
         }
 
@@ -170,6 +185,7 @@ namespace HuntTheWumpus
 
         public void LoadContent(ContentManager content)
         {
+            consolas = content.Load<SpriteFont>(@"Consolas");
             introImage = content.Load<Texture2D>(@"Images/MainMenu");
             highscoreImage = content.Load<Texture2D>(@"Images/Highscores");
             arrow = content.Load<Texture2D>(@"Images/ArrowSprite");
@@ -178,6 +194,8 @@ namespace HuntTheWumpus
             foreach (RoomImage i in roomImages) {
                 i.LoadContent(content);
             }
+
+            fontPos = new Vector2(10, 10);
         }
 
         /// <summary>
@@ -308,7 +326,23 @@ namespace HuntTheWumpus
             Sprite selectionBox = new Sprite(selectionImage, new Vector2(10,10), new Point(10,10),0,new Point(0,0),new Point(0,0),new Vector2 (0,0));
             if (Input.isKeyPressed(Keys.Down))
             {
-                selectionBox.position = new Vector2(0,0);
+                if (currentSelectionBox < 3)
+                    currentSelectionBox += 1;
+                else if (currentSelectionBox >= 3)
+                    currentSelectionBox = 0;
+
+                switch (currentSelectionBox)
+                {
+                    case (0):
+                        selectionBox.position = new Vector2(58, 156);
+                        break;
+                    case (1):
+                        selectionBox.position = new Vector2(57, 234);
+                        break;
+                    case (2):
+                        selectionBox.position = new Vector2(58, 315);
+                        break;
+                }
             }
             base.Update(gameTime);
         }
@@ -316,7 +350,12 @@ namespace HuntTheWumpus
         
 
         public void DrawIntro(SpriteBatch spriteBatch)
-        {
+        {            
+            foreach (Sprite x in displaySprites)
+            {
+                x.Draw(spriteBatch);
+            }
+            
             spriteBatch.Draw(introImage, new Rectangle(0,0,819,460), Color.White);
         }
 
@@ -324,7 +363,5 @@ namespace HuntTheWumpus
         {
             spriteBatch.Draw(highscoreImage, new Rectangle(0, 0, 819, 460), Color.White);
         }
-
-        
     }
 }
