@@ -34,14 +34,17 @@ namespace HuntTheWumpus
             /// </summary>
             public Exit[] Exits = new Exit[3];
 
+            public bool hasWumpus = false;
+            public bool hasPlayer = false;
             public ushort X { get; private set; }
             public ushort Y { get; private set; }
 
+            public RoomImage image;
             public ushort CaveW { get; private set; }
             public ushort CaveH { get; private set; }
 
             public uint Gold { get; private set; }
-
+            /*
             public bool hasWumpus
             {
                 get;
@@ -85,9 +88,10 @@ namespace HuntTheWumpus
                     else hasBats = value;
                 }
             }
-
+            */
             /// <summary>
-            /// A hexagonal (flat ends on top and bottom) room of the cave
+            /// A hexagonal (flat ends on top and bottom) room of the 
+            /// cave
             /// </summary>
             public Room(Exit exit0, Exit exit1, Exit exit2, ushort x, ushort y, ushort caveW, ushort caveH)
             {
@@ -143,7 +147,7 @@ namespace HuntTheWumpus
 
         public string Filename { get; private set; }
 
-        Room[,] Rooms;
+        public Room[,] Rooms;
 
         public Room locationWumpus { get; private set; }
 
@@ -205,6 +209,7 @@ namespace HuntTheWumpus
                     // write your own caves nerd
 
                     this.Filename = filename;
+                    locationPlayer = Rooms[0, 0];
                 }
             }
         }

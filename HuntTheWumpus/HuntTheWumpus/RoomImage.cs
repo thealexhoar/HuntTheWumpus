@@ -12,7 +12,7 @@ using Microsoft.Xna.Framework.Media;
 
 namespace HuntTheWumpus {
     public class RoomImage : GameComponent {
-        private Vector2 Position;
+        public Vector2 Position;
         private string _asset1;
         private string _asset2;
         private Texture2D texture;

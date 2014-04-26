@@ -15,6 +15,12 @@ namespace HuntTheWumpus
     /// <summary>
     /// This is a game component that implements IUpdateable.
     /// </summary>
+    /// 
+    enum State {
+        MOVING,
+        SWITCHING
+    }
+
     public class GameControl : Microsoft.Xna.Framework.GameComponent
     {
         public static Point[] vertices = { new Point(4, 256), new Point(130, 38), new Point(380, 38), new Point(509, 256), new Point(380, 474), new Point(130, 474)};
@@ -22,6 +28,10 @@ namespace HuntTheWumpus
         public static Game game;
         public static Cave cave;
         public static Player player = new Player(game);
+
+        State state = State.MOVING;
+        Vector2 moveVector;
+        int moveCounter;
 
         Texture2D background;
         Texture2D introImage;
@@ -63,7 +73,7 @@ namespace HuntTheWumpus
 
             }
 
-            cave.Rooms[cave.currentRoom.X, cave.currentRoom.Y].image.revealed = true;
+            cave.Rooms[cave.locationPlayer.X, cave.locationPlayer.Y].image.revealed = true;
 
             base.Initialize();
         }
@@ -78,80 +88,84 @@ namespace HuntTheWumpus
         public override void Update(GameTime gameTime)
         {
             // TODO: Add your update code here
-            player.speed.X = 0;
-            player.speed.Y = 0;
+
+            if (state == State.MOVING) {
+                player.speed.X = 0;
+                player.speed.Y = 0;
 
 
 
-            // Check for keyboard input
-            Input.Update();
-            if (Input.isKeyDown(Keys.Left))
-            {
-                player.speed.X -= 3;
-            }
-            if (Input.isKeyDown(Keys.Right))
-            {
-                player.speed.X += 3;
-            }
-            if (Input.isKeyDown(Keys.Up))
-            {
-                player.speed.Y -= 3;
-            }
-            if (Input.isKeyDown(Keys.Down))
-            {
-                player.speed.Y += 3;
-            }
+                // Check for keyboard input
+                Input.Update();
+                if (Input.isKeyDown(Keys.Left)) {
+                    player.speed.X -= 3;
+                }
+                if (Input.isKeyDown(Keys.Right)) {
+                    player.speed.X += 3;
+                }
+                if (Input.isKeyDown(Keys.Up)) {
+                    player.speed.Y -= 3;
+                }
+                if (Input.isKeyDown(Keys.Down)) {
+                    player.speed.Y += 3;
+                }
 
-            // if user presses buy arrows, get 3 questions from Trivia
-            if (Input.isKeyDown(Keys.B))
-            {
-                BuyArrow();
-            }
+                // if user presses buy arrows, get 3 questions from Trivia
+                if (Input.isKeyDown(Keys.B)) {
+                    BuyArrow();
+                }
 
-            if (Input.isKeyDown(Keys.S))
-            {
-                player.arrows -= 1;
-                ShootWumpus();
-                spriteManager.SpawnArrow(player);
-                Console.WriteLine(player.arrows);
-            }
+                if (Input.isKeyDown(Keys.S)) {
+                    player.arrows -= 1;
+                    ShootWumpus();
+                    spriteManager.SpawnArrow(player);
+                    Console.WriteLine(player.arrows);
+                }
 
-            if (Input.isKeyDown(Keys.W))
-            {
-                EncounterWumpus();
-            }
+                if (Input.isKeyDown(Keys.W)) {
+                    EncounterWumpus();
+                }
 
-            // Update all the game objects
-            // Send these updates to GUI to be drawn
+                // Update all the game objects
+                // Send these updates to GUI to be drawn
 
-            player.position += player.speed;
-            
+                player.position += player.speed;
 
 
-            Point lastpoint;
-            Point thispoint;
 
-            thispoint = vertices[5];
-            for (int i = 0; i < 6; i++) {
-                lastpoint = new Point(thispoint.X, thispoint.Y);
-                thispoint = vertices[i];
-                Console.WriteLine(i);
-                if (player.checkCollision(lastpoint, thispoint)) {
-                    if (cave.Rooms[cave.currentRoom.X, cave.currentRoom.Y].image.edgeDraws[i] == true) {
-                        player.resolveCollision(lastpoint, thispoint);
-                    }
-                    else if (cave.Rooms[cave.currentRoom.X, cave.currentRoom.Y].image.edgeDraws[i] != true) {
-                        
+                Point lastpoint;
+                Point thispoint;
+
+                thispoint = vertices[5];
+                for (int i = 0; i < 6; i++) {
+                    lastpoint = new Point(thispoint.X, thispoint.Y);
+                    thispoint = vertices[i];
+                    Console.WriteLine(i);
+                    if (player.checkCollision(lastpoint, thispoint)) {
+                        if (cave.Rooms[cave.locationPlayer.X, cave.locationPlayer.Y].image.edgeDraws[i] == true) {
+                            player.resolveCollision(lastpoint, thispoint);
+                        }
+                        else if (cave.Rooms[cave.locationPlayer.X, cave.locationPlayer.Y].image.edgeDraws[i] != true) {
+                            state = State.SWITCHING;
+                            moveVector = new Vector2(vertices[i].X - vertices[(i + 4) % 6].X, vertices[i].Y - vertices[(i + 3) % 6].Y);
+                            moveCounter = 0;
+                        }
                     }
                 }
-            }
-            player.Update(gameTime);
-            foreach (RoomImage i in roomImages) {
-                i.Update();
-            }
+                player.Update(gameTime);
+                foreach (RoomImage i in roomImages) {
+                    i.Update();
+                }
 
-
-                base.Update(gameTime);
+            }
+            else if (state == State.SWITCHING) {
+                moveCounter++;
+                foreach (RoomImage i in roomImages) {
+                    i.Position += 
+                }
+            }
+            
+            base.Update(gameTime);
         }
 
         public void Draw(SpriteBatch spriteBatch)
