@@ -28,6 +28,8 @@ namespace HuntTheWumpus
         public static Cave cave;
         public static Player player = new Player(game);
 
+        ScoreHandler.Score score = new ScoreHandler.Score();
+
         Texture2D background;
         Texture2D introImage;
         Texture2D highscoreImage;
@@ -361,6 +363,11 @@ namespace HuntTheWumpus
 
         public void DrawGameOver(SpriteBatch spriteBatch)
         {
+            foreach(ScoreHandler.Score x in score)
+            {
+                spriteBatch.DrawString(consolas, "Name: " + Convert.ToString(x), new Vector2(50, 50), Color.Gold);
+            }
+            
             spriteBatch.Draw(highscoreImage, new Rectangle(0, 0, 819, 460), Color.White);
         }
     }
