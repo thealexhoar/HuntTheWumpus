@@ -73,6 +73,8 @@ namespace HuntTheWumpus
                         currentGameState = GameState.GameOver;
                     break;
                 case GameState.GameOver:
+                    if (Input.isKeyPressed(Keys.Enter))
+                        currentGameState = GameState.IntroScreen;
                     break;
             }
 

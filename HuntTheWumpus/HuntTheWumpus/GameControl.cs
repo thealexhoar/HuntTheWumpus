@@ -22,9 +22,14 @@ namespace HuntTheWumpus
     }
 
     public class GameControl : Microsoft.Xna.Framework.GameComponent
-    {
+    {    
+        // Add a SpriteFont object to display text
+        SpriteFont consolas;
+        Vector2 fontPos;
+
         public static Point[] vertices = { new Point(4, 256), new Point(130, 38), new Point(380, 38), new Point(509, 256), new Point(380, 474), new Point(130, 474)};
         public static List<RoomImage> roomImages;
+        public static List<Sprite> displaySprites;
         public static Game game;
         public static Cave cave;
         public static Player player = new Player(game);
@@ -36,7 +41,10 @@ namespace HuntTheWumpus
         Texture2D background;
         Texture2D introImage;
         Texture2D highscoreImage;
+        Texture2D selectionImage;
         public Texture2D arrow;
+
+        byte currentSelectionBox = 0;
 
         public SpriteManager spriteManager;
 
@@ -54,12 +62,16 @@ namespace HuntTheWumpus
         public override void Initialize()
         {
             // TODO: Add your initialization code here
+            
+
+
             GUIStubb graphicsInterface = new GUIStubb();
             Trivia trivia = new Trivia();
             spriteManager = new SpriteManager(game, player);
             roomImages = new List<RoomImage>();
+            displaySprites = new List<Sprite>();
             cave = new Cave("test.cave");
-            cave._PrintStatus();
+            //cave._PrintStatus();
             //creates new images and asigns them to the rooms and room render/draw list
             Vector2 _position = new Vector2();
             for (int x = 0; x < cave.Width; x++) {
@@ -70,7 +82,6 @@ namespace HuntTheWumpus
                     cave.Rooms[x, y].image.setExits(cave.Rooms[x, y].Exits);
                     roomImages.Add(cave.Rooms[x, y].image);
                 }
-
             }
 
             cave.Rooms[cave.locationPlayer.X, cave.locationPlayer.Y].image.revealed = true;
@@ -131,6 +142,9 @@ namespace HuntTheWumpus
 
                 player.position += player.speed;
 
+                // WHAT DOES THIS CODE DO???? 
+                //Glad you asked. It resolves collisions with walls in a 95% reliable way
+                //If collisions are with a doorway in the current room, there can be code to switch rooms
 
 
                 Point lastpoint;
@@ -161,7 +175,7 @@ namespace HuntTheWumpus
             else if (state == State.SWITCHING) {
                 moveCounter++;
                 foreach (RoomImage i in roomImages) {
-                    i.Position += 
+                    //i.Position += 
                 }
             }
             
@@ -170,10 +184,17 @@ namespace HuntTheWumpus
 
         public void Draw(SpriteBatch spriteBatch)
         {
+            string output = "Arrows: " + player.arrows;
+
             spriteBatch.Draw(background, new Vector2(), Color.White);
             foreach (RoomImage i in roomImages) {
                 i.Draw(spriteBatch);
             }
+
+            // Draw the string in output at position 10,10 in golden consolas font
+            spriteBatch.DrawString(consolas, output, fontPos, Color.Gold);
+            // Draw the coins# at position (10,30) in golden consolas font
+            spriteBatch.DrawString(consolas, "Coins: " + Player.gold, new Vector2(10, 30), Color.Gold);
             player.Draw(spriteBatch);
         }
 
@@ -181,6 +202,7 @@ namespace HuntTheWumpus
 
         public void LoadContent(ContentManager content)
         {
+            consolas = content.Load<SpriteFont>(@"Consolas");
             introImage = content.Load<Texture2D>(@"Images/MainMenu");
             highscoreImage = content.Load<Texture2D>(@"Images/Highscores");
             arrow = content.Load<Texture2D>(@"Images/ArrowSprite");
@@ -189,6 +211,8 @@ namespace HuntTheWumpus
             foreach (RoomImage i in roomImages) {
                 i.LoadContent(content);
             }
+
+            fontPos = new Vector2(10, 10);
         }
 
         /// <summary>
@@ -316,24 +340,45 @@ namespace HuntTheWumpus
 
         public void UpdateIntro(GameTime gameTime)
         {
+            Sprite selectionBox = new Sprite(selectionImage, new Vector2(10,10), new Point(10,10),0,new Point(0,0),new Point(0,0),new Vector2 (0,0));
+            if (Input.isKeyPressed(Keys.Down))
+            {
+                if (currentSelectionBox < 3)
+                    currentSelectionBox += 1;
+                else if (currentSelectionBox >= 3)
+                    currentSelectionBox = 0;
+
+                switch (currentSelectionBox)
+                {
+                    case (0):
+                        selectionBox.position = new Vector2(58, 156);
+                        break;
+                    case (1):
+                        selectionBox.position = new Vector2(57, 234);
+                        break;
+                    case (2):
+                        selectionBox.position = new Vector2(58, 315);
+                        break;
+                }
+            }
             base.Update(gameTime);
         }
 
         
 
         public void DrawIntro(SpriteBatch spriteBatch)
-        {
+        {            
+            foreach (Sprite x in displaySprites)
+            {
+                x.Draw(spriteBatch);
+            }
+            
             spriteBatch.Draw(introImage, new Rectangle(0,0,819,460), Color.White);
         }
 
         public void DrawGameOver(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(highscoreImage, new Rectangle(0, 0, 819, 460), Color.White);
-        }
-
-        public Vector2 GetPlayerPosition(Player player)
-        {
-            return player.position;
         }
     }
 }

@@ -151,7 +151,7 @@ namespace HuntTheWumpus
                 using (var read = new StreamReader(".scores"))
                 {
                     var text = read.ReadToEnd();
-                    Deserialize(text);
+                    Deserialize(text, ref HighScores);
                 }
             }
 
@@ -173,7 +173,8 @@ namespace HuntTheWumpus
         /// Takes the contents of a file and converts it into highscores
         /// </summary>
         /// <param name="serial">Contents of the file</param>
-        void Deserialize(string serial)                                 // Find what string to put in
+        /// <param name="">List to deposit data</param>
+        void Deserialize(string serial, ref List<Score> scoreList)
         {
             string temp = "";
             Score score = new Score();
@@ -199,7 +200,7 @@ namespace HuntTheWumpus
                 {
                     ulong.TryParse(temp, out score.Time);
                     temp = "";
-                    HighScores.Add(score);
+                    scoreList.Add(score);
                     score = new Score();
                 }
                 else
@@ -210,7 +211,7 @@ namespace HuntTheWumpus
         }
 
         /// <summary>
-        /// Stub method for connecting to a server, sending score, and downloading new scores
+        /// Method for connecting to a server, sending score, and downloading new scores
         /// </summary>
         /// <param name="obj">The score value</param>
         void ManageServer(Object obj)
@@ -219,20 +220,18 @@ namespace HuntTheWumpus
 
             IPAddress serverAddr;
             if (File.Exists(".serverip"))
-            {
                 using (var sr = new StreamReader(".serverip"))
-                {
                     serverAddr = IPAddress.Parse(sr.ReadToEnd());
-                }
-            }
-            else
-            { // Change Default Behavior Later
+            else // Change Default Behavior Later
                 serverAddr = IPAddress.Parse("127.0.0.1");
-            }
 
             IPEndPoint endPoint = new IPEndPoint(serverAddr, 5005);
             byte[] send_buffer = Encoding.ASCII.GetBytes(score.Serialize());
             udp.Send(send_buffer, send_buffer.Length, endPoint);
+            byte[] receive_buffer = udp.Receive(ref endPoint);
+            
+            Deserialize(Encoding.ASCII.GetString(receive_buffer), ref GlobalScores);
+            HasGlobalLoaded = true;
         }
     }
 }

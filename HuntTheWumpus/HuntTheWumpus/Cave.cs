@@ -88,7 +88,10 @@ namespace HuntTheWumpus
                     else hasBats = value;
                 }
             }
+
             */
+
+            public bool hasThing;
             /// <summary>
             /// A hexagonal (flat ends on top and bottom) room of the 
             /// cave
@@ -111,7 +114,7 @@ namespace HuntTheWumpus
             /// </summary>
             public enum Edge
             {
-                NONE = 0, 
+                NONE = 0,
                 TOP = 0x1 << 1,
                 LEFT = 0x1 << 2,
                 BOTTOM = 0x1 << 3,
@@ -121,7 +124,7 @@ namespace HuntTheWumpus
             public Edge GetEdge()
             {
                 Edge e = Edge.NONE;
-                
+
                 // is on top?
                 if (this.Y == 0)
                     e |= Edge.TOP;
@@ -139,10 +142,10 @@ namespace HuntTheWumpus
             }
         }
 
-        // RNG for getting gold value
+        // RNG for getting gold values
         private static Random rand = new Random((int)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds);
 
-        public ushort Width { get; private set; } 
+        public ushort Width { get; private set; }
         public ushort Height { get; private set; }
 
         public string Filename { get; private set; }
@@ -173,11 +176,29 @@ namespace HuntTheWumpus
             Rooms[x, y].hasPlayer = true;
         }
 
+        public Room locationBats { get; private set; }
+
+        public void moveBats(ushort x, ushort y)
+        {
+            // remove bats from current location
+            //locationBats.hasBats = false;
+
+            // repoint reference and place bats
+            locationBats = this.Rooms[x, y];
+            //Rooms[x, y].hasBats = true;
+        }
+
+        public List<Room> locationsPits;
+
+        // add locationBats and locationPits
+        // lists, can be multiple of these
+
         /// <summary>
         /// Constructor that loads .cave file
         /// </summary>
         /// <param name="filename">Cave file</param>
-        public Cave(string filename)
+        /// <param name="gen">Generate location features?</param>
+        public Cave(string filename, bool map = true)
         {
             using (FileStream fStream = new FileStream(@"Content\Caves\" + filename, FileMode.Open, FileAccess.Read))
             {
@@ -186,7 +207,7 @@ namespace HuntTheWumpus
                     // first two lines of the file are cave width and height
                     this.Width = ushort.Parse(strmReader.ReadLine());
                     this.Height = ushort.Parse(strmReader.ReadLine());
-                    
+
                     this.Rooms = new Room[Width, Height];
 
                     // after that, each line is a 3-number string, representing the enum values of the 3 exits for each room 
@@ -210,29 +231,92 @@ namespace HuntTheWumpus
 
                     this.Filename = filename;
                     locationPlayer = Rooms[0, 0];
+
+                    // working on this, will make a cave manually
+                    /*
+                    if (map)
+                    {
+                        // need to place features in rooms
+                        // order: player, wumpus, bats, pits
+                        bool placedPlayer = false, placedWumpus = false, placedBats = false, placedWumus = false;
+
+                        // place player
+                        locationPlayer = this.Rooms[rand.Next(0, this.Width), rand.Next(0, this.Height)];
+                        locationPlayer.hasPlayer = true;
+                        locationPlayer.hasThing = true;
+                        placedPlayer = true;
+
+                        // place wumpus
+                        while (!placedWumpus)
+                        {
+                            ushort x = (ushort)rand.Next(0, this.Width), y = (ushort)rand.Next(0, this.Height);
+
+                            // if the randomly picked room already has a thing, rinse and repeat
+                            if (this.Rooms[x, y].hasThing)
+                                continue;
+                            else
+                            {
+                                // get the edge value of the picked room
+                                Room.Edge e = this.Rooms[x, y].GetEdge();
+
+                                if (!(e != Room.Edge.NONE))
+                                {
+                                    // if this 
+                                }
+                            }
+                        }
+                    }*/
                 }
             }
         }
         
-        public void _PrintStatus()
+        // shitty
+        // fix
+        // returns a big-ass string now, do whatever with it
+        /*public string _PrintStatus()
         {
-        #if DEBUG
-            Console.WriteLine("Cave status:\n");
-            Console.WriteLine("Width = " + this.Width.ToString());
-            Console.WriteLine("Height = " + this.Height.ToString());
-            Console.WriteLine("________________________________");
+#if DEBUG
+            string str = "";
+
+            str += "Cave status:\n\n";
+            str += "Width = " + this.Width.ToString() + "\n";
+            str += "Height = " + this.Height.ToString() + "\n";
+            str += "________________________________\n";
 
             for (ushort y = 0; y < this.Height; ++y)
             {
                 for (ushort x = 0; x < this.Width; ++x)
                 {
-                    Console.WriteLine("Room " + x.ToString() + "x" + y.ToString() + ": ");
+                    str += "Room " + x.ToString() + "x" + y.ToString() + ": \n";
 
-                    for (ushort s = 0; s < 3; ++s)
-                        Console.WriteLine("\tExit 1: " + this.Rooms[x, y].Exits[s].ToString());
+                    //for (ushort s = 0; s < 3; ++s)
+                    //    Console.WriteLine("\tExit 1: " + this.Rooms[x, y].Exits[s].ToString());
                 }
             }
-        #endif
+#endif
+        }*/
+    
+        public Cave GetDebugCave()
+        {
+            Cave c = new Cave("test.cave", false);
+
+            c.locationPlayer = c.Rooms[0, 0]; 
+            c.Rooms[0, 0].hasPlayer = true;
+            c.Rooms[0, 0].hasThing = true;
+
+            c.locationWumpus = c.Rooms[2, 2];
+            c.Rooms[2, 2].hasPlayer = true;
+            c.Rooms[2, 2].hasThing = true;
+
+            c.locationBats = c.Rooms[0, 2];
+            //c.Rooms[0, 2].hasBats = true;
+            c.Rooms[0, 2].hasThing = true;
+
+            c.locationsPits.Add(c.Rooms[1, 1]);
+            //c.Rooms[1, 1].hasPit = true;
+            c.Rooms[1, 1].hasThing = true;
+
+            return c;
         }
     }
 }

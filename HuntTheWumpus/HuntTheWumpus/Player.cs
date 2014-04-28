@@ -19,7 +19,7 @@ namespace HuntTheWumpus
     public class Player : GameComponent
     {
         // Position and speed variables which are used in the GameControl class
-        public Vector2 position = new Vector2(0,0);
+        public Vector2 position = new Vector2(100);
         public Vector2 speed = new Vector2(0,0);
 
         Point playerFrameSize = new Point(30, 50);
