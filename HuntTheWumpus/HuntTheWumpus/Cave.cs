@@ -44,45 +44,45 @@ namespace HuntTheWumpus
 
             public bool hasWumpus
             {
-                get;
+                //get;
                 set
                 {
-                    if (this.hasPlayer || this.hasBats || this.hasPit)
-                        ; // throw exception
-                    else hasWumpus = value;
+                    //if (this.hasPlayer || this.hasBats || this.hasPit)
+                        // throw exception
+                    //else hasWumpus = value;
                 }
             }
 
             public bool hasPlayer
             {
-                get;
+                //get;
                 set
                 {
-                    if (this.hasWumpus || this.hasBats || this.hasPit)
-                        ; // throw exception
-                    else hasPlayer = value;
+                    //if (this.hasWumpus || this.hasBats || this.hasPit)
+                         //// throw exception
+                    //else hasPlayer = value;
                 }
             }
 
             public bool hasPit
             {
-                get;
+                //get;
                 set
                 {
-                    if (this.hasWumpus || this.hasPlayer || this.hasBats)
-                        ; // throw exception
-                    else hasPit = value;
+                    //if (this.hasWumpus || this.hasPlayer || this.hasBats)
+                         // throw exception
+                    //else hasPit = value;
                 }
             }
 
             public bool hasBats
             {
-                get;
+                //get;
                 set
                 {
-                    if (this.hasWumpus || this.hasBats || this.hasPit)
-                        ; // throw exception
-                    else hasBats = value;
+                    //if (this.hasWumpus || this.hasBats || this.hasPit)
+                         // throw exception
+                    //else hasBats = value;
                 }
             }
 

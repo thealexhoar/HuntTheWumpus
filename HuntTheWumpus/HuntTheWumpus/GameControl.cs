@@ -62,21 +62,21 @@ namespace HuntTheWumpus
             spriteManager = new SpriteManager(game, player);
             roomImages = new List<RoomImage>();
             displaySprites = new List<Sprite>();
-            cave = new Cave("test.cave");
-            cave._PrintStatus();
+            //cave = new Cave("test.cave");
+            //cave._PrintStatus();
             //creates new images and asigns them to the rooms and room render/draw list
             Vector2 _position = new Vector2();
             for (int x = 0; x < cave.Width; x++) {
                 for (int y = 0; y < cave.Height; y++) {
                     _position.X = (x * 380);
                     _position.Y = (y * 438) - ((x % 2) * 219);
-                    cave.Rooms[x,y].image = new RoomImage(_position,"Images/hex","Images/hex2",game);
-                    cave.Rooms[x, y].image.setExits(cave.Rooms[x, y].Exits);
-                    roomImages.Add(cave.Rooms[x, y].image);
+                    //cave.Rooms[x,y].image = new RoomImage(_position,"Images/hex","Images/hex2",game);
+                    //cave.Rooms[x, y].image.setExits(cave.Rooms[x, y].Exits);
+                    //roomImages.Add(cave.Rooms[x, y].image);
                 }
             }
 
-            cave.Rooms[cave.currentRoom.X, cave.currentRoom.Y].image.revealed = true;
+            //cave.Rooms[cave.currentRoom.X, cave.currentRoom.Y].image.revealed = true;
 
             base.Initialize();
         }
@@ -150,12 +150,12 @@ namespace HuntTheWumpus
                 thispoint = vertices[i];
                 Console.WriteLine(i);
                 if (player.checkCollision(lastpoint, thispoint)) {
-                    if (cave.Rooms[cave.currentRoom.X, cave.currentRoom.Y].image.edgeDraws[i] == true) {
-                        player.resolveCollision(lastpoint, thispoint);
-                    }
-                    else if (cave.Rooms[cave.currentRoom.X, cave.currentRoom.Y].image.edgeDraws[i] != true) {
+                    //if (cave.Rooms[cave.currentRoom.X, cave.currentRoom.Y].image.edgeDraws[i] == true) {
+                    //    player.resolveCollision(lastpoint, thispoint);
+                    //}
+                    //else if (cave.Rooms[cave.currentRoom.X, cave.currentRoom.Y].image.edgeDraws[i] != true) {
                         
-                    }
+                    //}
                 }
             }
             player.Update(gameTime);
@@ -363,10 +363,10 @@ namespace HuntTheWumpus
 
         public void DrawGameOver(SpriteBatch spriteBatch)
         {
-            foreach(ScoreHandler.Score x in score)
-            {
-                spriteBatch.DrawString(consolas, "Name: " + Convert.ToString(x), new Vector2(50, 50), Color.Gold);
-            }
+            //foreach(ScoreHandler.Score x in score)
+            //{
+            //    spriteBatch.DrawString(consolas, "Name: " + Convert.ToString(x), new Vector2(50, 50), Color.Gold);
+            //}
             
             spriteBatch.Draw(highscoreImage, new Rectangle(0, 0, 819, 460), Color.White);
         }
