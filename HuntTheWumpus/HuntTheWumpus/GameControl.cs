@@ -13,12 +13,12 @@ using Microsoft.Xna.Framework.Media;
 namespace HuntTheWumpus
 {
     /// <summary>
-    /// This is a game component that implements IUpdateable.
+    /// This is a game component that implements IUpdateable
     /// </summary>
     public class GameControl : Microsoft.Xna.Framework.GameComponent
     {    
         // Add a SpriteFont object to display text
-        SpriteFont consolas = new SpriteFont();
+        SpriteFont consolas;
         Vector2 fontPos;
 
         public static Point[] vertices = { new Point(4, 256), new Point(130, 38), new Point(380, 38), new Point(509, 256), new Point(380, 474), new Point(130, 474)};
@@ -45,6 +45,7 @@ namespace HuntTheWumpus
             : base(game)
         {
             // TODO: Construct any child components here
+        
         }
 
         /// <summary>
