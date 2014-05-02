@@ -13,7 +13,7 @@ using Microsoft.Xna.Framework.Media;
 namespace HuntTheWumpus
 {
     /// <summary>
-    /// This is a game component that implements IUpdateable.
+    /// This is a game component that implements IUpdateable
     /// </summary>
     /// 
     enum State {
@@ -55,6 +55,7 @@ namespace HuntTheWumpus
             : base(game)
         {
             // TODO: Construct any child components here
+        
         }
 
         /// <summary>
