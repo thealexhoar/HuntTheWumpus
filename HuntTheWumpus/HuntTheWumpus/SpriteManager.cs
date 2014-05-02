@@ -37,6 +37,7 @@ namespace HuntTheWumpus
             Sprite sprite = new Sprite(Game1.gameControl.arrow,
                     position, new Point(10, 3), 10, new Point(0, 0),
                     new Point(1, 1), new Vector2(0,0));
+            spriteList.Add(sprite);
             Console.WriteLine("Added arrow");
         }
 
