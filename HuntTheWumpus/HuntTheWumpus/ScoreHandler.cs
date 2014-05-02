@@ -35,6 +35,10 @@ namespace HuntTheWumpus
         /// </summary>
         public bool HasGlobalLoaded = false;
 
+        /// <summary>
+        /// Represents whether global data is cached, and probably not up to date
+        /// </summary>
+        public bool IsGlobalCached = false;
 
         /// <summary>
         /// Networking client
@@ -147,23 +151,16 @@ namespace HuntTheWumpus
             HighScores.Add(score);
 
             if (File.Exists(".scores"))
-            {
                 using (var read = new StreamReader(".scores"))
-                {
-                    var text = read.ReadToEnd();
-                    Deserialize(text, ref HighScores);
-                }
-            }
+                    Deserialize(read.ReadToEnd(), ref HighScores);
 
             HighScores.Sort();
             if (HighScores.Count > 10)
                 HighScores.RemoveRange(10, HighScores.Count - 10);
 
             using (var file = new StreamWriter(".scores", false))
-            {
                 foreach (var highScore in HighScores)
                     file.Write(highScore.Serialize());
-            }
 
 #if LOCAL_THREAD
             HasLocalLoaded = true;
@@ -229,10 +226,25 @@ namespace HuntTheWumpus
             IPEndPoint endPoint = new IPEndPoint(serverAddr, 5005);
             byte[] send_buffer = Encoding.ASCII.GetBytes(score.Serialize());
             udp.Send(send_buffer, send_buffer.Length, endPoint);
-            byte[] receive_buffer = udp.Receive(ref endPoint);
-            
-            Deserialize(Encoding.ASCII.GetString(receive_buffer), ref GlobalScores);
-            HasGlobalLoaded = true;
+
+            try
+            {
+                byte[] receive_buffer = udp.Receive(ref endPoint);
+                Deserialize(Encoding.ASCII.GetString(receive_buffer), ref GlobalScores);
+                HasGlobalLoaded = true;
+
+                using (var sr = new StreamWriter(".global-scores", false))
+                    foreach (var sc in GlobalScores)
+                        sr.Write(sc.Serialize());
+            }
+            catch (SocketException)
+            {
+                if (File.Exists(".global-scores"))
+                    using (var sr = new StreamReader(".global-scores"))
+                        Deserialize(sr.ReadToEnd(), ref GlobalScores);
+
+                IsGlobalCached = true;
+            }
         }
     }
 }
