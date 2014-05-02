@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -86,9 +86,9 @@ namespace HuntTheWumpus
         public virtual void Update(GameTime gameTime, Rectangle clientBounds)
         {
             timeSinceLastFrame += gameTime.ElapsedGameTime.Milliseconds;
-            if (timeSinceLastFrame > millisecondsPerFrame)
+            if (timeSinceLastFrame >= millisecondsPerFrame)
             {
-                timeSinceLastFrame = 0;
+                timeSinceLastFrame -= millisecondsPerFrame;
                 ++currentFrame.X;
                 if (currentFrame.X >= sheetSize.X)
                 {

@@ -73,6 +73,7 @@ namespace HuntTheWumpus
             roomImages = new List<RoomImage>();
             displaySprites = new List<Sprite>();
             cave = new Cave("test.cave");
+            //cave = new Cave("test.cave")
             //cave._PrintStatus();
             //creates new images and asigns them to the rooms and room render/draw list
             Vector2 _position = new Vector2();
@@ -87,7 +88,6 @@ namespace HuntTheWumpus
             }
 
             cave.Rooms[cave.locationPlayer.X, cave.locationPlayer.Y].image.revealed = true;
-
             base.Initialize();
         }
 
@@ -98,8 +98,7 @@ namespace HuntTheWumpus
         /// Sends objects to be drawn to GUI which then draws them
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
-        public override void Update(GameTime gameTime)
-        {
+        public override void Update(GameTime gameTime) {
             // TODO: Add your update code here
 
             if (state == State.MOVING) {
@@ -138,7 +137,6 @@ namespace HuntTheWumpus
                 if (Input.isKeyDown(Keys.W)) {
                     EncounterWumpus();
                 }
-
                 // Update all the game objects
                 // Send these updates to GUI to be drawn
 
@@ -167,22 +165,26 @@ namespace HuntTheWumpus
                             moveCounter = 0;
                         }
                     }
-                }
-                player.Update(gameTime);
-                foreach (RoomImage i in roomImages) {
-                    i.Update();
+
+                    
+                        else if (state == State.SWITCHING) {
+                            moveCounter++;
+                        }
+                        foreach (RoomImage r in roomImages) {
+                            //i.Position += 
+                        }
+                    }
+                    player.Update(gameTime);
+                    foreach (RoomImage r in roomImages) {
+                        r.Update();
+                    }
+
                 }
 
+
+                base.Update(gameTime);
             }
-            else if (state == State.SWITCHING) {
-                moveCounter++;
-                foreach (RoomImage i in roomImages) {
-                    //i.Position += 
-                }
-            }
-            
-            base.Update(gameTime);
-        }
+
 
         public void Draw(SpriteBatch spriteBatch)
         {
@@ -386,6 +388,11 @@ namespace HuntTheWumpus
                 spriteBatch.DrawString(consolas, "Name: " + Convert.ToString(x), new Vector2(50, 50), Color.Gold);
             }
             */
+            //foreach(ScoreHandler.Score x in score)
+            //{
+            //    spriteBatch.DrawString(consolas, "Name: " + Convert.ToString(x), new Vector2(50, 50), Color.Gold);
+            //}
+            
             spriteBatch.Draw(highscoreImage, new Rectangle(0, 0, 819, 460), Color.White);
         }
     }
