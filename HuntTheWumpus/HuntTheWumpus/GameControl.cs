@@ -75,7 +75,7 @@ namespace HuntTheWumpus
             displaySprites = new List<Sprite>();
             cave = new Cave("test.cave");
             //cave = new Cave("test.cave")
-            //cave._PrintStatus();
+            //cave._GetStatusString();
             //creates new images and asigns them to the rooms and room render/draw list
             Vector2 _position = new Vector2();
             for (int x = 0; x < cave.Width; x++) {
