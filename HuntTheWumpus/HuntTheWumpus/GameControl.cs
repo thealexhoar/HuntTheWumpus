@@ -69,6 +69,7 @@ namespace HuntTheWumpus
             // TODO: Add your initialization code here
 
             scoreHandler = new ScoreHandler(score);
+            Console.WriteLine("ScoreHandler: " + scoreHandler.HighScores);
 
             GUIStubb graphicsInterface = new GUIStubb();
             Trivia trivia = new Trivia();
@@ -103,7 +104,6 @@ namespace HuntTheWumpus
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Update(GameTime gameTime) {
             // TODO: Add your update code here
-
             if (state == State.MOVING) {
                 player.speed.X = 0;
                 player.speed.Y = 0;
@@ -165,7 +165,6 @@ namespace HuntTheWumpus
                 for (int i = 0; i < 6; i++) {
                     lastpoint = new Point(thispoint.X, thispoint.Y);
                     thispoint = vertices[i];
-                    Console.WriteLine(i);
                     if (player.checkCollision(lastpoint, thispoint)) {
                         if (cave.Rooms[cave.locationPlayer.X, cave.locationPlayer.Y].image.edgeDraws[i] == true) {
                             player.resolveCollision(lastpoint, thispoint);

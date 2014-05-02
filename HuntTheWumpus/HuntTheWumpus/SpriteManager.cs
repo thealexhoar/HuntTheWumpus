@@ -38,7 +38,6 @@ namespace HuntTheWumpus
                     position, new Point(10, 3), 10, new Point(0, 0),
                     new Point(1, 1), new Vector2(0,0));
             spriteList.Add(sprite);
-            Console.WriteLine("Added arrow");
         }
 
         /// <summary>
@@ -69,7 +68,6 @@ namespace HuntTheWumpus
             foreach (Sprite s in spriteList)
             {
                 s.Draw(Game1.spriteBatch);
-                Console.WriteLine("IT DRAWS");
             }
 
             Game1.spriteBatch.End();

@@ -133,8 +133,8 @@ namespace HuntTheWumpus
             LoadScores(score);
 #endif
 
-            var globalThread = new Thread(new ParameterizedThreadStart(ManageServer));
-            globalThread.Start(score);
+            //var globalThread = new Thread(new ParameterizedThreadStart(ManageServer));
+            //globalThread.Start(score);
         }
 
         /// <summary>
@@ -215,24 +215,24 @@ namespace HuntTheWumpus
         /// Method for connecting to a server, sending score, and downloading new scores
         /// </summary>
         /// <param name="obj">The score value</param>
-        void ManageServer(Object obj)
-        {
-            var score = (Score)obj;
+        //void ManageServer(Object obj)
+        //{
+        //    var score = (Score)obj;
 
-            IPAddress serverAddr;
-            if (File.Exists(".serverip"))
-                using (var sr = new StreamReader(".serverip"))
-                    serverAddr = IPAddress.Parse(sr.ReadToEnd());
-            else // Change Default Behavior Later
-                serverAddr = IPAddress.Parse("127.0.0.1");
+        //    IPAddress serverAddr;
+        //    if (File.Exists(".serverip"))
+        //        using (var sr = new StreamReader(".serverip"))
+        //            serverAddr = IPAddress.Parse(sr.ReadToEnd());
+        //    else // Change Default Behavior Later
+        //        serverAddr = IPAddress.Parse("127.0.0.1");
 
-            IPEndPoint endPoint = new IPEndPoint(serverAddr, 5005);
-            byte[] send_buffer = Encoding.ASCII.GetBytes(score.Serialize());
-            udp.Send(send_buffer, send_buffer.Length, endPoint);
-            byte[] receive_buffer = udp.Receive(ref endPoint);
+        //    IPEndPoint endPoint = new IPEndPoint(serverAddr, 5005);
+        //    byte[] send_buffer = Encoding.ASCII.GetBytes(score.Serialize());
+        //    udp.Send(send_buffer, send_buffer.Length, endPoint);
+        //    byte[] receive_buffer = udp.Receive(ref endPoint);
             
-            Deserialize(Encoding.ASCII.GetString(receive_buffer), ref GlobalScores);
-            HasGlobalLoaded = true;
-        }
+        //    Deserialize(Encoding.ASCII.GetString(receive_buffer), ref GlobalScores);
+        //    HasGlobalLoaded = true;
+        //}
     }
 }
