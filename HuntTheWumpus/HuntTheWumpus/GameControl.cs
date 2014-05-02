@@ -162,29 +162,34 @@ namespace HuntTheWumpus
                         }
                         else if (cave.Rooms[cave.locationPlayer.X, cave.locationPlayer.Y].image.edgeDraws[i] != true) {
                             state = State.SWITCHING;
-                            moveVector = new Vector2(vertices[i].X - vertices[(i + 4) % 6].X, vertices[i].Y - vertices[(i + 3) % 6].Y);
+                            moveVector = new Vector2(vertices[i].X - vertices[(i + 4) % 6].X, vertices[i].Y - vertices[(i + 3) % 6].Y) * -1;
                             moveCounter = 0;
                         }
                     }
 
-                    
-                        else if (state == State.SWITCHING) {
-                            moveCounter++;
-                        }
-                        foreach (RoomImage r in roomImages) {
-                            //i.Position += 
-                        }
-                    }
-                    player.Update(gameTime);
-                    foreach (RoomImage r in roomImages) {
-                        r.Update();
-                    }
-
                 }
+            }
+                
+            else if (state == State.SWITCHING) {
+                    moveCounter++;
+                    if (moveCounter >= 30) {
+                        state = State.MOVING;
+                        moveCounter = 0;
+                        player.position += (moveVector / 10);
+                    }
+                    foreach (RoomImage r in roomImages) {
+                        r.Position += (moveVector / 30);
+                    }
+            }
+
+            player.Update(gameTime);
+            foreach (RoomImage r in roomImages) {
+                r.Update();
+            }
 
 
                 base.Update(gameTime);
-            }
+        }
 
 
         public void Draw(SpriteBatch spriteBatch)
