@@ -155,15 +155,30 @@ namespace HuntTheWumpus
                 for (int i = 0; i < 6; i++) {
                     lastpoint = new Point(thispoint.X, thispoint.Y);
                     thispoint = vertices[i];
-                    Console.WriteLine(i);
+                   
                     if (player.checkCollision(lastpoint, thispoint)) {
                         if (cave.Rooms[cave.locationPlayer.X, cave.locationPlayer.Y].image.edgeDraws[i] == true) {
                             player.resolveCollision(lastpoint, thispoint);
                         }
                         else if (cave.Rooms[cave.locationPlayer.X, cave.locationPlayer.Y].image.edgeDraws[i] != true) {
                             state = State.SWITCHING;
-                            moveVector = new Vector2(vertices[i].X - vertices[(i + 4) % 6].X, vertices[i].Y - vertices[(i + 3) % 6].Y) * -1;
+                            moveVector = new Vector2(vertices[i].X - vertices[(i + 2) % 6].X, vertices[i].Y - vertices[(i + 2) % 6].Y) * -1;
                             moveCounter = 0;
+                            Console.WriteLine(i);
+                            /*
+                            switch(i) {
+                                case(0):
+                                    if (cave.locationPlayer.X % 2 == 0) {
+                                        //x - 1, y - 1
+                                    }
+                                    else {
+                                        // x -1
+                                    }
+                                    break;
+                                case(1):
+                                    break;
+                            }
+                              */
                         }
                     }
 
@@ -175,8 +190,10 @@ namespace HuntTheWumpus
                     if (moveCounter >= 30) {
                         state = State.MOVING;
                         moveCounter = 0;
-                        player.position += (moveVector / 10);
+                        
                     }
+
+                    player.position += (moveVector / 60);
                     foreach (RoomImage r in roomImages) {
                         r.Position += (moveVector / 30);
                     }
