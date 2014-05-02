@@ -43,6 +43,7 @@ namespace HuntTheWumpus
             public uint Gold { get; private set; }
 
             public RoomImage image;
+
             
             private bool wumpus;
             public bool hasWumpus
@@ -109,6 +110,7 @@ namespace HuntTheWumpus
             }
 
             public bool hasThing;
+
             /// <summary>
             /// A hexagonal (flat ends on top and bottom) room of the 
             /// cave
@@ -170,7 +172,6 @@ namespace HuntTheWumpus
         public Room[,] Rooms;
 
         public Room locationWumpus { get; private set; }
-
         public void moveWumpus(ushort x, ushort y)
         {
             // remove wumpus from current location
@@ -182,7 +183,6 @@ namespace HuntTheWumpus
         }
 
         public Room locationPlayer { get; private set; }
-
         public void movePlayer(ushort x, ushort y)
         {
             // remove player from current location
@@ -194,7 +194,6 @@ namespace HuntTheWumpus
         }
 
         public Room locationBats { get; private set; }
-
         public void moveBats(ushort x, ushort y)
         {
             // remove bats from current location
@@ -207,8 +206,6 @@ namespace HuntTheWumpus
 
         public List<Room> locationsPits;
 
-        // add locationBats and locationPits
-        // lists, can be multiple of these
 
         /// <summary>
         /// Constructor that loads .cave file
@@ -288,8 +285,6 @@ namespace HuntTheWumpus
         }
         
         // shitty
-        // fix
-        // returns a big-ass string now, do whatever with it
 #if DEBUG
         public string _GetStatusString()
         {
@@ -330,11 +325,11 @@ namespace HuntTheWumpus
             c.Rooms[2, 2].hasThing = true;
 
             c.locationBats = c.Rooms[0, 2];
-            //c.Rooms[0, 2].hasBats = true;
+            c.Rooms[0, 2].hasBats = true;
             c.Rooms[0, 2].hasThing = true;
 
             c.locationsPits.Add(c.Rooms[1, 1]);
-            //c.Rooms[1, 1].hasPit = true;
+            c.Rooms[1, 1].hasPit = true;
             c.Rooms[1, 1].hasThing = true;
 
             return c;
