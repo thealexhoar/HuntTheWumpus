@@ -16,7 +16,8 @@ namespace HuntTheWumpus
     /// This is a game component that implements IUpdateable
     /// </summary>
     /// 
-    enum State {
+    enum State 
+    {
         MOVING,
         SWITCHING
     }
@@ -34,6 +35,7 @@ namespace HuntTheWumpus
         public static Cave cave;
         public static Player player = new Player(game);
 
+        ScoreHandler scoreHandler;
 
         State state = State.MOVING;
         Vector2 moveVector;
@@ -65,8 +67,8 @@ namespace HuntTheWumpus
         public override void Initialize()
         {
             // TODO: Add your initialization code here
-            
 
+            scoreHandler = new ScoreHandler(score);
 
             GUIStubb graphicsInterface = new GUIStubb();
             Trivia trivia = new Trivia();
@@ -128,11 +130,19 @@ namespace HuntTheWumpus
                     BuyArrow();
                 }
 
-                if (Input.isKeyDown(Keys.S)) {
-                    player.arrows -= 1;
-                    ShootWumpus();
-                    spriteManager.SpawnArrow(player);
-                    Console.WriteLine(player.arrows);
+                if (Input.isKeyPressed(Keys.S)) 
+                {
+                    if (player.arrows <= 0)
+                    {
+
+                    }
+                    else
+                    {
+                        player.arrows -= 1;
+                        ShootWumpus();
+                        spriteManager.SpawnArrow(player);
+                    }
+                        
                 }
 
                 if (Input.isKeyDown(Keys.W)) {
@@ -338,7 +348,6 @@ namespace HuntTheWumpus
             }
             else
             {
-                player.arrows -= 1;
                 // Wumpus runs away
             }
         }
@@ -388,16 +397,10 @@ namespace HuntTheWumpus
 
         public void DrawGameOver(SpriteBatch spriteBatch)
         {
-            /*
-            foreach(ScoreHandler.Score x in score)
+            foreach(ScoreHandler.Score x in scoreHandler.HighScores)
             {
                 spriteBatch.DrawString(consolas, "Name: " + Convert.ToString(x), new Vector2(50, 50), Color.Gold);
             }
-            */
-            //foreach(ScoreHandler.Score x in score)
-            //{
-            //    spriteBatch.DrawString(consolas, "Name: " + Convert.ToString(x), new Vector2(50, 50), Color.Gold);
-            //}
             
             spriteBatch.Draw(highscoreImage, new Rectangle(0, 0, 819, 460), Color.White);
         }
