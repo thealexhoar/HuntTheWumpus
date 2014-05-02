@@ -238,7 +238,7 @@ namespace HuntTheWumpus
                     {
                         // need to place features in rooms
                         // order: player, wumpus, bats, pits
-                        bool placedPlayer = false, placedWumpus = false, placedBats = false, placedWumus = false;
+                        bool placedPlayer = false, placedWumpus = false, placedBats = false, placedPlayer = false;
 
                         // place player
                         locationPlayer = this.Rooms[rand.Next(0, this.Width), rand.Next(0, this.Height)];
@@ -273,15 +273,15 @@ namespace HuntTheWumpus
         // shitty
         // fix
         // returns a big-ass string now, do whatever with it
-        /*public string _PrintStatus()
-        {
 #if DEBUG
+        public string _GetStatusString()
+        {
             string str = "";
 
             str += "Cave status:\n\n";
             str += "Width = " + this.Width.ToString() + "\n";
             str += "Height = " + this.Height.ToString() + "\n";
-            str += "________________________________\n";
+            str += "________________________________\n\n";
 
             for (ushort y = 0; y < this.Height; ++y)
             {
@@ -289,14 +289,18 @@ namespace HuntTheWumpus
                 {
                     str += "Room " + x.ToString() + "x" + y.ToString() + ": \n";
 
-                    //for (ushort s = 0; s < 3; ++s)
-                    //    Console.WriteLine("\tExit 1: " + this.Rooms[x, y].Exits[s].ToString());
+                    for (ushort s = 0; s < 3; ++s)
+                    {
+                        str += "\t" + Rooms[x, y].Exits[s].ToString() + "\n";
+                    }
                 }
             }
+
+            return str;
+        }
 #endif
-        }*/
     
-        public Cave GetDebugCave()
+        public static Cave GetDebugCave()
         {
             Cave c = new Cave("test.cave", false);
 
