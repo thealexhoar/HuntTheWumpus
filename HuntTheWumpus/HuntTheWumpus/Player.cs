@@ -70,6 +70,41 @@ namespace HuntTheWumpus
             playerTextureStanding = content.Load<Texture2D>(@"Textures/MasterChief_Standing");
         }
 
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            if (speed.X < 0)
+            {
+                spriteBatch.Draw(playerTextureLeft, position,
+                    new Rectangle(playerCurrentFrame.X * playerFrameSize.X,
+                        playerCurrentFrame.Y * playerFrameSize.Y,
+                        playerFrameSize.X,
+                        playerFrameSize.Y),
+                        Color.White, 0, Vector2.Zero,
+                1, SpriteEffects.None, 1);
+            }
+
+           // If the player is moving Right, play the right movement animation
+            else if (speed.X > 0)
+            {
+                spriteBatch.Draw(playerTextureRight, position,
+                    new Rectangle(90 - (playerCurrentFrame.X * playerFrameSize.X),
+                        playerCurrentFrame.Y * playerFrameSize.Y,
+                        playerFrameSize.X,
+                        playerFrameSize.Y),
+                        Color.White, 0, Vector2.Zero,
+                1, SpriteEffects.None, 1);
+            }
+
+            // And if the player isn't moving, play the stationary animation
+            else
+            {
+                spriteBatch.Draw(playerTextureStanding, position,
+                    new Rectangle(0, 0, 30, 50),
+                    Color.White, 0, Vector2.Zero,
+                    1, SpriteEffects.None, 1);
+            }
+        }
+
         /// <summary>
         /// Allows the game component to update itself.
         /// </summary>
@@ -119,42 +154,6 @@ namespace HuntTheWumpus
 
             return LineIntersectsRect(l1p1, l1p2, playerHitBox);
 
-        }
-
-
-        public void Draw(SpriteBatch spriteBatch)
-        {
-            if (speed.X < 0)
-            {
-                spriteBatch.Draw(playerTextureLeft, position,
-                    new Rectangle(playerCurrentFrame.X * playerFrameSize.X,
-                        playerCurrentFrame.Y * playerFrameSize.Y,
-                        playerFrameSize.X,
-                        playerFrameSize.Y),
-                        Color.White, 0, Vector2.Zero,
-                1, SpriteEffects.None, 1);
-            }
-
-           // If the player is moving Right, play the right movement animation
-            else if (speed.X > 0)
-            {
-                spriteBatch.Draw(playerTextureRight, position,
-                    new Rectangle(90 - (playerCurrentFrame.X * playerFrameSize.X),
-                        playerCurrentFrame.Y * playerFrameSize.Y,
-                        playerFrameSize.X,
-                        playerFrameSize.Y),
-                        Color.White, 0, Vector2.Zero,
-                1, SpriteEffects.None, 1);
-            }
-
-            // And if the player isn't moving, play the stationary animation
-            else
-            {
-                spriteBatch.Draw(playerTextureStanding, position,
-                    new Rectangle(0, 0, 30, 50),
-                    Color.White, 0, Vector2.Zero,
-                    1, SpriteEffects.None, 1);
-            }
         }
 
         private static bool LineIntersectsRect(Point p1, Point p2, Rectangle r) {

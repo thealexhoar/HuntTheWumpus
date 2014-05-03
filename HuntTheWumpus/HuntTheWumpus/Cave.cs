@@ -34,64 +34,83 @@ namespace HuntTheWumpus
             /// </summary>
             public Exit[] Exits = new Exit[3];
 
-            public bool hasWumpus = false;
-            public bool hasPlayer = false;
             public ushort X { get; private set; }
             public ushort Y { get; private set; }
 
-            public RoomImage image;
             public ushort CaveW { get; private set; }
             public ushort CaveH { get; private set; }
 
             public uint Gold { get; private set; }
-            /*
+
+            public RoomImage image;
+
+            
+            private bool wumpus;
             public bool hasWumpus
             {
-                //get;
+                get
+                {
+                    return wumpus;
+                }
                 set
                 {
-                    //if (this.hasPlayer || this.hasBats || this.hasPit)
+                    if (this.hasPlayer || this.hasBats || this.hasPit)
                         // throw exception
-                    //else hasWumpus = value;
+                        ;
+                    else wumpus = value;
                 }
             }
 
+            private bool player;
             public bool hasPlayer
             {
-                //get;
+                get
+                {
+                    return player;
+                }
                 set
                 {
-                    //if (this.hasWumpus || this.hasBats || this.hasPit)
-                         //// throw exception
-                    //else hasPlayer = value;
+                    if (this.hasWumpus || this.hasBats || this.hasPit)
+                        // throw exception
+                        ;
+                    else player = value;
                 }
             }
 
+            private bool pit;
             public bool hasPit
             {
-                //get;
+                get
+                {
+                    return pit;
+                }
                 set
                 {
-                    //if (this.hasWumpus || this.hasPlayer || this.hasBats)
+                    if (this.hasWumpus || this.hasPlayer || this.hasBats)
                          // throw exception
-                    //else hasPit = value;
+                         ;
+                    else pit = value;
                 }
             }
 
+            private bool bats;
             public bool hasBats
             {
-                //get;
+                get
+                {
+                    return bats;
+                }
                 set
                 {
-                    //if (this.hasWumpus || this.hasBats || this.hasPit)
+                    if (this.hasWumpus || this.hasBats || this.hasPit)
                          // throw exception
-                    //else hasBats = value;
+                         ;
+                    else bats = value;
                 }
             }
 
-            */
-
             public bool hasThing;
+
             /// <summary>
             /// A hexagonal (flat ends on top and bottom) room of the 
             /// cave
@@ -153,7 +172,6 @@ namespace HuntTheWumpus
         public Room[,] Rooms;
 
         public Room locationWumpus { get; private set; }
-
         public void moveWumpus(ushort x, ushort y)
         {
             // remove wumpus from current location
@@ -165,7 +183,6 @@ namespace HuntTheWumpus
         }
 
         public Room locationPlayer { get; private set; }
-
         public void movePlayer(ushort x, ushort y)
         {
             // remove player from current location
@@ -177,7 +194,6 @@ namespace HuntTheWumpus
         }
 
         public Room locationBats { get; private set; }
-
         public void moveBats(ushort x, ushort y)
         {
             // remove bats from current location
@@ -190,15 +206,13 @@ namespace HuntTheWumpus
 
         public List<Room> locationsPits;
 
-        // add locationBats and locationPits
-        // lists, can be multiple of these
 
         /// <summary>
         /// Constructor that loads .cave file
         /// </summary>
         /// <param name="filename">Cave file</param>
         /// <param name="gen">Generate location features?</param>
-        public Cave(string filename, bool map = true)
+        public Cave(string filename, bool map = false)
         {
             using (FileStream fStream = new FileStream(@"Content\Caves\" + filename, FileMode.Open, FileAccess.Read))
             {
@@ -271,8 +285,6 @@ namespace HuntTheWumpus
         }
         
         // shitty
-        // fix
-        // returns a big-ass string now, do whatever with it
 #if DEBUG
         public string _GetStatusString()
         {
@@ -313,11 +325,11 @@ namespace HuntTheWumpus
             c.Rooms[2, 2].hasThing = true;
 
             c.locationBats = c.Rooms[0, 2];
-            //c.Rooms[0, 2].hasBats = true;
+            c.Rooms[0, 2].hasBats = true;
             c.Rooms[0, 2].hasThing = true;
 
             c.locationsPits.Add(c.Rooms[1, 1]);
-            //c.Rooms[1, 1].hasPit = true;
+            c.Rooms[1, 1].hasPit = true;
             c.Rooms[1, 1].hasThing = true;
 
             return c;
