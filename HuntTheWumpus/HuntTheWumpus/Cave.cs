@@ -42,6 +42,7 @@ namespace HuntTheWumpus
 
             public uint Gold { get; private set; }
 
+            // is this needed?
             public RoomImage image;
 
             
@@ -126,6 +127,12 @@ namespace HuntTheWumpus
 
                 // tweak min, max values;
                 this.Gold = (uint)rand.Next(0, 10);
+
+                this.hasThing = false;
+                this.hasPlayer = false;
+                this.hasWumpus = false;
+                this.hasBats = false;
+                this.hasPit = false;
             }
 
             /// <summary>
@@ -225,7 +232,7 @@ namespace HuntTheWumpus
                     this.Rooms = new Room[Width, Height];
 
                     // after that, each line is a 3-number string, representing the enum values of the 3 exits for each room 
-                    // going left-to-right, then down
+                    // counter-clockwise, starting top-left
                     // (e.g. "135" means this room has exits on top left, top right, bottom middle)
                     for (ushort y = 0; y < this.Height; ++y)
                     {
