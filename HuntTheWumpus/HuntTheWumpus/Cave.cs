@@ -259,7 +259,7 @@ namespace HuntTheWumpus
                     {
                         // need to place features in rooms
                         // order: player, wumpus, bats, pits
-                        bool placedPlayer = false, placedWumpus = false, placedBats = false, placedPlayer = false;
+                        bool placedPlayer = false, placedWumpus = false, placedBats = false, placedPits = false;
 
                         // place player
                         locationPlayer = this.Rooms[rand.Next(0, this.Width), rand.Next(0, this.Height)];
@@ -270,23 +270,50 @@ namespace HuntTheWumpus
                         // place wumpus
                         while (!placedWumpus)
                         {
+                            // generate x and y
                             ushort x = (ushort)rand.Next(0, this.Width), y = (ushort)rand.Next(0, this.Height);
 
-                            // if the randomly picked room already has a thing, rinse and repeat
+                            // if cave is big enough, space player and wumpus out
+                            if (this.Width >= 3 && this.Height >= 3)
+                            {
+                                // https://github.com/thealexhoar/HuntTheWumpus/blob/master/this.png
+                                // if generated x/y are adjacent to player, get a new set
+                                if ( (y == locationPlayer.Y - 1 && Math.Abs(x - locationPlayer.X) < 2) || (y == locationPlayer.Y && Math.Abs(x - locationPlayer.X) < 2) || (y == locationPlayer.Y + 1 && x == locationPlayer.X) )
+                                    continue;
+                            }
+                            // otherwise it's gucci, assign
+                            else
+                            {
+                                locationWumpus = this.Rooms[x, y];
+                                locationWumpus.hasWumpus = true;
+                                locationWumpus.hasThing = true;
+                                placedWumpus = true;
+                            }
+                        }
+
+                        // place bats
+                        // can go anywhere
+                        while (!placedBats)
+                        {
+                            ushort x = (ushort)rand.Next(0, this.Width), y = (ushort)rand.Next(0, this.Height);
+
                             if (this.Rooms[x, y].hasThing)
                                 continue;
                             else
                             {
-                                // get the edge value of the picked room
-                                Room.Edge e = this.Rooms[x, y].GetEdge();
-
-                                if (!(e != Room.Edge.NONE))
-                                {
-                                    // if this 
-                                }
+                                locationBats = this.Rooms[x, y];
+                                locationBats.hasBats = true;
+                                locationBats.hasThing = true;
+                                placedBats = true;
                             }
                         }
-                    }*/
+
+                        // place pits
+                        // certain amount per cave
+                        // shouldn't be adjacent to any other obstacles
+                        while (!placedPits)
+                    }
+                    */
                 }
             }
         }
