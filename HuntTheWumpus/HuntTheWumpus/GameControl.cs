@@ -285,8 +285,8 @@ namespace HuntTheWumpus
                                 }
                                 break;
                         }
-                        cave.movePlayer(dx, dy);
 
+                        cave.movePlayer(dx, dy);
 
 
 
