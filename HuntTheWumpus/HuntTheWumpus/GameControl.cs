@@ -287,6 +287,8 @@ namespace HuntTheWumpus
                         }
 
                         cave.movePlayer(dx, dy);
+                        cave.locationPlayer.image.revealed = true;
+                        
 
 
 
