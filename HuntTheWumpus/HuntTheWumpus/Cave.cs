@@ -190,7 +190,7 @@ namespace HuntTheWumpus
         }
 
         public Room locationPlayer { get; private set; }
-        public void movePlayer(ushort x, ushort y)
+        public void movePlayer(int x, int y)
         {
             // remove player from current location
             locationPlayer.hasPlayer = false;

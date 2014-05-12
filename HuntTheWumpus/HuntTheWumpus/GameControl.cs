@@ -47,6 +47,7 @@ namespace HuntTheWumpus
         Texture2D highscoreImage;
         Texture2D selectionImage;
         public Texture2D arrow;
+        public int roomSwitch;
 
         byte currentSelectionBox = 0;
 
@@ -174,21 +175,8 @@ namespace HuntTheWumpus
                             state = State.SWITCHING;
                             moveVector = new Vector2(vertices[i].X - vertices[(i + 2) % 6].X, vertices[i].Y - vertices[(i + 2) % 6].Y) * -1;
                             moveCounter = 0;
+                            roomSwitch = i;
                             Console.WriteLine(i);
-                            /*
-                            switch(i) {
-                                case(0):
-                                    if (cave.locationPlayer.X % 2 == 0) {
-                                        //x - 1, y - 1
-                                    }
-                                    else {
-                                        // x -1
-                                    }
-                                    break;
-                                case(1):
-                                    break;
-                            }
-                              */
                         }
                     }
 
@@ -200,7 +188,108 @@ namespace HuntTheWumpus
                     if (moveCounter >= 30) {
                         state = State.MOVING;
                         moveCounter = 0;
-                        
+                        int dy = cave.locationPlayer.Y;
+                        int dx = cave.locationPlayer.X;
+                        switch (roomSwitch) {
+                            case 0:                            
+                                if (cave.locationPlayer.X % 2 == 0) {
+                                    dx = cave.locationPlayer.X - 1;
+                                    if(dx < 0){
+                                        dx = cave.Width - 1;
+                                    }
+                                    dy = cave.locationPlayer.Y + 1;
+                                    if (dy > cave.Width - 1) {
+                                        dy = 0;
+                                    }
+                                }
+                                else {
+                                    dx = cave.locationPlayer.X - 1;
+                                    if (dx < 0) {
+                                        dx = cave.Width - 1;
+                                    }
+                                    dy = cave.locationPlayer.Y;
+                                }
+                                break;
+                            case 1:
+
+                                if (cave.locationPlayer.X % 2 == 1) {
+                                    dx = cave.locationPlayer.X - 1;
+                                    if (dx < 0) {
+                                        dx = cave.Width - 1;
+                                    }
+                                    dy = cave.locationPlayer.Y - 1;
+                                    if (dy < 0) {
+                                        dy = cave.Width - 1;
+                                    }
+                                }
+                                else {
+                                    dx = cave.locationPlayer.X - 1;
+                                    if (dx < 0) {
+                                        dx = cave.Width - 1;
+                                    }
+                                    dy = cave.locationPlayer.Y;
+                                }
+                                break;
+                            case 2:
+
+                                dx = cave.locationPlayer.X;
+                                dy = cave.locationPlayer.Y - 1;
+                                if (dy < 0) {
+                                    dy = cave.Width-1;
+                                }
+                                break;
+                            case 3:
+                                
+                                if (cave.locationPlayer.X % 2 == 1) {
+                                    dx = cave.locationPlayer.X + 1;
+                                    if (dx > cave.Width-1) {
+                                        dx = 0;
+                                    }
+                                    dy = cave.locationPlayer.Y - 1;
+                                    if (dy < 0) {
+                                        dy = cave.Width - 1;
+                                    }
+                                }
+                                else {
+                                    dx = cave.locationPlayer.X + 1;
+                                    if (dx > cave.Width-1) {
+                                        dx = 0;
+                                    }
+                                    dy = cave.locationPlayer.Y;
+                                }
+                                break;
+                            case 4:
+                                if (cave.locationPlayer.X % 2 == 0) {
+                                    dx = cave.locationPlayer.X + 1;
+                                    if (dx > cave.Width-1) {
+                                        dx = 0;
+                                    }
+                                    dy = cave.locationPlayer.Y + 1;
+                                    if (dy > cave.Width -1) {
+                                        dy = 0;
+                                    }
+                                }
+                                else {
+                                    dx = cave.locationPlayer.X + 1;
+                                    if (dx > cave.Width-1) {
+                                        dx = 0;
+                                    }
+                                    dy = cave.locationPlayer.Y;
+                                }
+                                break;
+                            case 5:
+                                dx = cave.locationPlayer.X;
+                                dy = cave.locationPlayer.Y + 1;
+                                if (dy > cave.Width-1) {
+                                    dy = 0;
+                                }
+                                break;
+                        }
+                        cave.movePlayer(dx, dy);
+
+
+
+
                     }
 
                     player.position += (moveVector / 60);
