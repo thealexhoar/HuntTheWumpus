@@ -42,7 +42,9 @@ namespace HuntTheWumpus
 
             public uint Gold { get; private set; }
 
+            // is this needed?
             public RoomImage image;
+
             
             private bool wumpus;
             public bool hasWumpus
@@ -109,6 +111,7 @@ namespace HuntTheWumpus
             }
 
             public bool hasThing;
+
             /// <summary>
             /// A hexagonal (flat ends on top and bottom) room of the 
             /// cave
@@ -124,6 +127,12 @@ namespace HuntTheWumpus
 
                 // tweak min, max values;
                 this.Gold = (uint)rand.Next(0, 10);
+
+                this.hasThing = false;
+                this.hasPlayer = false;
+                this.hasWumpus = false;
+                this.hasBats = false;
+                this.hasPit = false;
             }
 
             /// <summary>
@@ -170,7 +179,6 @@ namespace HuntTheWumpus
         public Room[,] Rooms;
 
         public Room locationWumpus { get; private set; }
-
         public void moveWumpus(ushort x, ushort y)
         {
             // remove wumpus from current location
@@ -182,7 +190,6 @@ namespace HuntTheWumpus
         }
 
         public Room locationPlayer { get; private set; }
-
         public void movePlayer(ushort x, ushort y)
         {
             // remove player from current location
@@ -194,7 +201,6 @@ namespace HuntTheWumpus
         }
 
         public Room locationBats { get; private set; }
-
         public void moveBats(ushort x, ushort y)
         {
             // remove bats from current location
@@ -207,8 +213,6 @@ namespace HuntTheWumpus
 
         public List<Room> locationsPits;
 
-        // add locationBats and locationPits
-        // lists, can be multiple of these
 
         /// <summary>
         /// Constructor that loads .cave file
@@ -228,7 +232,7 @@ namespace HuntTheWumpus
                     this.Rooms = new Room[Width, Height];
 
                     // after that, each line is a 3-number string, representing the enum values of the 3 exits for each room 
-                    // going left-to-right, then down
+                    // counter-clockwise, starting top-left
                     // (e.g. "135" means this room has exits on top left, top right, bottom middle)
                     for (ushort y = 0; y < this.Height; ++y)
                     {
@@ -255,7 +259,7 @@ namespace HuntTheWumpus
                     {
                         // need to place features in rooms
                         // order: player, wumpus, bats, pits
-                        bool placedPlayer = false, placedWumpus = false, placedBats = false, placedPlayer = false;
+                        bool placedPlayer = false, placedWumpus = false, placedBats = false, placedPits = false;
 
                         // place player
                         locationPlayer = this.Rooms[rand.Next(0, this.Width), rand.Next(0, this.Height)];
@@ -266,30 +270,55 @@ namespace HuntTheWumpus
                         // place wumpus
                         while (!placedWumpus)
                         {
+                            // generate x and y
                             ushort x = (ushort)rand.Next(0, this.Width), y = (ushort)rand.Next(0, this.Height);
 
-                            // if the randomly picked room already has a thing, rinse and repeat
+                            // if cave is big enough, space player and wumpus out
+                            if (this.Width >= 3 && this.Height >= 3)
+                            {
+                                // https://github.com/thealexhoar/HuntTheWumpus/blob/master/this.png
+                                // if generated x/y are adjacent to player, get a new set
+                                if ( (y == locationPlayer.Y - 1 && Math.Abs(x - locationPlayer.X) < 2) || (y == locationPlayer.Y && Math.Abs(x - locationPlayer.X) < 2) || (y == locationPlayer.Y + 1 && x == locationPlayer.X) )
+                                    continue;
+                            }
+                            // otherwise it's gucci, assign
+                            else
+                            {
+                                locationWumpus = this.Rooms[x, y];
+                                locationWumpus.hasWumpus = true;
+                                locationWumpus.hasThing = true;
+                                placedWumpus = true;
+                            }
+                        }
+
+                        // place bats
+                        // can go anywhere
+                        while (!placedBats)
+                        {
+                            ushort x = (ushort)rand.Next(0, this.Width), y = (ushort)rand.Next(0, this.Height);
+
                             if (this.Rooms[x, y].hasThing)
                                 continue;
                             else
                             {
-                                // get the edge value of the picked room
-                                Room.Edge e = this.Rooms[x, y].GetEdge();
-
-                                if (!(e != Room.Edge.NONE))
-                                {
-                                    // if this 
-                                }
+                                locationBats = this.Rooms[x, y];
+                                locationBats.hasBats = true;
+                                locationBats.hasThing = true;
+                                placedBats = true;
                             }
                         }
-                    }*/
+
+                        // place pits
+                        // certain amount per cave
+                        // shouldn't be adjacent to any other obstacles
+                        while (!placedPits)
+                    }
+                    */
                 }
             }
         }
         
         // shitty
-        // fix
-        // returns a big-ass string now, do whatever with it
 #if DEBUG
         public string _GetStatusString()
         {
@@ -330,11 +359,11 @@ namespace HuntTheWumpus
             c.Rooms[2, 2].hasThing = true;
 
             c.locationBats = c.Rooms[0, 2];
-            //c.Rooms[0, 2].hasBats = true;
+            c.Rooms[0, 2].hasBats = true;
             c.Rooms[0, 2].hasThing = true;
 
             c.locationsPits.Add(c.Rooms[1, 1]);
-            //c.Rooms[1, 1].hasPit = true;
+            c.Rooms[1, 1].hasPit = true;
             c.Rooms[1, 1].hasThing = true;
 
             return c;
