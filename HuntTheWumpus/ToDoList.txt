@@ -14,12 +14,3 @@ GameControl ====================================================================
 Currently working on:
 	Displaying information on the screen
 		(during GameOver) Highscore
-
-
-So i'm trying to test out what i have and it gives me errors in the Cave.Room class because it wants 
-"images" and "currentRoom" to be defined.
-Paul, if you could look at your code and see where that should be, that'd be great. Thanks
-
-the current version of Cave should be good and images and do you mean i should add currentRoom and image or 
-they pop up in my code and don't work? cause the latter shouldn't be happening, make sure you're synced.
-
