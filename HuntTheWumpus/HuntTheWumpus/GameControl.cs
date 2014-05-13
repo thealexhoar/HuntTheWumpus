@@ -113,18 +113,18 @@ namespace HuntTheWumpus
 
                 // Check for keyboard input
                 Input.Update();
-                if (Input.isKeyDown(Keys.Left)) {
+                if (Input.isKeyDown(Keys.Left))
                     player.speed.X -= 3;
-                }
-                if (Input.isKeyDown(Keys.Right)) {
+                
+                if (Input.isKeyDown(Keys.Right))
                     player.speed.X += 3;
-                }
-                if (Input.isKeyDown(Keys.Up)) {
+                
+                if (Input.isKeyDown(Keys.Up))
                     player.speed.Y -= 3;
-                }
-                if (Input.isKeyDown(Keys.Down)) {
+                
+                if (Input.isKeyDown(Keys.Down))
                     player.speed.Y += 3;
-                }
+                
 
                 // if user presses buy arrows, get 3 questions from Trivia
                 if (Input.isKeyDown(Keys.B)) {
