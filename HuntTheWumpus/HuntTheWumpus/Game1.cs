@@ -62,7 +62,20 @@ namespace HuntTheWumpus
             {
                 case GameState.IntroScreen:
                     if (Keyboard.GetState().IsKeyDown(Keys.Enter))
-                        currentGameState = GameState.InGame;
+                    {
+                        switch (gameControl.currentSelectionBox)
+                        {
+                            case(0):
+                                currentGameState = GameState.InGame;
+                                break;
+                            case(1):
+                                currentGameState = GameState.GameOver;
+                                break;
+                            case(2):
+                                this.Exit();
+                                break;
+                        }
+                    }
                     gameControl.UpdateIntro(gameTime);
                     break;
                 case GameState.InGame:            
@@ -73,7 +86,7 @@ namespace HuntTheWumpus
                         currentGameState = GameState.GameOver;
                     break;
                 case GameState.GameOver:
-                    if (Input.isKeyPressed(Keys.Enter))
+                    if (Keyboard.GetState().IsKeyDown(Keys.Q))
                         currentGameState = GameState.IntroScreen;
                     break;
             }

@@ -49,9 +49,16 @@ namespace HuntTheWumpus
         public Texture2D arrow;
         public int roomSwitch;
 
-        byte currentSelectionBox = 0;
+        public byte currentSelectionBox = 0;
+        Vector2 selectionImagePos;
 
         public SpriteManager spriteManager;
+
+        bool oldKeyboardState;
+        bool currentKeyboardState;
+
+        bool oldKeyboardStateUp;
+        bool currentKeyboardStateUp;
 
         // GameControl class
         public GameControl(Game game)
@@ -330,6 +337,7 @@ namespace HuntTheWumpus
 
         public void LoadContent(ContentManager content)
         {
+            selectionImage = content.Load<Texture2D>(@"Textures/selectionBox");
             consolas = content.Load<SpriteFont>(@"Consolas");
             introImage = content.Load<Texture2D>(@"Images/MainMenu");
             highscoreImage = content.Load<Texture2D>(@"Images/Highscores");
@@ -341,6 +349,8 @@ namespace HuntTheWumpus
             }
 
             fontPos = new Vector2(10, 10);
+            Sprite selectionBox = new Sprite(selectionImage, new Vector2(10,10), new Point(10,10),0,new Point(0,0),new Point(0,0),new Vector2 (0,0));            
+            displaySprites.Add(selectionBox);
         }
 
         /// <summary>
@@ -467,27 +477,51 @@ namespace HuntTheWumpus
 
         public void UpdateIntro(GameTime gameTime)
         {
-            Sprite selectionBox = new Sprite(selectionImage, new Vector2(10,10), new Point(10,10),0,new Point(0,0),new Point(0,0),new Vector2 (0,0));
-            if (Input.isKeyPressed(Keys.Down))
+            if (Keyboard.GetState().IsKeyDown(Keys.Down))
             {
-                if (currentSelectionBox < 3)
-                    currentSelectionBox += 1;
-                else if (currentSelectionBox >= 3)
-                    currentSelectionBox = 0;
-
-                switch (currentSelectionBox)
+                currentKeyboardState = Keyboard.GetState().IsKeyDown(Keys.Down);
+                if (currentKeyboardState == oldKeyboardState)
                 {
-                    case (0):
-                        selectionBox.position = new Vector2(58, 156);
-                        break;
-                    case (1):
-                        selectionBox.position = new Vector2(57, 234);
-                        break;
-                    case (2):
-                        selectionBox.position = new Vector2(58, 315);
-                        break;
+
+                }
+                else if (currentKeyboardState != oldKeyboardState)
+                {
+                    if (currentSelectionBox < 3)
+                        currentSelectionBox += 1;
+                    if (currentSelectionBox >= 3)
+                        currentSelectionBox = 0;
                 }
             }
+            if (Keyboard.GetState().IsKeyDown(Keys.Up))
+            {
+                currentKeyboardStateUp = Keyboard.GetState().IsKeyDown(Keys.Up);
+                if (currentKeyboardStateUp == oldKeyboardStateUp)
+                {
+
+                }
+                else if (currentKeyboardStateUp != oldKeyboardStateUp)
+                {
+                    if (currentSelectionBox < 3 || currentSelectionBox >= 0)
+                        currentSelectionBox -= 1;
+                    if (currentSelectionBox > 3)
+                        currentSelectionBox = 2;
+                    Console.WriteLine(currentSelectionBox);
+                }
+            }   
+            switch (currentSelectionBox)
+                {
+                    case (0):
+                        selectionImagePos = new Vector2(58, 156);
+                        break;
+                    case (1):
+                        selectionImagePos = new Vector2(57, 234);
+                        break;
+                    case (2):
+                        selectionImagePos = new Vector2(58, 315);
+                        break;
+                }
+            oldKeyboardState = Keyboard.GetState().IsKeyDown(Keys.Down);
+            oldKeyboardStateUp = Keyboard.GetState().IsKeyDown(Keys.Up);
             base.Update(gameTime);
         }
 
@@ -499,8 +533,9 @@ namespace HuntTheWumpus
             {
                 x.Draw(spriteBatch);
             }
-            
-            spriteBatch.Draw(introImage, new Rectangle(0,0,819,460), Color.White);
+
+            spriteBatch.Draw(introImage, new Rectangle(0,0,819,460), Color.White);            
+            spriteBatch.Draw(selectionImage, new Rectangle(Convert.ToInt32(selectionImagePos.X), Convert.ToInt32(selectionImagePos.Y), 300, 100), Color.White);
         }
 
         public void DrawGameOver(SpriteBatch spriteBatch)
