@@ -128,7 +128,7 @@ namespace HuntTheWumpus
         /// Contructor for the score management system. Call once the game has ended
         /// </summary>
         /// <param name="score">The score of the game</param>
-        public ScoreHandler(Score score)
+        public ScoreHandler(Score score=null)
         {
 #if LOCAL_THREAD
             var localThread = new Thread(new ParameterizedThreadStart(LoadScores));
@@ -145,10 +145,13 @@ namespace HuntTheWumpus
         /// Handles loading from file, sorting, and rewriting the file
         /// </summary>
         /// <param name="score">The score of the game</param>
-        void LoadScores(Object obj)
+        void LoadScores(Object obj=null)
         {
-            var score = (Score)obj;
-            HighScores.Add(score);
+            if (obj != null)
+            {
+                var score = (Score)obj;
+                HighScores.Add(score);
+            }
 
             if (File.Exists(".scores"))
                 using (var read = new StreamReader(".scores"))
@@ -213,7 +216,7 @@ namespace HuntTheWumpus
         /// </summary>
         /// <param name="obj">The score value</param>
 
-        void ManageServer(Object obj)
+        void ManageServer(Object obj=null)
         {
             var score = (Score)obj;
 
