@@ -128,7 +128,7 @@ namespace HuntTheWumpus
         /// Contructor for the score management system. Call once the game has ended
         /// </summary>
         /// <param name="score">The score of the game</param>
-        public ScoreHandler(Score score)
+        public ScoreHandler(Score score=null)
         {
 #if LOCAL_THREAD
             var localThread = new Thread(new ParameterizedThreadStart(LoadScores));
@@ -145,22 +145,28 @@ namespace HuntTheWumpus
         /// Handles loading from file, sorting, and rewriting the file
         /// </summary>
         /// <param name="score">The score of the game</param>
-        void LoadScores(Object obj)
+        void LoadScores(Object obj=null)
         {
-            var score = (Score)obj;
-            HighScores.Add(score);
+            if (obj != null)
+            {
+                var score = (Score)obj;
+                HighScores.Add(score);
+            }
 
             if (File.Exists(".scores"))
                 using (var read = new StreamReader(".scores"))
                     Deserialize(read.ReadToEnd(), ref HighScores);
 
-            HighScores.Sort();
-            if (HighScores.Count > 10)
-                HighScores.RemoveRange(10, HighScores.Count - 10);
+            if (obj != null)
+            {
+                HighScores.Sort();
+                if (HighScores.Count > 10)
+                    HighScores.RemoveRange(10, HighScores.Count - 10);
 
-            using (var file = new StreamWriter(".scores", false))
-                foreach (var highScore in HighScores)
-                    file.Write(highScore.Serialize());
+                using (var file = new StreamWriter(".scores", false))
+                    foreach (var highScore in HighScores)
+                        file.Write(highScore.Serialize());
+            }
 
 #if LOCAL_THREAD
             HasLocalLoaded = true;
@@ -213,7 +219,7 @@ namespace HuntTheWumpus
         /// </summary>
         /// <param name="obj">The score value</param>
 
-        void ManageServer(Object obj)
+        void ManageServer(Object obj=null)
         {
             var score = (Score)obj;
 

@@ -27,8 +27,8 @@ namespace HuntTheWumpus
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            graphics.PreferredBackBufferWidth = 800;
-            graphics.PreferredBackBufferHeight = 600;
+            graphics.PreferredBackBufferWidth = 1024;
+            graphics.PreferredBackBufferHeight = 768;
         }
 
         protected override void Initialize()
@@ -53,8 +53,6 @@ namespace HuntTheWumpus
 
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
-                this.Exit();
 
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
                 this.Exit();
@@ -62,7 +60,20 @@ namespace HuntTheWumpus
             {
                 case GameState.IntroScreen:
                     if (Keyboard.GetState().IsKeyDown(Keys.Enter))
-                        currentGameState = GameState.InGame;
+                    {
+                        switch (gameControl.currentSelectionBox)
+                        {
+                            case(0):
+                                currentGameState = GameState.InGame;
+                                break;
+                            case(1):
+                                currentGameState = GameState.GameOver;
+                                break;
+                            case(2):
+                                this.Exit();
+                                break;
+                        }
+                    }
                     gameControl.UpdateIntro(gameTime);
                     break;
                 case GameState.InGame:            
@@ -73,7 +84,7 @@ namespace HuntTheWumpus
                         currentGameState = GameState.GameOver;
                     break;
                 case GameState.GameOver:
-                    if (Input.isKeyPressed(Keys.Enter))
+                    if (Keyboard.GetState().IsKeyDown(Keys.Q))
                         currentGameState = GameState.IntroScreen;
                     break;
             }

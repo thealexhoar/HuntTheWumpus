@@ -133,6 +133,8 @@ namespace HuntTheWumpus
                 this.hasWumpus = false;
                 this.hasBats = false;
                 this.hasPit = false;
+                this.X = x;
+                this.Y = y;
             }
 
             /// <summary>
@@ -190,13 +192,13 @@ namespace HuntTheWumpus
         }
 
         public Room locationPlayer { get; private set; }
-        public void movePlayer(ushort x, ushort y)
+        public void movePlayer(int x, int y)
         {
             // remove player from current location
             locationPlayer.hasPlayer = false;
 
             // repoint reference and place player
-            locationPlayer = this.Rooms[x, y];
+            locationPlayer = Rooms[x, y];
             Rooms[x, y].hasPlayer = true;
         }
 
