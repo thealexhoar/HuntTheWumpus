@@ -157,13 +157,16 @@ namespace HuntTheWumpus
                 using (var read = new StreamReader(".scores"))
                     Deserialize(read.ReadToEnd(), ref HighScores);
 
-            HighScores.Sort();
-            if (HighScores.Count > 10)
-                HighScores.RemoveRange(10, HighScores.Count - 10);
+            if (obj != null)
+            {
+                HighScores.Sort();
+                if (HighScores.Count > 10)
+                    HighScores.RemoveRange(10, HighScores.Count - 10);
 
-            using (var file = new StreamWriter(".scores", false))
-                foreach (var highScore in HighScores)
-                    file.Write(highScore.Serialize());
+                using (var file = new StreamWriter(".scores", false))
+                    foreach (var highScore in HighScores)
+                        file.Write(highScore.Serialize());
+            }
 
 #if LOCAL_THREAD
             HasLocalLoaded = true;
