@@ -47,6 +47,9 @@ namespace HuntTheWumpus
         Texture2D background;
         Texture2D introImage;
         Texture2D highscoreImage;
+        Texture2D selectionImage1;
+        Texture2D selectionImage2;
+        Texture2D selectionImage3;
         Texture2D selectionImage;
         public Texture2D arrow;
         public int roomSwitch;
@@ -347,9 +350,12 @@ namespace HuntTheWumpus
 
         public void LoadContent(ContentManager content)
         {
-            selectionImage = content.Load<Texture2D>(@"Textures/selectionBox");
+            selectionImage1 = content.Load<Texture2D>(@"Textures/selection1");
+            selectionImage2 = content.Load<Texture2D>(@"Textures/selection2");
+            selectionImage3 = content.Load<Texture2D>(@"Textures/selection3");
+            selectionImage = selectionImage1;
             consolas = content.Load<SpriteFont>(@"Consolas");
-            introImage = content.Load<Texture2D>(@"Images/MainMenu");
+            introImage = content.Load<Texture2D>(@"Textures/Menu");
             highscoreImage = content.Load<Texture2D>(@"Images/Highscores");
             arrow = content.Load<Texture2D>(@"Images/ArrowSprite");
             background = content.Load<Texture2D>(@"Images/SpaceBackground");
@@ -521,13 +527,13 @@ namespace HuntTheWumpus
             switch (currentSelectionBox)
                 {
                     case (0):
-                        selectionImagePos = new Vector2(58, 146);
+                    selectionImage = selectionImage1;
                         break;
                     case (1):
-                        selectionImagePos = new Vector2(58,224);
+                        selectionImage = selectionImage2;
                         break;
                     case (2):
-                        selectionImagePos = new Vector2(58, 305);
+                        selectionImage = selectionImage3;
                         break;
                 }
             oldKeyboardState = Keyboard.GetState().IsKeyDown(Keys.Down);
@@ -544,8 +550,8 @@ namespace HuntTheWumpus
                 x.Draw(spriteBatch);
             }
 
-            spriteBatch.Draw(introImage, new Rectangle(0,0,819,460), Color.White);            
-            spriteBatch.Draw(selectionImage, new Rectangle(Convert.ToInt32(selectionImagePos.X), Convert.ToInt32(selectionImagePos.Y), 300, 100), Color.White);
+            spriteBatch.Draw(introImage, new Vector2(), Color.White);
+            spriteBatch.Draw(selectionImage, new Vector2(), Color.White);
         }
 
         public void DrawGameOver(SpriteBatch spriteBatch)
