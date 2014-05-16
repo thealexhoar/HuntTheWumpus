@@ -35,6 +35,8 @@ namespace HuntTheWumpus
         public static Cave cave;
         public static Player player = new Player(game);
 
+        public string triviaString;
+
         ScoreHandler scoreHandler;
 
         State state = State.MOVING;
@@ -116,10 +118,11 @@ namespace HuntTheWumpus
                 player.speed.X = 0;
                 player.speed.Y = 0;
 
-
-
                 // Check for keyboard input
                 Input.Update();
+                if (Input.isKeyDown(Keys.A))
+                    //triviaString = GetTrivia(3);
+
                 if (Input.isKeyDown(Keys.Left))
                     player.speed.X -= 3;
                 
@@ -323,12 +326,16 @@ namespace HuntTheWumpus
         public void Draw(SpriteBatch spriteBatch)
         {
             string output = "Arrows: " + player.arrows;
-
+            string hint = " ";
+            string triviaString = " ";
             spriteBatch.Draw(background, new Vector2(), Color.White);
             foreach (RoomImage i in roomImages) {
                 i.Draw(spriteBatch);
             }
-
+            // Draw the string in trivia at position 300, 600 in golden consolas font
+            spriteBatch.DrawString(consolas, triviaString, new Vector2(300, 600), Color.Gold);
+            // Draw the string in hint at position 900,10 in golden consolas font
+            spriteBatch.DrawString(consolas, hint, new Vector2(900, 50), Color.Gold);
             // Draw the string in output at position 10,10 in golden consolas font
             spriteBatch.DrawString(consolas, output, fontPos, Color.Gold);
             // Draw the coins# at position (10,30) in golden consolas font

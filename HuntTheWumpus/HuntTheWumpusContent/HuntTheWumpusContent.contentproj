@@ -51,27 +51,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Textures\MasterChief_Standing.jpg">
-      <Name>MasterChief_Standing</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Textures\MasterChief_WalkLeft.jpg">
-      <Name>MasterChief_WalkLeft</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Textures\MasterChief_WalkRight.jpg">
-      <Name>MasterChief_WalkRight</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Images\MainMenu.png">
       <Name>MainMenu</Name>
       <Importer>TextureImporter</Importer>
@@ -176,6 +155,27 @@
   <ItemGroup>
     <Compile Include="Textures\selectionBox.png">
       <Name>selectionBox</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Textures\MasterChief_Standing.png">
+      <Name>MasterChief_Standing</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Textures\MasterChief_WalkLeft.png">
+      <Name>MasterChief_WalkLeft</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Textures\MasterChief_WalkRight.png">
+      <Name>MasterChief_WalkRight</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
