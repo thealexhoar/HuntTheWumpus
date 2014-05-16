@@ -368,5 +368,74 @@ namespace HuntTheWumpus
 
             return c;
         }
+
+        public void GetHints(out bool wumpus, out bool bats, out bool pit)
+        {
+            ushort x = locationPlayer.X, y = locationPlayer.Y;
+            Room.Edge e = locationPlayer.GetEdge();
+
+            bool w = false, b = false, p = false;
+
+            // if touching left, check hex to the right
+            if ( (e & Room.Edge.LEFT) > 0)
+            {
+                w = w || Rooms[locationPlayer.X + 1, locationPlayer.Y].hasWumpus;
+                b = b || Rooms[locationPlayer.X + 1, locationPlayer.Y].hasBats;
+                p = p || Rooms[locationPlayer.X + 1, locationPlayer.Y].hasPit;
+            }
+            // if touching right, check hex to the left
+            if ( (e & Room.Edge.RIGHT) > 0)
+            {
+                w = w || Rooms[locationPlayer.X - 1, locationPlayer.Y].hasWumpus;
+                b = b || Rooms[locationPlayer.X - 1, locationPlayer.Y].hasBats;
+                p = p || Rooms[locationPlayer.X - 1, locationPlayer.Y].hasPit;
+            }
+            // if touching top, check hex to the bottom
+            if ( (e & Room.Edge.TOP) > 0)
+            {
+                w = w || Rooms[locationPlayer.X, locationPlayer.Y + 1].hasWumpus;
+                b = b || Rooms[locationPlayer.X, locationPlayer.Y + 1].hasBats;
+                p = p || Rooms[locationPlayer.X, locationPlayer.Y + 1].hasPit;
+            }
+            // if touching bottom, check hex to the top
+            if ( (e & Room.Edge.BOTTOM) > 0)
+            {
+                w = w || Rooms[locationPlayer.X, locationPlayer.Y - 1].hasWumpus;
+                b = b || Rooms[locationPlayer.X, locationPlayer.Y - 1].hasBats;
+                p = p || Rooms[locationPlayer.X, locationPlayer.Y - 1].hasPit;
+            }
+            // if touching left and top, check bottom-right
+            if ( (e & (Room.Edge.LEFT | Room.Edge.TOP)) > 0)
+            {
+                w = w || Rooms[locationPlayer.X + 1, locationPlayer.Y + 1].hasWumpus;
+                b = b || Rooms[locationPlayer.X + 1, locationPlayer.Y + 1].hasBats;
+                p = p || Rooms[locationPlayer.X + 1, locationPlayer.Y + 1].hasPit;
+            }
+            // if touching right and top, check bottom-left
+            if ((e & (Room.Edge.RIGHT | Room.Edge.TOP)) > 0)
+            {
+                w = w || Rooms[locationPlayer.X - 1, locationPlayer.Y + 1].hasWumpus;
+                b = b || Rooms[locationPlayer.X - 1, locationPlayer.Y + 1].hasBats;
+                p = p || Rooms[locationPlayer.X - 1, locationPlayer.Y + 1].hasPit;
+            }
+            // if touching left and bottom, check top-right
+            if ((e & (Room.Edge.LEFT | Room.Edge.BOTTOM)) > 0)
+            {
+                w = w || Rooms[locationPlayer.X + 1, locationPlayer.Y - 1].hasWumpus;
+                b = b || Rooms[locationPlayer.X + 1, locationPlayer.Y - 1].hasBats;
+                p = p || Rooms[locationPlayer.X + 1, locationPlayer.Y - 1].hasPit;
+            }
+            // if touching right and bottom, check top-left
+            if ((e & (Room.Edge.RIGHT | Room.Edge.BOTTOM)) > 0)
+            {
+                w = w || Rooms[locationPlayer.X - 1, locationPlayer.Y - 1].hasWumpus;
+                b = b || Rooms[locationPlayer.X - 1, locationPlayer.Y - 1].hasBats;
+                p = p || Rooms[locationPlayer.X - 1, locationPlayer.Y - 1].hasPit;
+            }
+
+            wumpus = w;
+            bats = b;
+            pit = p;
+        }
     }
 }
