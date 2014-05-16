@@ -156,6 +156,10 @@ namespace HuntTheWumpus
 
         }
 
+        public void addGold(int amount) {
+            gold += amount;
+        }
+
         private static bool LineIntersectsRect(Point p1, Point p2, Rectangle r) {
             return LineIntersectsLine(p1, p2, new Point(r.X, r.Y), new Point(r.X + r.Width, r.Y)) ||
                    LineIntersectsLine(p1, p2, new Point(r.X + r.Width, r.Y), new Point(r.X + r.Width, r.Y + r.Height)) ||

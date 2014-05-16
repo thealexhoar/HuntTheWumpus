@@ -294,6 +294,9 @@ namespace HuntTheWumpus
                         }
 
                         cave.movePlayer(dx, dy);
+                        if (!cave.locationPlayer.image.revealed) {
+                            player.addGold((int)cave.locationPlayer.Gold);
+                        }
                         cave.locationPlayer.image.revealed = true;
                         
 
