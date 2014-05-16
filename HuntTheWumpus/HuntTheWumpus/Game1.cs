@@ -53,8 +53,6 @@ namespace HuntTheWumpus
 
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
-                this.Exit();
 
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
                 this.Exit();

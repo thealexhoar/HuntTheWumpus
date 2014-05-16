@@ -511,13 +511,13 @@ namespace HuntTheWumpus
             switch (currentSelectionBox)
                 {
                     case (0):
-                        selectionImagePos = new Vector2(58, 156);
+                        selectionImagePos = new Vector2(58, 146);
                         break;
                     case (1):
-                        selectionImagePos = new Vector2(57, 234);
+                        selectionImagePos = new Vector2(58,224);
                         break;
                     case (2):
-                        selectionImagePos = new Vector2(58, 315);
+                        selectionImagePos = new Vector2(58, 305);
                         break;
                 }
             oldKeyboardState = Keyboard.GetState().IsKeyDown(Keys.Down);
