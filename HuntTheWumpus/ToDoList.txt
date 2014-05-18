@@ -26,8 +26,6 @@ In-Game
       Shoot arrows into a different room (I have no idea how we're gonna do this with a six-sided room unless we convert the game to a top-down using the mouse to rotate and shoot Alex
       Get Trivia questions and display them in a separate screen Divya and Me
       Improve the textures and make it pretty (this'll take a lot of work (I think)) Martin
-      Let the character move left and right from rooms rather than just up and down Alex
-      Make the "doors" actual doors so that you can walk through all of them. Right now if you move up, only the picture moves, the doors don't move with the sprite Alex
  
 End-game
       Display highscore Me
@@ -35,6 +33,4 @@ End-game
 
 The text in blue is the suggested assigned roles are, they are up to debate.
  
-P.S. Martin and Dillon, I know you two have wonderful ideas of mini-maps and servers, but seeing that we don't have a functioning game, I recommend you help whoever isn't done to finish their part so that we have a complete working game, then do your ideas.
- 
-P.P.S. EVERYBODY Lets get a functioning game done by this Friday, because most of us no longer have AP tests, and the teachers aren't going to be giving as much homework, so we'll have tons of time to code.
+P.S. EVERYBODY Lets get a functioning game done by this Friday, because most of us no longer have AP tests, and the teachers aren't going to be giving as much homework, so we'll have tons of time to code.
