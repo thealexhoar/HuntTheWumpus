@@ -123,7 +123,7 @@ namespace HuntTheWumpus
 
                 // Check for keyboard input
                 Input.Update();
-                if (Input.isKeyDown(Keys.A))
+                //if (Input.isKeyDown(Keys.T))
                     //triviaString = GetTrivia(3);
 
                 if (Input.isKeyDown(Keys.Left))
@@ -144,7 +144,7 @@ namespace HuntTheWumpus
                     BuyArrow();
                 }
 
-                if (Input.isKeyPressed(Keys.S)) 
+                if (Input.isKeyPressed(Keys.F)) 
                 {
                     if (player.arrows <= 0)
                     {
@@ -159,7 +159,7 @@ namespace HuntTheWumpus
                         
                 }
 
-                if (Input.isKeyDown(Keys.W)) {
+                if (Input.isKeyDown(Keys.R)) {
                     EncounterWumpus();
                 }
                 // Update all the game objects
@@ -211,7 +211,7 @@ namespace HuntTheWumpus
                                         dx = cave.Width - 1;
                                     }
                                     dy = cave.locationPlayer.Y + 1;
-                                    if (dy > cave.Width - 1) {
+                                    if (dy > cave.Height - 1) {
                                         dy = 0;
                                     }
                                 }
@@ -232,7 +232,7 @@ namespace HuntTheWumpus
                                     }
                                     dy = cave.locationPlayer.Y - 1;
                                     if (dy < 0) {
-                                        dy = cave.Width - 1;
+                                        dy = cave.Height - 1;
                                     }
                                 }
                                 else {
@@ -248,7 +248,7 @@ namespace HuntTheWumpus
                                 dx = cave.locationPlayer.X;
                                 dy = cave.locationPlayer.Y - 1;
                                 if (dy < 0) {
-                                    dy = cave.Width-1;
+                                    dy = cave.Height-1;
                                 }
                                 break;
                             case 3:
@@ -293,7 +293,7 @@ namespace HuntTheWumpus
                             case 5:
                                 dx = cave.locationPlayer.X;
                                 dy = cave.locationPlayer.Y + 1;
-                                if (dy > cave.Width-1) {
+                                if (dy > cave.Height-1) {
                                     dy = 0;
                                 }
                                 break;
@@ -321,6 +321,21 @@ namespace HuntTheWumpus
                 r.Update();
             }
 
+
+            foreach (RoomImage r in roomImages) {
+                if (r.Position.X < -380 * 3) {
+                    r.Position.X += 6 * 380;
+                }
+                else if (r.Position.X > 380 * 3) {
+                    r.Position.X -= 6 * 380;
+                }
+                if (r.Position.Y < -438 * 2) {
+                    r.Position.Y += 438 * 5;
+                }
+                else if (r.Position.Y > 438 * 3) {
+                    r.Position.Y -= 438 * 5;
+                }
+            }
 
                 base.Update(gameTime);
         }
