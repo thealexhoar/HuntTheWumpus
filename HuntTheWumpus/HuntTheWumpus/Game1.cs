@@ -35,6 +35,7 @@ namespace HuntTheWumpus
         {
             gameControl.Initialize();
             Components.Add(gameControl.spriteManager);
+            IsMouseVisible = true;
             base.Initialize();
         }
 
