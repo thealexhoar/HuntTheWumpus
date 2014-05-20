@@ -481,9 +481,10 @@ namespace HuntTheWumpus
         {
             GetTrivia(3);
             bool answeredCorrectly = true;
-            if (answeredCorrectly)
+            if (answeredCorrectly && Player.gold > 0)
             {
-                player.arrows += 3;
+                player.arrows += 1;
+                Player.gold -= 1;
             }
         }
 
