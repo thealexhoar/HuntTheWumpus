@@ -260,7 +260,7 @@ namespace HuntTheWumpus
                                     }
                                     dy = cave.locationPlayer.Y - 1;
                                     if (dy < 0) {
-                                        dy = cave.Width - 1;
+                                        dy = cave.Height - 1;
                                     }
                                 }
                                 else {
@@ -278,7 +278,7 @@ namespace HuntTheWumpus
                                         dx = 0;
                                     }
                                     dy = cave.locationPlayer.Y + 1;
-                                    if (dy > cave.Width -1) {
+                                    if (dy > cave.Height -1) {
                                         dy = 0;
                                     }
                                 }
