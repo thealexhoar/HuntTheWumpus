@@ -126,16 +126,16 @@ namespace HuntTheWumpus
                 //if (Input.isKeyDown(Keys.T))
                     //triviaString = GetTrivia(3);
 
-                if (Input.isKeyDown(Keys.Left))
+                if (Input.isKeyDown(Keys.Left) || Input.isKeyDown(Keys.A))
                     player.speed.X -= 3;
-                
-                if (Input.isKeyDown(Keys.Right))
+
+                if (Input.isKeyDown(Keys.Right) || Input.isKeyDown(Keys.D))
                     player.speed.X += 3;
                 
-                if (Input.isKeyDown(Keys.Up))
+                if (Input.isKeyDown(Keys.Up) || Input.isKeyDown(Keys.W))
                     player.speed.Y -= 3;
-                
-                if (Input.isKeyDown(Keys.Down))
+
+                if (Input.isKeyDown(Keys.Down) || Input.isKeyDown(Keys.S))
                     player.speed.Y += 3;
                 
 
