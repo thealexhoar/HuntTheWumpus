@@ -17,7 +17,7 @@ namespace HuntTheWumpus
         Point sheetSize;
         int collisionOffset;
         int timeSinceLastFrame = 0;
-        int millisecondsPerFrame;
+        int millisecondsPerFrame = 0;
         const int defaultMILLISECONDS_PER_FRAME = 16;
         protected Vector2 speed;
         public Vector2 position;
