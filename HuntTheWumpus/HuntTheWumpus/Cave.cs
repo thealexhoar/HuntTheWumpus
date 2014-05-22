@@ -56,9 +56,9 @@ namespace HuntTheWumpus
                 set
                 {
                     if (this.hasPlayer || this.hasBats || this.hasPit)
-                        // throw exception
-                        ;
-                    else wumpus = value;
+                    { }
+                    else
+                        wumpus = value;
                 }
             }
 
@@ -72,9 +72,9 @@ namespace HuntTheWumpus
                 set
                 {
                     if (this.hasWumpus || this.hasBats || this.hasPit)
-                        // throw exception
-                        ;
-                    else player = value;
+                    { }
+                    else
+                        player = value;
                 }
             }
 
@@ -88,9 +88,9 @@ namespace HuntTheWumpus
                 set
                 {
                     if (this.hasWumpus || this.hasPlayer || this.hasBats)
-                         // throw exception
-                         ;
-                    else pit = value;
+                    { }
+                    else
+                        pit = value;
                 }
             }
 
@@ -104,9 +104,9 @@ namespace HuntTheWumpus
                 set
                 {
                     if (this.hasWumpus || this.hasBats || this.hasPit)
-                         // throw exception
-                         ;
-                    else bats = value;
+                    { }
+                    else
+                        bats = value;
                 }
             }
 
@@ -348,7 +348,7 @@ namespace HuntTheWumpus
         }
 #endif
     
-        public static Cave GetDebugCave()
+        public static Cave GetCave()
         {
             Cave c = new Cave("test.cave", false);
 
@@ -356,17 +356,21 @@ namespace HuntTheWumpus
             c.Rooms[0, 0].hasPlayer = true;
             c.Rooms[0, 0].hasThing = true;
 
-            c.locationWumpus = c.Rooms[2, 2];
-            c.Rooms[2, 2].hasPlayer = true;
-            c.Rooms[2, 2].hasThing = true;
+            c.locationWumpus = c.Rooms[3, 2];
+            c.Rooms[3, 2].hasPlayer = true;
+            c.Rooms[3, 2].hasThing = true;
 
-            c.locationBats = c.Rooms[0, 2];
-            c.Rooms[0, 2].hasBats = true;
-            c.Rooms[0, 2].hasThing = true;
+            c.locationBats = c.Rooms[4, 2];
+            c.Rooms[4, 2].hasBats = true;
+            c.Rooms[4, 2].hasThing = true;
 
-            c.locationsPits.Add(c.Rooms[1, 1]);
-            c.Rooms[1, 1].hasPit = true;
-            c.Rooms[1, 1].hasThing = true;
+            c.locationsPits.Add(c.Rooms[5, 2]);
+            c.Rooms[5, 2].hasPit = true;
+            c.Rooms[5, 2].hasThing = true;
+
+            c.locationsPits.Add(c.Rooms[1, 3]);
+            c.Rooms[1, 3].hasPit = true;
+            c.Rooms[1, 3].hasThing = true;
 
             return c;
         }
