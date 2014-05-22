@@ -23,7 +23,8 @@ namespace HuntTheWumpus
     }
 
     public class GameControl : Microsoft.Xna.Framework.GameComponent
-    {    
+    {
+        public List<Sprite> spriteList = new List<Sprite>();
         // Add a SpriteFont object to display text
         SpriteFont consolas;
         Vector2 fontPos;
@@ -124,9 +125,10 @@ namespace HuntTheWumpus
                 // Check for keyboard input
                 Input.Update();
                 if (Input.isKeyDown(Keys.A))
+                {
                     //triviaString = GetTrivia(3);
-
-                if (Input.isKeyDown(Keys.Left))
+                }
+                if (Keyboard.GetState().IsKeyDown(Keys.Left))
                     player.speed.X -= 3;
                 
                 if (Input.isKeyDown(Keys.Right))
@@ -154,7 +156,7 @@ namespace HuntTheWumpus
                     {
                         player.arrows -= 1;
                         ShootWumpus();
-                        spriteManager.SpawnArrow(player);
+                        ShootArrow(player);
                     }
                         
                 }
@@ -167,7 +169,6 @@ namespace HuntTheWumpus
 
                 player.position += player.speed;
 
-                // WHAT DOES THIS CODE DO???? 
                 //Glad you asked. It resolves collisions with walls in a 95% reliable way
                 //If collisions are with a doorway in the current room, there can be code to switch rooms
 
@@ -192,10 +193,10 @@ namespace HuntTheWumpus
                             Console.WriteLine(i);
                         }
                     }
-
                 }
+
             }
-                
+
             else if (state == State.SWITCHING) {
                     moveCounter++;
                     if (moveCounter >= 30) {
@@ -304,10 +305,6 @@ namespace HuntTheWumpus
                             player.addGold((int)cave.locationPlayer.Gold);
                         }
                         cave.locationPlayer.image.revealed = true;
-                        
-
-
-
                     }
 
                     player.position += (moveVector / 60);
@@ -320,9 +317,7 @@ namespace HuntTheWumpus
             foreach (RoomImage r in roomImages) {
                 r.Update();
             }
-
-
-                base.Update(gameTime);
+            base.Update(gameTime);
         }
 
 
@@ -332,6 +327,7 @@ namespace HuntTheWumpus
             string hint = " ";
             string triviaString = " ";
             spriteBatch.Draw(background, new Vector2(), Color.White);
+
             foreach (RoomImage i in roomImages) {
                 i.Draw(spriteBatch);
             }
@@ -343,7 +339,12 @@ namespace HuntTheWumpus
             spriteBatch.DrawString(consolas, output, fontPos, Color.Gold);
             // Draw the coins# at position (10,30) in golden consolas font
             spriteBatch.DrawString(consolas, "Coins: " + Player.gold, new Vector2(10, 30), Color.Gold);
-            player.Draw(spriteBatch);
+            player.Draw(spriteBatch);            
+            foreach (Sprite x in spriteList)
+            {
+                x.Draw(spriteBatch);
+                Console.WriteLine("Arrows are drawn");
+            }
         }
 
 
@@ -527,7 +528,7 @@ namespace HuntTheWumpus
             switch (currentSelectionBox)
                 {
                     case (0):
-                    selectionImage = selectionImage1;
+                        selectionImage = selectionImage1;
                         break;
                     case (1):
                         selectionImage = selectionImage2;
@@ -562,6 +563,19 @@ namespace HuntTheWumpus
             }
             
             spriteBatch.Draw(highscoreImage, new Rectangle(0, 0, 819, 460), Color.White);
+        }
+
+        public void ShootArrow(Player player)
+        {
+            Vector2 speed = new Vector2(3, 3);
+            Vector2 position = player.position;
+
+            Point frameSize = new Point(50, 20);
+
+            Sprite sprite = new Sprite(Game1.gameControl.arrow,
+                    position, new Point(10, 3), 10, new Point(0, 0),
+                    new Point(1, 1), new Vector2(5, 0));
+            spriteList.Add(sprite);
         }
     }
 }

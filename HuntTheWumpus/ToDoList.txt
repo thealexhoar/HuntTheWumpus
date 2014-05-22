@@ -11,26 +11,18 @@ Write how to display cave.
 Fix collision detection bug
 Update cave position, side-scrolling
 GameControl ================================================================================================
-Currently working on:
-	Displaying information on the screen
-		(during GameOver) Highscore
 
-So the competition is what, two weeks away? All we have done is a map where the guy can run from one room to the next, can't shoot arrows, doesn't get info on wumpus, no actual textures, no actual intro or end-game screen. If I've missed anything, i'm sorry, but as it is we already seem pretty screwed for this.
- 
-The actual to-do list:
-Main-menu
-      Create a REAL main menu screen, what I created in 30 seconds is NOT going to be in the competition Martin
+Main-Menu
  
 In-Game
-      Display for hints, so tell the player if they're next to the wumpus or not, same goes for all the obstacles Paul
-      Shoot arrows into a different room (I have no idea how we're gonna do this with a six-sided room unless we convert the game to a top-down using the mouse to rotate and shoot Alex
-      Get Trivia questions and display them in a separate screen Divya and Me
-      Improve the textures and make it pretty (this'll take a lot of work (I think)) Martin
- 
-End-game
-      Display highscore Me
-      Save the current game to the highscore file (Dillon, explain how this works to me on Monday) Me
+      The arrows have to shoot straight                                   Can someone do this? cause i can't get the update method to work for the arrows. The ShootArrows method is in GameControl.
+      Once the arrows are shot, they have to be removed from the draw list so that they don't sit on the screen during highscore and main-menu screens
+      Display hints as to where the wumpus, bats, pits.     Kostya
+      Display Trivia              Kostya and Divya
+      Chose trivia answer and display if right or wrong              Kostya and Divya
+      Incorporate pretty graphics into game          Martin
+      Check for collision with wumpus     Paul
+      Check if wumpus is shot by arrow      Paul and Kostya
 
-The text in blue is the suggested assigned roles are, they are up to debate.
- 
-P.S. EVERYBODY Lets get a functioning game done by this Friday, because most of us no longer have AP tests, and the teachers aren't going to be giving as much homework, so we'll have tons of time to code.
+End-Game
+     Make pretty graphics        Martin
