@@ -56,9 +56,9 @@ namespace HuntTheWumpus
                 set
                 {
                     if (this.hasPlayer || this.hasBats || this.hasPit)
-                        // throw exception
-                        ;
-                    else wumpus = value;
+                    { }
+                    else
+                        wumpus = value;
                 }
             }
 
@@ -72,9 +72,9 @@ namespace HuntTheWumpus
                 set
                 {
                     if (this.hasWumpus || this.hasBats || this.hasPit)
-                        // throw exception
-                        ;
-                    else player = value;
+                    { }
+                    else
+                        player = value;
                 }
             }
 
@@ -88,9 +88,9 @@ namespace HuntTheWumpus
                 set
                 {
                     if (this.hasWumpus || this.hasPlayer || this.hasBats)
-                         // throw exception
-                         ;
-                    else pit = value;
+                    { }
+                    else
+                        pit = value;
                 }
             }
 
@@ -104,9 +104,9 @@ namespace HuntTheWumpus
                 set
                 {
                     if (this.hasWumpus || this.hasBats || this.hasPit)
-                         // throw exception
-                         ;
-                    else bats = value;
+                    { }
+                    else
+                        bats = value;
                 }
             }
 

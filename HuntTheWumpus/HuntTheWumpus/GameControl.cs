@@ -9,7 +9,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 
-
 namespace HuntTheWumpus
 {
     /// <summary>
@@ -55,7 +54,6 @@ namespace HuntTheWumpus
         public int roomSwitch;
 
         public byte currentSelectionBox = 0;
-        Vector2 selectionImagePos;
 
         public SpriteManager spriteManager;
 
@@ -90,10 +88,8 @@ namespace HuntTheWumpus
             roomImages = new List<RoomImage>();
             displaySprites = new List<Sprite>();
             cave = new Cave("test.cave");
-            //cave = new Cave("test.cave")
-            //cave._GetStatusString();
-            //creates new images and asigns them to the rooms and room render/draw list
             Vector2 _position = new Vector2();
+
             for (int x = 0; x < cave.Width; x++) {
                 for (int y = 0; y < cave.Height; y++) {
                     _position.X = (x * 380);
@@ -121,10 +117,7 @@ namespace HuntTheWumpus
                 player.speed.X = 0;
                 player.speed.Y = 0;
 
-                // Check for keyboard input
                 Input.Update();
-                //if (Input.isKeyDown(Keys.T))
-                    //triviaString = GetTrivia(3);
 
                 if (Input.isKeyDown(Keys.Left) || Input.isKeyDown(Keys.A))
                     player.speed.X -= 3;
@@ -137,12 +130,9 @@ namespace HuntTheWumpus
 
                 if (Input.isKeyDown(Keys.Down) || Input.isKeyDown(Keys.S))
                     player.speed.Y += 3;
-                
 
-                // if user presses buy arrows, get 3 questions from Trivia
-                if (Input.isKeyDown(Keys.B)) {
+                if (Input.isKeyDown(Keys.B))
                     BuyArrow();
-                }
 
                 if (Input.isKeyPressed(Keys.F)) 
                 {
@@ -159,12 +149,11 @@ namespace HuntTheWumpus
                         
                 }
 
-                if (Input.isKeyDown(Keys.R)) {
+                if (Input.isKeyDown(Keys.R))
                     EncounterWumpus();
-                }
+
                 // Update all the game objects
                 // Send these updates to GUI to be drawn
-
                 player.position += player.speed;
 
                 // WHAT DOES THIS CODE DO???? 
@@ -181,9 +170,8 @@ namespace HuntTheWumpus
                     thispoint = vertices[i];
 
                     if (player.checkCollision(lastpoint, thispoint)) {
-                        if (cave.Rooms[cave.locationPlayer.X, cave.locationPlayer.Y].image.edgeDraws[i] == true) {
+                        if (cave.Rooms[cave.locationPlayer.X, cave.locationPlayer.Y].image.edgeDraws[i] == true)
                             player.resolveCollision(lastpoint, thispoint);
-                        }
                         else if (cave.Rooms[cave.locationPlayer.X, cave.locationPlayer.Y].image.edgeDraws[i] != true) {
                             state = State.SWITCHING;
                             moveVector = new Vector2(vertices[i].X - vertices[(i + 2) % 6].X, vertices[i].Y - vertices[(i + 2) % 6].Y) * -1;
@@ -399,7 +387,6 @@ namespace HuntTheWumpus
                 Trivia.TriviaGenerator(questions);
 
                 Console.WriteLine("Questions Recieved");
-                // Subtract the amount of gold used
                 Player.gold -= questions;
             }
             else
@@ -562,9 +549,7 @@ namespace HuntTheWumpus
         public void DrawIntro(SpriteBatch spriteBatch)
         {            
             foreach (Sprite x in displaySprites)
-            {
                 x.Draw(spriteBatch);
-            }
 
             spriteBatch.Draw(introImage, new Vector2(), Color.White);
             spriteBatch.Draw(selectionImage, new Vector2(), Color.White);
@@ -573,9 +558,7 @@ namespace HuntTheWumpus
         public void DrawGameOver(SpriteBatch spriteBatch)
         {
             foreach(ScoreHandler.Score x in scoreHandler.HighScores)
-            {
                 spriteBatch.DrawString(consolas, "Name: " + Convert.ToString(x), new Vector2(50, 50), Color.Gold);
-            }
             
             spriteBatch.Draw(highscoreImage, new Rectangle(0, 0, 819, 460), Color.White);
         }
