@@ -104,7 +104,8 @@ namespace HuntTheWumpus
                 }
             }
 
-            cave.Rooms[cave.locationPlayer.X, cave.locationPlayer.Y].image.revealed = true;
+            cave.locationPlayer.image.revealed = true;
+            cave.locationPlayer.image.currentRoom = true;
             base.Initialize();
         }
 
@@ -190,6 +191,7 @@ namespace HuntTheWumpus
                             moveCounter = 0;
                             roomSwitch = i;
                             Console.WriteLine(i);
+                            cave.locationPlayer.image.currentRoom = false;
                         }
                     }
 
@@ -304,6 +306,7 @@ namespace HuntTheWumpus
                             player.addGold((int)cave.locationPlayer.Gold);
                         }
                         cave.locationPlayer.image.revealed = true;
+                        cave.locationPlayer.image.currentRoom = true;
                         
 
 
@@ -344,8 +347,8 @@ namespace HuntTheWumpus
         public void Draw(SpriteBatch spriteBatch)
         {
             string output = "Arrows: " + player.arrows;
-            string hint = " ";
-            string triviaString = " ";
+            string hint = "";
+            string triviaString = "";
             spriteBatch.Draw(background, new Vector2(), Color.White);
             foreach (RoomImage i in roomImages) {
                 i.Draw(spriteBatch);
