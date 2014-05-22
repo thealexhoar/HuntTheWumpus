@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -57,7 +57,7 @@ namespace HuntTheWumpus
                 {
                     if (this.hasPlayer || this.hasBats || this.hasPit)
                         // throw exception
-                        ;
+                        { }
                     else wumpus = value;
                 }
             }
@@ -73,7 +73,7 @@ namespace HuntTheWumpus
                 {
                     if (this.hasWumpus || this.hasBats || this.hasPit)
                         // throw exception
-                        ;
+                        { }
                     else player = value;
                 }
             }
@@ -88,8 +88,8 @@ namespace HuntTheWumpus
                 set
                 {
                     if (this.hasWumpus || this.hasPlayer || this.hasBats)
-                         // throw exception
-                         ;
+                        // throw exception
+                        { }
                     else pit = value;
                 }
             }
@@ -104,8 +104,8 @@ namespace HuntTheWumpus
                 set
                 {
                     if (this.hasWumpus || this.hasBats || this.hasPit)
-                         // throw exception
-                         ;
+                        // throw exception
+                        { }
                     else bats = value;
                 }
             }

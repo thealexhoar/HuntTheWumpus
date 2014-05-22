@@ -126,6 +126,7 @@
   <ItemGroup>
     <Content Include="Game.ico" />
     <Content Include="GameThumbnail.png" />
+    <Content Include="Questions.txt" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\HuntTheWumpusContent\HuntTheWumpusContent.contentproj">
