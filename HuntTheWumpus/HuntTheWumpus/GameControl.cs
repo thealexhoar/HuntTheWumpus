@@ -760,14 +760,16 @@ namespace HuntTheWumpus
                 Point thispoint;
 
                 thispoint = vertices[5];
-                for (int i = 0; i < 6; i++) {
+                for (int i = 0; i < 6; i++)
+                {
                     lastpoint = new Point(thispoint.X, thispoint.Y);
                     thispoint = vertices[i];
 
                     if (player.checkCollision(lastpoint, thispoint)) {
                         if (cave.Rooms[cave.locationPlayer.X, cave.locationPlayer.Y].image.edgeDraws[i] == true)
                             player.resolveCollision(lastpoint, thispoint);
-                        else if (cave.Rooms[cave.locationPlayer.X, cave.locationPlayer.Y].image.edgeDraws[i] != true) {
+                        else if (cave.Rooms[cave.locationPlayer.X, cave.locationPlayer.Y].image.edgeDraws[i] != true)
+                        {
                             state = State.SWITCHING;
                             moveVector = new Vector2(vertices[i].X - vertices[(i + 2) % 6].X, vertices[i].Y - vertices[(i + 2) % 6].Y) * -1;
                             moveCounter = 0;
@@ -779,50 +781,51 @@ namespace HuntTheWumpus
                 }
             }
                 
-            else if (state == State.SWITCHING) {
+            else if (state == State.SWITCHING)
+            {
                     moveCounter++;
-                    if (moveCounter >= 30) {
+                    if (moveCounter >= 30)
+                    {
                         state = State.MOVING;
                         moveCounter = 0;
                         int dy = cave.locationPlayer.Y;
                         int dx = cave.locationPlayer.X;
-                        switch (roomSwitch) {
+                        switch (roomSwitch)
+                        {
                             case 0:                            
-                                if (cave.locationPlayer.X % 2 == 0) {
+                                if (cave.locationPlayer.X % 2 == 0)
+                                {
                                     dx = cave.locationPlayer.X - 1;
-                                    if(dx < 0){
+                                    if(dx < 0)
                                         dx = cave.Width - 1;
-                                    }
                                     dy = cave.locationPlayer.Y + 1;
-                                    if (dy > cave.Height - 1) {
+                                    if (dy > cave.Height - 1)
                                         dy = 0;
-                                    }
                                 }
-                                else {
+                                else
+                                {
                                     dx = cave.locationPlayer.X - 1;
-                                    if (dx < 0) {
+                                    if (dx < 0)
                                         dx = cave.Width - 1;
-                                    }
                                     dy = cave.locationPlayer.Y;
                                 }
                                 break;
                             case 1:
 
-                                if (cave.locationPlayer.X % 2 == 1) {
+                                if (cave.locationPlayer.X % 2 == 1)
+                                {
                                     dx = cave.locationPlayer.X - 1;
-                                    if (dx < 0) {
+                                    if (dx < 0)
                                         dx = cave.Width - 1;
-                                    }
                                     dy = cave.locationPlayer.Y - 1;
-                                    if (dy < 0) {
+                                    if (dy < 0)
                                         dy = cave.Height - 1;
-                                    }
                                 }
-                                else {
+                                else
+                                {
                                     dx = cave.locationPlayer.X - 1;
-                                    if (dx < 0) {
+                                    if (dx < 0)
                                         dx = cave.Width - 1;
-                                    }
                                     dy = cave.locationPlayer.Y;
                                 }
                                 break;
@@ -830,94 +833,81 @@ namespace HuntTheWumpus
 
                                 dx = cave.locationPlayer.X;
                                 dy = cave.locationPlayer.Y - 1;
-                                if (dy < 0) {
+                                if (dy < 0)
                                     dy = cave.Height-1;
-                                }
                                 break;
                             case 3:
                                 
-                                if (cave.locationPlayer.X % 2 == 1) {
+                                if (cave.locationPlayer.X % 2 == 1)
+                                {
                                     dx = cave.locationPlayer.X + 1;
-                                    if (dx > cave.Width-1) {
+                                    if (dx > cave.Width-1)
                                         dx = 0;
-                                    }
                                     dy = cave.locationPlayer.Y - 1;
-                                    if (dy < 0) {
+                                    if (dy < 0)
                                         dy = cave.Height - 1;
-                                    }
                                 }
-                                else {
+                                else
+                                {
                                     dx = cave.locationPlayer.X + 1;
-                                    if (dx > cave.Width-1) {
+                                    if (dx > cave.Width-1)
                                         dx = 0;
-                                    }
                                     dy = cave.locationPlayer.Y;
                                 }
                                 break;
                             case 4:
-                                if (cave.locationPlayer.X % 2 == 0) {
+                                if (cave.locationPlayer.X % 2 == 0)
+                                {
                                     dx = cave.locationPlayer.X + 1;
-                                    if (dx > cave.Width-1) {
+                                    if (dx > cave.Width-1)
                                         dx = 0;
-                                    }
                                     dy = cave.locationPlayer.Y + 1;
-                                    if (dy > cave.Height -1) {
+                                    if (dy > cave.Height -1)
                                         dy = 0;
-                                    }
                                 }
-                                else {
+                                else
+                                {
                                     dx = cave.locationPlayer.X + 1;
-                                    if (dx > cave.Width-1) {
+                                    if (dx > cave.Width-1)
                                         dx = 0;
-                                    }
                                     dy = cave.locationPlayer.Y;
                                 }
                                 break;
                             case 5:
                                 dx = cave.locationPlayer.X;
                                 dy = cave.locationPlayer.Y + 1;
-                                if (dy > cave.Height-1) {
+                                if (dy > cave.Height-1)
                                     dy = 0;
-                                }
                                 break;
                         }
 
                         cave.movePlayer(dx, dy);
-                        if (!cave.locationPlayer.image.revealed) {
+                        if (!cave.locationPlayer.image.revealed)
                             player.addGold((int)cave.locationPlayer.Gold);
-                        }
                         cave.locationPlayer.image.revealed = true;
-                        
-
-
-
                     }
 
                     player.position += (moveVector / 60);
-                    foreach (RoomImage r in roomImages) {
+                    foreach (RoomImage r in roomImages)
                         r.Position += (moveVector / 30);
-                    }
             }
 
             player.Update(gameTime);
-            foreach (RoomImage r in roomImages) {
+            foreach (RoomImage r in roomImages)
                 r.Update();
-            }
 
 
-            foreach (RoomImage r in roomImages) {
-                if (r.Position.X < -380 * 3) {
+            foreach (RoomImage r in roomImages)
+            {
+                if (r.Position.X < -380 * 3)
                     r.Position.X += 6 * 380;
-                }
-                else if (r.Position.X > 380 * 3) {
+                else if (r.Position.X > 380 * 3)
                     r.Position.X -= 6 * 380;
-                }
-                if (r.Position.Y < -438 * 2) {
+
+                if (r.Position.Y < -438 * 2)
                     r.Position.Y += 438 * 5;
-                }
-                else if (r.Position.Y > 438 * 3) {
+                else if (r.Position.Y > 438 * 3)
                     r.Position.Y -= 438 * 5;
-                }
             }
 
                 base.Update(gameTime);
@@ -930,9 +920,9 @@ namespace HuntTheWumpus
             string hint = " ";
             string triviaString = " ";
             spriteBatch.Draw(background, new Vector2(), Color.White);
-            foreach (RoomImage i in roomImages) {
+            foreach (RoomImage i in roomImages)
                 i.Draw(spriteBatch);
-            }
+            
             // Draw the string in trivia at position 300, 600 in golden consolas font
             spriteBatch.DrawString(consolas, triviaString, new Vector2(300, 600), Color.Gold);
             // Draw the string in hint at position 900,10 in golden consolas font
@@ -958,9 +948,8 @@ namespace HuntTheWumpus
             arrow = content.Load<Texture2D>(@"Images/ArrowSprite");
             background = content.Load<Texture2D>(@"Images/SpaceBackground");
             player.LoadContent(content);
-            foreach (RoomImage i in roomImages) {
+            foreach (RoomImage i in roomImages)
                 i.LoadContent(content);
-            }
 
             fontPos = new Vector2(10, 10);
             Sprite selectionBox = new Sprite(selectionImage, new Vector2(10,10), new Point(10,10),0,new Point(0,0),new Point(0,0),new Vector2 (0,0));            
@@ -1007,9 +996,7 @@ namespace HuntTheWumpus
             // Check if trivia answered correctly
 
             if (triviaCorrect)
-            {
                 currentRoom = prevRoom;
-            }
         }
 
         /// <summary>
