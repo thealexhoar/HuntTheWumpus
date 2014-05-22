@@ -9,7 +9,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 
-
 namespace HuntTheWumpus
 {
     /// <summary>
@@ -35,6 +34,8 @@ namespace HuntTheWumpus
         public static Cave cave;
         public static Player player = new Player(game);
 
+        public string triviaString;
+
         ScoreHandler scoreHandler;
 
         State state = State.MOVING;
@@ -45,12 +46,14 @@ namespace HuntTheWumpus
         Texture2D background;
         Texture2D introImage;
         Texture2D highscoreImage;
+        Texture2D selectionImage1;
+        Texture2D selectionImage2;
+        Texture2D selectionImage3;
         Texture2D selectionImage;
         public Texture2D arrow;
         public int roomSwitch;
 
         public byte currentSelectionBox = 0;
-        Vector2 selectionImagePos;
 
         public SpriteManager spriteManager;
 
@@ -85,10 +88,8 @@ namespace HuntTheWumpus
             roomImages = new List<RoomImage>();
             displaySprites = new List<Sprite>();
             cave = new Cave("test.cave");
-            //cave = new Cave("test.cave")
-            //cave._GetStatusString();
-            //creates new images and asigns them to the rooms and room render/draw list
             Vector2 _position = new Vector2();
+
             for (int x = 0; x < cave.Width; x++) {
                 for (int y = 0; y < cave.Height; y++) {
                     _position.X = (x * 380);
@@ -116,29 +117,24 @@ namespace HuntTheWumpus
                 player.speed.X = 0;
                 player.speed.Y = 0;
 
-
-
-                // Check for keyboard input
                 Input.Update();
-                if (Input.isKeyDown(Keys.Left))
+
+                if (Input.isKeyDown(Keys.Left) || Input.isKeyDown(Keys.A))
                     player.speed.X -= 3;
-                
-                if (Input.isKeyDown(Keys.Right))
+
+                if (Input.isKeyDown(Keys.Right) || Input.isKeyDown(Keys.D))
                     player.speed.X += 3;
                 
-                if (Input.isKeyDown(Keys.Up))
+                if (Input.isKeyDown(Keys.Up) || Input.isKeyDown(Keys.W))
                     player.speed.Y -= 3;
-                
-                if (Input.isKeyDown(Keys.Down))
+
+                if (Input.isKeyDown(Keys.Down) || Input.isKeyDown(Keys.S))
                     player.speed.Y += 3;
-                
 
-                // if user presses buy arrows, get 3 questions from Trivia
-                if (Input.isKeyDown(Keys.B)) {
+                if (Input.isKeyDown(Keys.B))
                     BuyArrow();
-                }
 
-                if (Input.isKeyPressed(Keys.S)) 
+                if (Input.isKeyPressed(Keys.F)) 
                 {
                     if (player.arrows <= 0)
                     {
@@ -153,12 +149,11 @@ namespace HuntTheWumpus
                         
                 }
 
-                if (Input.isKeyDown(Keys.W)) {
+                if (Input.isKeyDown(Keys.R))
                     EncounterWumpus();
-                }
+
                 // Update all the game objects
                 // Send these updates to GUI to be drawn
-
                 player.position += player.speed;
 
                 // WHAT DOES THIS CODE DO???? 
@@ -175,9 +170,8 @@ namespace HuntTheWumpus
                     thispoint = vertices[i];
 
                     if (player.checkCollision(lastpoint, thispoint)) {
-                        if (cave.Rooms[cave.locationPlayer.X, cave.locationPlayer.Y].image.edgeDraws[i] == true) {
+                        if (cave.Rooms[cave.locationPlayer.X, cave.locationPlayer.Y].image.edgeDraws[i] == true)
                             player.resolveCollision(lastpoint, thispoint);
-                        }
                         else if (cave.Rooms[cave.locationPlayer.X, cave.locationPlayer.Y].image.edgeDraws[i] != true) {
                             state = State.SWITCHING;
                             moveVector = new Vector2(vertices[i].X - vertices[(i + 2) % 6].X, vertices[i].Y - vertices[(i + 2) % 6].Y) * -1;
@@ -205,7 +199,7 @@ namespace HuntTheWumpus
                                         dx = cave.Width - 1;
                                     }
                                     dy = cave.locationPlayer.Y + 1;
-                                    if (dy > cave.Width - 1) {
+                                    if (dy > cave.Height - 1) {
                                         dy = 0;
                                     }
                                 }
@@ -226,7 +220,7 @@ namespace HuntTheWumpus
                                     }
                                     dy = cave.locationPlayer.Y - 1;
                                     if (dy < 0) {
-                                        dy = cave.Width - 1;
+                                        dy = cave.Height - 1;
                                     }
                                 }
                                 else {
@@ -242,7 +236,7 @@ namespace HuntTheWumpus
                                 dx = cave.locationPlayer.X;
                                 dy = cave.locationPlayer.Y - 1;
                                 if (dy < 0) {
-                                    dy = cave.Width-1;
+                                    dy = cave.Height-1;
                                 }
                                 break;
                             case 3:
@@ -254,7 +248,7 @@ namespace HuntTheWumpus
                                     }
                                     dy = cave.locationPlayer.Y - 1;
                                     if (dy < 0) {
-                                        dy = cave.Width - 1;
+                                        dy = cave.Height - 1;
                                     }
                                 }
                                 else {
@@ -272,7 +266,7 @@ namespace HuntTheWumpus
                                         dx = 0;
                                     }
                                     dy = cave.locationPlayer.Y + 1;
-                                    if (dy > cave.Width -1) {
+                                    if (dy > cave.Height -1) {
                                         dy = 0;
                                     }
                                 }
@@ -287,13 +281,16 @@ namespace HuntTheWumpus
                             case 5:
                                 dx = cave.locationPlayer.X;
                                 dy = cave.locationPlayer.Y + 1;
-                                if (dy > cave.Width-1) {
+                                if (dy > cave.Height-1) {
                                     dy = 0;
                                 }
                                 break;
                         }
 
                         cave.movePlayer(dx, dy);
+                        if (!cave.locationPlayer.image.revealed) {
+                            player.addGold((int)cave.locationPlayer.Gold);
+                        }
                         cave.locationPlayer.image.revealed = true;
                         
 
@@ -313,6 +310,21 @@ namespace HuntTheWumpus
             }
 
 
+            foreach (RoomImage r in roomImages) {
+                if (r.Position.X < -380 * 3) {
+                    r.Position.X += 6 * 380;
+                }
+                else if (r.Position.X > 380 * 3) {
+                    r.Position.X -= 6 * 380;
+                }
+                if (r.Position.Y < -438 * 2) {
+                    r.Position.Y += 438 * 5;
+                }
+                else if (r.Position.Y > 438 * 3) {
+                    r.Position.Y -= 438 * 5;
+                }
+            }
+
                 base.Update(gameTime);
         }
 
@@ -320,12 +332,16 @@ namespace HuntTheWumpus
         public void Draw(SpriteBatch spriteBatch)
         {
             string output = "Arrows: " + player.arrows;
-
+            string hint = " ";
+            string triviaString = " ";
             spriteBatch.Draw(background, new Vector2(), Color.White);
             foreach (RoomImage i in roomImages) {
                 i.Draw(spriteBatch);
             }
-
+            // Draw the string in trivia at position 300, 600 in golden consolas font
+            spriteBatch.DrawString(consolas, triviaString, new Vector2(300, 600), Color.Gold);
+            // Draw the string in hint at position 900,10 in golden consolas font
+            spriteBatch.DrawString(consolas, hint, new Vector2(900, 50), Color.Gold);
             // Draw the string in output at position 10,10 in golden consolas font
             spriteBatch.DrawString(consolas, output, fontPos, Color.Gold);
             // Draw the coins# at position (10,30) in golden consolas font
@@ -337,9 +353,12 @@ namespace HuntTheWumpus
 
         public void LoadContent(ContentManager content)
         {
-            selectionImage = content.Load<Texture2D>(@"Textures/selectionBox");
+            selectionImage1 = content.Load<Texture2D>(@"Textures/selection1");
+            selectionImage2 = content.Load<Texture2D>(@"Textures/selection2");
+            selectionImage3 = content.Load<Texture2D>(@"Textures/selection3");
+            selectionImage = selectionImage1;
             consolas = content.Load<SpriteFont>(@"Consolas");
-            introImage = content.Load<Texture2D>(@"Images/MainMenu");
+            introImage = content.Load<Texture2D>(@"Textures/Menu");
             highscoreImage = content.Load<Texture2D>(@"Images/Highscores");
             arrow = content.Load<Texture2D>(@"Images/ArrowSprite");
             background = content.Load<Texture2D>(@"Images/SpaceBackground");
@@ -368,7 +387,6 @@ namespace HuntTheWumpus
                //Trivia.SendThreeQuestions();
                 
                 Console.WriteLine("Questions Recieved");
-                // Subtract the amount of gold used
                 Player.gold -= questions;
             }
             else
@@ -450,9 +468,10 @@ namespace HuntTheWumpus
         {
             GetTrivia(3);
             bool answeredCorrectly = true;
-            if (answeredCorrectly)
+            if (answeredCorrectly && Player.gold > 0)
             {
-                player.arrows += 3;
+                player.arrows += 1;
+                Player.gold -= 1;
             }
         }
 
@@ -511,13 +530,13 @@ namespace HuntTheWumpus
             switch (currentSelectionBox)
                 {
                     case (0):
-                        selectionImagePos = new Vector2(58, 146);
+                    selectionImage = selectionImage1;
                         break;
                     case (1):
-                        selectionImagePos = new Vector2(58,224);
+                        selectionImage = selectionImage2;
                         break;
                     case (2):
-                        selectionImagePos = new Vector2(58, 305);
+                        selectionImage = selectionImage3;
                         break;
                 }
             oldKeyboardState = Keyboard.GetState().IsKeyDown(Keys.Down);
@@ -530,20 +549,16 @@ namespace HuntTheWumpus
         public void DrawIntro(SpriteBatch spriteBatch)
         {            
             foreach (Sprite x in displaySprites)
-            {
                 x.Draw(spriteBatch);
-            }
 
-            spriteBatch.Draw(introImage, new Rectangle(0,0,819,460), Color.White);            
-            spriteBatch.Draw(selectionImage, new Rectangle(Convert.ToInt32(selectionImagePos.X), Convert.ToInt32(selectionImagePos.Y), 300, 100), Color.White);
+            spriteBatch.Draw(introImage, new Vector2(), Color.White);
+            spriteBatch.Draw(selectionImage, new Vector2(), Color.White);
         }
 
         public void DrawGameOver(SpriteBatch spriteBatch)
         {
             foreach(ScoreHandler.Score x in scoreHandler.HighScores)
-            {
                 spriteBatch.DrawString(consolas, "Name: " + Convert.ToString(x), new Vector2(50, 50), Color.Gold);
-            }
             
             spriteBatch.Draw(highscoreImage, new Rectangle(0, 0, 819, 460), Color.White);
         }
