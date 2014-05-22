@@ -221,7 +221,7 @@ namespace HuntTheWumpus
         /// </summary>
         /// <param name="filename">Cave file</param>
         /// <param name="gen">Generate location features?</param>
-        public Cave(string filename, bool map = false)
+        public Cave(string filename, bool map = true)
         {
             using (FileStream fStream = new FileStream(@"Content\Caves\" + filename, FileMode.Open, FileAccess.Read))
             {
@@ -256,7 +256,7 @@ namespace HuntTheWumpus
                     locationPlayer = Rooms[0, 0];
 
                     // working on this, will make a cave manually
-                    /*
+                    
                     if (map)
                     {
                         // need to place features in rooms
@@ -313,9 +313,63 @@ namespace HuntTheWumpus
                         // place pits
                         // certain amount per cave
                         // shouldn't be adjacent to any other obstacles
-                        while (!placedPits)
+                        // place per 2 rows of cave
+                        for (ushort i = 0; i < this.Height / 2; ++i)
+                        {
+                            // lowest section if cave has uneven height
+                            // *****
+                            // ***** <
+                            // *****
+                            // ***** <
+                            // ***** <- this
+                            if ((i == (ushort)(this.Height / 2) - 1) && (this.Height % 2 != 0))
+                            {
+                                bool based = false;
+
+                                while (!based)
+                                {
+                                    ushort x = (ushort)rand.Next(0, this.Width), y = (ushort)(this.Height - 1);
+
+                                    if (this.Rooms[x, y].hasThing)
+                                        continue;
+                                    else
+                                    {
+                                        locationsPits.Add(this.Rooms[x, y]);
+                                        this.Rooms[x, y].hasPit = true;
+                                        this.Rooms[x, y].hasThing = true;
+
+                                         based = true;
+                                    }
+                                }
+                            }
+                            // ***** }
+                            // ***** } - one cave per
+                            // ***** ]
+                            // ***** ] - one cave per
+                            // ...
+                            else
+                            {
+                                bool based = false;
+
+                                while (!based)
+                                {
+                                    ushort x = (ushort)rand.Next(0, this.Width), y = (ushort)rand.Next(i * 2, i * 2 + 2);
+
+                                    if (this.Rooms[x, y].hasThing)
+                                        continue;
+                                    else
+                                    {
+                                        locationsPits.Add(this.Rooms[x, y]);
+                                        this.Rooms[x, y].hasPit = true;
+                                        this.Rooms[x, y].hasThing = true;
+
+                                        based = true;
+                                    }
+                                }
+                            }
+                        }
                     }
-                    */
+                    
                 }
             }
         }
@@ -347,7 +401,7 @@ namespace HuntTheWumpus
             return str;
         }
 #endif
-    
+        /*
         public static Cave GetCave()
         {
             Cave c = new Cave("test.cave", false);
@@ -374,8 +428,8 @@ namespace HuntTheWumpus
 
             return c;
         }
-
-        public void GetHints(out bool wumpus, out bool bats, out bool pit)
+        */
+        public void GetAdjacent(out bool wumpus, out bool bats, out bool pit)
         {
             ushort x = locationPlayer.X, y = locationPlayer.Y;
             Room.Edge e = locationPlayer.GetEdge();
