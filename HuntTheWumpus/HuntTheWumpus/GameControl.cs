@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -120,16 +119,8 @@ namespace HuntTheWumpus
                 player.speed.Y = 0;
 
                 Input.Update();
-<<<<<<< HEAD
-                if (Input.isKeyDown(Keys.A))
-                {
-                    //triviaString = GetTrivia(3);
-                }
-                if (Keyboard.GetState().IsKeyDown(Keys.Left))
-=======
 
                 if (Input.isKeyDown(Keys.Left) || Input.isKeyDown(Keys.A))
->>>>>>> 72e1a619a41105016d9ed146b833873ef23d8cda
                     player.speed.X -= 3;
 
                 if (Input.isKeyDown(Keys.Right) || Input.isKeyDown(Keys.D))
@@ -313,9 +304,6 @@ namespace HuntTheWumpus
             foreach (RoomImage r in roomImages) {
                 r.Update();
             }
-<<<<<<< HEAD
-            base.Update(gameTime);
-=======
 
 
             foreach (RoomImage r in roomImages) {
@@ -334,7 +322,6 @@ namespace HuntTheWumpus
             }
 
                 base.Update(gameTime);
->>>>>>> 72e1a619a41105016d9ed146b833873ef23d8cda
         }
 
 
@@ -399,7 +386,7 @@ namespace HuntTheWumpus
             if (Player.gold > questions)
             {
                 // Ask Trivia for 3 questions
-                Trivia.TriviaGenerator(questions);
+                //Trivia.TriviaGenerator(questions);
 
                 Console.WriteLine("Questions Recieved");
                 Player.gold -= questions;
@@ -592,7 +579,7 @@ namespace HuntTheWumpus
         }
     }
 }
-=======
+/*=======
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -1145,5 +1132,4 @@ namespace HuntTheWumpus
             spriteBatch.Draw(highscoreImage, new Rectangle(0, 0, 819, 460), Color.White);
         }
     }
-}
->>>>>>> 3ea52a26e257a07e9a65adc2f52823fbb6e8b014
+}*/
