@@ -334,7 +334,7 @@ namespace HuntTheWumpus
         public void Draw(SpriteBatch spriteBatch)
         {
             string output = "Arrows: " + player.arrows;
-            string hint = Cave.GetHints(out wumpusNextRoom,out batInRoom,out pitInRoom);
+            string hint = "This is totally a hint";
             string triviaString = " ";
             spriteBatch.Draw(background, new Vector2(), Color.White);
 

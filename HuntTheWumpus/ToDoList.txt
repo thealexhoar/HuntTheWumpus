@@ -1,4 +1,4 @@
-Work out how to get questions from Trivia, get that to work
+	Work out how to get questions from Trivia, get that to work
 Work out how to shoot the wumpus, get that to work
 Work out what happens when you shoot the wumpus, get that to work
 Get Trivia to actually create trivia questions which will be returned
