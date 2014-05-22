@@ -365,8 +365,8 @@ namespace HuntTheWumpus
             if (Player.gold > questions)
             {
                 // Ask Trivia for 3 questions
-                Trivia.TriviaGenerator(questions);
-
+               //Trivia.SendThreeQuestions();
+                
                 Console.WriteLine("Questions Recieved");
                 // Subtract the amount of gold used
                 Player.gold -= questions;
