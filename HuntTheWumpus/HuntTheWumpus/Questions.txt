@@ -168,7 +168,8 @@ of which disease?
 a. Angina 
 !b. Scurvy 
 c. Mildronate 
-d. Rabies 
+d. Rabies 
+
 Which human body part contains the smallest bones?  
 a. Hand 
 !b. Ear 
