@@ -14,7 +14,7 @@ namespace HuntTheWumpus
         public bool isInitialized = false;
         List<Question> questions = new List<Question>();
         Queue<Question> q = new Queue<Question>();
-        string[] hints;
+       
         public struct Question
         {
             public string QuestionText; // Actual question text.

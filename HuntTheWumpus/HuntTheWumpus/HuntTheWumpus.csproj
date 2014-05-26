@@ -107,6 +107,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="TriviaHints.cs" />
     <Compile Include="RoomImage.cs" />
     <Compile Include="Button.cs" />
     <Compile Include="Cave.cs" />
@@ -126,6 +127,7 @@
   <ItemGroup>
     <Content Include="Game.ico" />
     <Content Include="GameThumbnail.png" />
+    <Content Include="Hints.txt" />
     <Content Include="Questions.txt" />
   </ItemGroup>
   <ItemGroup>
