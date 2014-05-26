@@ -511,6 +511,7 @@ namespace HuntTheWumpus
 
         public void UpdateIntro(GameTime gameTime)
         {
+            trivia.RandomizeQuestions();
             if (Keyboard.GetState().IsKeyDown(Keys.Down))
             {
                 currentKeyboardState = Keyboard.GetState().IsKeyDown(Keys.Down);

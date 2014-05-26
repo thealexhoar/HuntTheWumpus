@@ -112,7 +112,7 @@ namespace HuntTheWumpus
         }
         
        
-        private void RandomizeQuestions()
+        public void RandomizeQuestions()
         {
             q.Clear();
             bool[] isPicked = new bool[questions.Count()];
