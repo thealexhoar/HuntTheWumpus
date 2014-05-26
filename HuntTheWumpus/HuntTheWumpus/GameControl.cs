@@ -129,11 +129,11 @@ namespace HuntTheWumpus
                 player.speed.Y = 0;
 
                 Input.Update();
-                if (Input.isKeyDown(Keys.A))
+                if (Input.isKeyDown(Keys.Q))
                 {
                     //triviaString = GetTrivia(3);
                 }
-                if (Keyboard.GetState().IsKeyDown(Keys.Left))
+                if (Keyboard.GetState().IsKeyDown(Keys.Left) || Input.isKeyDown(Keys.A))
                     player.speed.X -= 3;
 
                 if (Input.isKeyDown(Keys.Right) || Input.isKeyDown(Keys.D))
