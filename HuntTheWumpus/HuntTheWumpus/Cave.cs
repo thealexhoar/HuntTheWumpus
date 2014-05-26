@@ -45,7 +45,7 @@ namespace HuntTheWumpus
             // is this needed?
             public RoomImage image;
 
-            
+
             private bool wumpus;
             public bool hasWumpus
             {
@@ -213,7 +213,7 @@ namespace HuntTheWumpus
             //Rooms[x, y].hasBats = true;
         }
 
-        public List<Room> locationsPits;
+        public List<Room> locationsPits = new List<Room>();
 
 
         /// <summary>
@@ -223,7 +223,7 @@ namespace HuntTheWumpus
         /// <param name="gen">Generate location features?</param>
         public Cave(string filename, bool map = true)
         {
-            using (FileStream fStream = new FileStream(@"Content\Caves\" + filename, FileMode.Open, FileAccess.Read))
+            using (FileStream fStream = new FileStream(filename, FileMode.Open, FileAccess.Read))
             {
                 using (StreamReader strmReader = new StreamReader(fStream))
                 {
@@ -256,7 +256,7 @@ namespace HuntTheWumpus
                     locationPlayer = Rooms[0, 0];
 
                     // working on this, will make a cave manually
-                    
+
                     if (map)
                     {
                         // need to place features in rooms
@@ -280,8 +280,16 @@ namespace HuntTheWumpus
                             {
                                 // https://github.com/thealexhoar/HuntTheWumpus/blob/master/this.png
                                 // if generated x/y are adjacent to player, get a new set
-                                if ( (y == locationPlayer.Y - 1 && Math.Abs(x - locationPlayer.X) < 2) || (y == locationPlayer.Y && Math.Abs(x - locationPlayer.X) < 2) || (y == locationPlayer.Y + 1 && x == locationPlayer.X) )
+                                if ((y == locationPlayer.Y - 1 && Math.Abs(x - locationPlayer.X) < 2) || (y == locationPlayer.Y && Math.Abs(x - locationPlayer.X) < 2) || (y == locationPlayer.Y + 1 && x == locationPlayer.X))
                                     continue;
+                                // otherwise assign
+                                else
+                                {
+                                    locationWumpus = this.Rooms[x, y];
+                                    locationWumpus.hasWumpus = true;
+                                    locationWumpus.hasThing = true;
+                                    placedWumpus = true;
+                                }
                             }
                             // otherwise it's gucci, assign
                             else
@@ -338,7 +346,7 @@ namespace HuntTheWumpus
                                         this.Rooms[x, y].hasPit = true;
                                         this.Rooms[x, y].hasThing = true;
 
-                                         based = true;
+                                        based = true;
                                     }
                                 }
                             }
@@ -369,11 +377,11 @@ namespace HuntTheWumpus
                             }
                         }
                     }
-                    
+
                 }
             }
         }
-        
+
         // shitty
 #if DEBUG
         public string _GetStatusString()
@@ -437,35 +445,35 @@ namespace HuntTheWumpus
             bool w = false, b = false, p = false;
 
             // if touching left, check hex to the right
-            if ( (e & Room.Edge.LEFT) > 0)
+            if ((e & Room.Edge.LEFT) > 0)
             {
                 w = w || Rooms[locationPlayer.X + 1, locationPlayer.Y].hasWumpus;
                 b = b || Rooms[locationPlayer.X + 1, locationPlayer.Y].hasBats;
                 p = p || Rooms[locationPlayer.X + 1, locationPlayer.Y].hasPit;
             }
             // if touching right, check hex to the left
-            if ( (e & Room.Edge.RIGHT) > 0)
+            if ((e & Room.Edge.RIGHT) > 0)
             {
                 w = w || Rooms[locationPlayer.X - 1, locationPlayer.Y].hasWumpus;
                 b = b || Rooms[locationPlayer.X - 1, locationPlayer.Y].hasBats;
                 p = p || Rooms[locationPlayer.X - 1, locationPlayer.Y].hasPit;
             }
             // if touching top, check hex to the bottom
-            if ( (e & Room.Edge.TOP) > 0)
+            if ((e & Room.Edge.TOP) > 0)
             {
                 w = w || Rooms[locationPlayer.X, locationPlayer.Y + 1].hasWumpus;
                 b = b || Rooms[locationPlayer.X, locationPlayer.Y + 1].hasBats;
                 p = p || Rooms[locationPlayer.X, locationPlayer.Y + 1].hasPit;
             }
             // if touching bottom, check hex to the top
-            if ( (e & Room.Edge.BOTTOM) > 0)
+            if ((e & Room.Edge.BOTTOM) > 0)
             {
                 w = w || Rooms[locationPlayer.X, locationPlayer.Y - 1].hasWumpus;
                 b = b || Rooms[locationPlayer.X, locationPlayer.Y - 1].hasBats;
                 p = p || Rooms[locationPlayer.X, locationPlayer.Y - 1].hasPit;
             }
             // if touching left and top, check bottom-right
-            if ( (e & (Room.Edge.LEFT | Room.Edge.TOP)) > 0)
+            if ((e & (Room.Edge.LEFT | Room.Edge.TOP)) > 0)
             {
                 w = w || Rooms[locationPlayer.X + 1, locationPlayer.Y + 1].hasWumpus;
                 b = b || Rooms[locationPlayer.X + 1, locationPlayer.Y + 1].hasBats;
