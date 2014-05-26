@@ -28,6 +28,8 @@ namespace HuntTheWumpus
                 }
             }
 #endif
+
+                Environment.Exit(0);
         }
     }
 }

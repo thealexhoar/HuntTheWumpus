@@ -35,8 +35,6 @@ namespace HuntTheWumpus
         public static Cave cave;
         public static Player player = new Player(game);
 
-        public string triviaString;
-
         ScoreHandler scoreHandler;
 
         State state = State.MOVING;
@@ -64,9 +62,18 @@ namespace HuntTheWumpus
         bool oldKeyboardStateUp;
         bool currentKeyboardStateUp;
 
-        bool wumpusNextRoom;
-        bool batInRoom;
-        bool pitInRoom;
+        public static Trivia trivia = new Trivia();
+
+        // Variables for adjacent rooms and their contents
+        bool wumpus = false;
+        bool pit = false;
+        bool bat = false;
+
+        public string output;
+        public string hint;
+        public string triviaString;
+
+        public static bool wumpusDefeated;
 
         // GameControl class
         public GameControl(Game game)
@@ -88,7 +95,6 @@ namespace HuntTheWumpus
             Console.WriteLine("ScoreHandler: " + scoreHandler.HighScores);
 
             GUIStubb graphicsInterface = new GUIStubb();
-            Trivia trivia = new Trivia();
             spriteManager = new SpriteManager(game, player);
             roomImages = new List<RoomImage>();
             displaySprites = new List<Sprite>();
@@ -333,9 +339,14 @@ namespace HuntTheWumpus
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            string output = "Arrows: " + player.arrows;
-            string hint = "This is totally a hint";
-            string triviaString = " ";
+            output = "Arrows: " + player.arrows;
+            if (wumpus)
+                hint += "\nYou hear heavy breathing and rustling nearby";
+            if (bat)
+                hint += "\nYou hear wings flapping nearby";
+            if (pit)
+                hint += "\nYou feel a gust of wind";
+            triviaString = Convert.ToString(trivia.SendQuestions(3));
             spriteBatch.Draw(background, new Vector2(), Color.White);
 
             foreach (RoomImage i in roomImages) {
@@ -450,8 +461,7 @@ namespace HuntTheWumpus
         /// </summary>
         public static void EncounterWumpus()
         {
-            GetTrivia(6); // if answered correctly wumpusDefeated = true
-            bool wumpusDefeated = false;
+            trivia.SendQuestions(6);
 
             if (wumpusDefeated)                    // Work out with trivia how to check if answered correctly
             {
@@ -496,10 +506,6 @@ namespace HuntTheWumpus
             }
         }
 
-        public void GetHint()
-        {
-
-        }
 
         public void UpdateIntro(GameTime gameTime)
         {
