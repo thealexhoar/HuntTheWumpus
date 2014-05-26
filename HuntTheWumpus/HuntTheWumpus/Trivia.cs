@@ -143,7 +143,7 @@ namespace HuntTheWumpus
                     RandomizeQuestions();
                 }
 
-               Questions[i] = q.Dequeue();
+               //Questions[i] = q.Dequeue();
 
             }
 
@@ -153,17 +153,17 @@ namespace HuntTheWumpus
 
         public string[] SendQuestions(int numberOfquestions)
         {
-           
-            string[] questions = new string[numberOfQuestions]; 
-            foreach(Question q in CreateQuestionArray(numberOfQuestions))
-            {
-                for (int i = 0; i< numberOfQuestions+1; i++)
-                {
-                    questions[i] = q.formattedString; 
-                }
-            }            
 
-            return questions; 
+            string[] questions = new string[numberOfQuestions];
+            foreach (Question q in CreateQuestionArray(numberOfQuestions))
+            {
+                for (int i = 0; i < numberOfQuestions; i++)
+                {
+                    questions[i] = q.formattedString;
+                }
+            }
+
+            return questions;
         }
 
 

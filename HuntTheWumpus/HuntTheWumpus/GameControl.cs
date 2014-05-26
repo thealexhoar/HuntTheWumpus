@@ -339,6 +339,8 @@ namespace HuntTheWumpus
 
         public void Draw(SpriteBatch spriteBatch)
         {
+            triviaString = " ";
+            hint = " ";
             output = "Arrows: " + player.arrows;
             if (wumpus)
                 hint += "\nYou hear heavy breathing and rustling nearby";
