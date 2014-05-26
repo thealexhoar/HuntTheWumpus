@@ -62,7 +62,7 @@ namespace HuntTheWumpus
         bool oldKeyboardStateUp;
         bool currentKeyboardStateUp;
 
-        public Trivia trivia = new Trivia();
+        public static Trivia trivia = new Trivia();
 
         // Variables for adjacent rooms and their contents
         bool wumpus = false;
@@ -72,6 +72,8 @@ namespace HuntTheWumpus
         public string output;
         public string hint;
         public string triviaString;
+
+        public static bool wumpusDefeated;
 
         // GameControl class
         public GameControl(Game game)
@@ -459,8 +461,7 @@ namespace HuntTheWumpus
         /// </summary>
         public static void EncounterWumpus()
         {
-            GetTrivia(6); // if answered correctly wumpusDefeated = true
-            bool wumpusDefeated = false;
+            trivia.SendQuestions(6);
 
             if (wumpusDefeated)                    // Work out with trivia how to check if answered correctly
             {
