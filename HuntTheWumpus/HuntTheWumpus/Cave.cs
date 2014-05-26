@@ -351,9 +351,9 @@ namespace HuntTheWumpus
                                 }
                             }
                             // ***** }
-                            // ***** } - one cave per
+                            // ***** } - one pit per
                             // ***** ]
-                            // ***** ] - one cave per
+                            // ***** ] - one pit per
                             // ...
                             else
                             {
@@ -382,7 +382,7 @@ namespace HuntTheWumpus
             }
         }
 
-        // shitty
+
 #if DEBUG
         public string _GetStatusString()
         {
