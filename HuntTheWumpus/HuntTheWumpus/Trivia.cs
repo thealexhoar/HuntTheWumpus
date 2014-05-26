@@ -170,16 +170,9 @@ namespace HuntTheWumpus
         public bool CheckAnswer(int userAnswer)
         {
             foreach (Question q in CreateQuestionArray(numberOfQuestions))
-            {
                 if (q.Answer == userAnswer)
-                {
                     return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
+
             return false;
 
         }
