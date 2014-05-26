@@ -223,7 +223,7 @@ namespace HuntTheWumpus
         /// <param name="gen">Generate location features?</param>
         public Cave(string filename, bool map = true)
         {
-            using (FileStream fStream = new FileStream(filename, FileMode.Open, FileAccess.Read))
+            using (FileStream fStream = new FileStream(@"Content\Caves\" + filename, FileMode.Open, FileAccess.Read))
             {
                 using (StreamReader strmReader = new StreamReader(fStream))
                 {
@@ -389,13 +389,17 @@ namespace HuntTheWumpus
             string str = "";
 
             str += "Cave status:\n\n";
+            str += "(coordinates x by y)\n";
+            str += "Player location = " + locationPlayer.X + "x" + locationPlayer.Y + "\n";
+            str += "Wumpus location = " + locationWumpus.X + "x" + locationWumpus.Y + "\n";
+            str += "Bats location = " + locationBats.X + "x" + locationBats.Y + "\n";
             str += "Width = " + this.Width.ToString() + "\n";
             str += "Height = " + this.Height.ToString() + "\n";
             str += "________________________________\n\n";
 
-            for (ushort y = 0; y < this.Height; ++y)
+            for (ushort x = 0; x < this.Height; ++x)
             {
-                for (ushort x = 0; x < this.Width; ++x)
+                for (ushort y = 0; y < this.Width; ++y)
                 {
                     str += "Room " + x.ToString() + "x" + y.ToString() + ": \n";
 
@@ -405,6 +409,9 @@ namespace HuntTheWumpus
                     }
                 }
             }
+
+            str += "\n";
+            //
 
             return str;
         }
