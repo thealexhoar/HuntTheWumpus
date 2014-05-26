@@ -401,9 +401,9 @@ namespace HuntTheWumpus
             str += "Height = " + this.Height.ToString() + "\n";
             str += "________________________________\n\n";
 
-            for (ushort x = 0; x < this.Height; ++x)
+            for (ushort x = 0; x < this.Width; ++x)
             {
-                for (ushort y = 0; y < this.Width; ++y)
+                for (ushort y = 0; y < this.Height; ++y)
                 {
                     str += "Room " + x.ToString() + "x" + y.ToString() + ": \n";
 
