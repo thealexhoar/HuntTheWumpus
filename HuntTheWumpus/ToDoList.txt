@@ -17,7 +17,6 @@ Main-Menu
 In-Game
       The arrows have to shoot straight                                   Can someone do this? cause i can't get the update method to work for the arrows. The ShootArrows method is in GameControl.
       Once the arrows are shot, they have to be removed from the draw list so that they don't sit on the screen during highscore and main-menu screens
-      Display hints as to where the wumpus, bats, pits.     Kostya
       Display Trivia              Kostya and Divya
       Chose trivia answer and display if right or wrong              Kostya and Divya
       Incorporate pretty graphics into game          Martin
