@@ -64,6 +64,8 @@ namespace HuntTheWumpus
         bool oldKeyboardStateUp;
         bool currentKeyboardStateUp;
 
+        public Trivia trivia = new Trivia();
+
         bool wumpusNextRoom;
         bool batInRoom;
         bool pitInRoom;
@@ -88,7 +90,6 @@ namespace HuntTheWumpus
             Console.WriteLine("ScoreHandler: " + scoreHandler.HighScores);
 
             GUIStubb graphicsInterface = new GUIStubb();
-            Trivia trivia = new Trivia();
             spriteManager = new SpriteManager(game, player);
             roomImages = new List<RoomImage>();
             displaySprites = new List<Sprite>();
@@ -335,7 +336,7 @@ namespace HuntTheWumpus
         {
             string output = "Arrows: " + player.arrows;
             string hint = "This is totally a hint";
-            string triviaString = " ";
+            string triviaString = Convert.ToString(trivia.SendQuestions(3));
             spriteBatch.Draw(background, new Vector2(), Color.White);
 
             foreach (RoomImage i in roomImages) {
