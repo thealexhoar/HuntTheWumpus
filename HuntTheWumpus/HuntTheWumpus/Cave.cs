@@ -395,9 +395,9 @@ namespace HuntTheWumpus
             str += "Bats location = " + locationBats.X + "x" + locationBats.Y + "\n";
             str += "Pits locations = \n";
             foreach (var pl in locationsPits)
-                str += "\t" + pl.X + "x" + pl.Y + "\n\n";
+                str += "\t" + pl.X + "x" + pl.Y + "\n";
 
-            str += "Width = " + this.Width.ToString() + "\n";
+            str += "\nWidth = " + this.Width.ToString() + "\n";
             str += "Height = " + this.Height.ToString() + "\n";
             str += "________________________________\n\n";
 
