@@ -69,7 +69,7 @@ namespace HuntTheWumpus
                     question.Answer = -1;
 
                     // Check each choice to see if it begins with the '!' char (marked as correct).
-                    for (int i = 0; i < 4; i++)
+                    for (int i = 0; i < question.Choices.Length; i++)
                     {
                         if (question.Choices[i].StartsWith("!"))
                         {
