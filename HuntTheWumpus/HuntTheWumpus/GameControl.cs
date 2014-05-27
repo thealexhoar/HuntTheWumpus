@@ -108,6 +108,11 @@ namespace HuntTheWumpus
                     cave.Rooms[x,y].image = new RoomImage(_position,"Images/hex","Images/hex2",game);
                     cave.Rooms[x, y].image.setExits(cave.Rooms[x, y].Exits);
                     roomImages.Add(cave.Rooms[x, y].image);
+                    bool w,b,p;
+                    cave.GetAdjacent(x,y,out w, out b, out p);
+                    if(w){
+                        cave.Rooms[x, y].image.nearWumpus = true;
+                    }
                 }
             }
             cave.movePlayer(0, 0);

@@ -448,11 +448,10 @@ namespace HuntTheWumpus
             return c;
         }
         */
-        public void GetAdjacent(out bool wumpus, out bool bats, out bool pit)
+        public void GetAdjacent(int X, int Y, out bool wumpus, out bool bats, out bool pit)
         {
-            ushort x = locationPlayer.X, y = locationPlayer.Y;
-            Room.Edge e = locationPlayer.GetEdge();
-
+            int x = X, y = Y;
+            Room.Edge e = Rooms[x, y].GetEdge();
             bool w = false, b = false, p = false;
 
             // if touching left, check hex to the right

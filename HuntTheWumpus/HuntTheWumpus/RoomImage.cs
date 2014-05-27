@@ -22,8 +22,10 @@ namespace HuntTheWumpus {
         private Texture2D[] arrowDirections;
         private Texture2D graphic;
         private Texture2D corners;
+        private Texture2D greenHex;
         private Cave.Room.Exit[] exits;
         public bool currentRoom = false;
+        public bool nearWumpus = false;
         public bool[] edgeDraws;
         public bool revealed = false;
 
@@ -82,6 +84,7 @@ namespace HuntTheWumpus {
             arrowDirections[3] = content.Load<Texture2D>("images/ArrowTR");
             arrowDirections[4] = content.Load<Texture2D>("images/ArrowBR");
             arrowDirections[5] = content.Load<Texture2D>("images/ArrowBM");
+            greenHex = content.Load<Texture2D>("images/GreenHex");
             graphic = texture;
             corners = content.Load<Texture2D>("images/TopHex");
         }
@@ -104,7 +107,11 @@ namespace HuntTheWumpus {
                 else {
                     if (currentRoom) {
                         spriteBatch.Draw(arrowDirections[i], Position, Color.White);
+                        if (nearWumpus) {
+                            spriteBatch.Draw(greenHex, Position, Color.White);
+                        }
                     }
+                    
                 }
             }
             spriteBatch.Draw(corners, Position, Color.White);
