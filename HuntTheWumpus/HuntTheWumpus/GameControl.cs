@@ -110,8 +110,9 @@ namespace HuntTheWumpus
                     roomImages.Add(cave.Rooms[x, y].image);
                 }
             }
-
+            cave.movePlayer(0, 0);
             cave.Rooms[cave.locationPlayer.X, cave.locationPlayer.Y].image.revealed = true;
+            cave.Rooms[cave.locationPlayer.X, cave.locationPlayer.Y].image.currentRoom = true;
             base.Initialize();
         }
 
@@ -191,6 +192,7 @@ namespace HuntTheWumpus
                             moveCounter = 0;
                             roomSwitch = i;
                             Console.WriteLine(i);
+                            cave.locationPlayer.image.currentRoom = false;
                         }
                     }
                 }
@@ -305,6 +307,7 @@ namespace HuntTheWumpus
                             player.addGold((int)cave.locationPlayer.Gold);
                         }
                         cave.locationPlayer.image.revealed = true;
+                        cave.locationPlayer.image.currentRoom = true;
                     }
 
                     player.position += (moveVector / 60);
