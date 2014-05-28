@@ -459,60 +459,73 @@ namespace HuntTheWumpus
             Room.Edge e = Rooms[x, y].GetEdge();
             bool w = false, b = false, p = false;
 
+            int xPlusOne = x + 1 > 5 ? 0 : x + 1;
+            int xMinusOne = x - 1 < 0 ? 5 : x - 1;
+            int yPlusOne = y + 1 > 4 ? 0 : y + 1;
+            int yMinusOne = y - 1 < 0 ? 4 : y - 1;
+
             if ( !((e & Room.Edge.LEFT) > 0) )
             {
-                w = w || Rooms[x - 1, y].hasWumpus;
-                b = b || Rooms[x - 1, y].hasBats;
-                p = p || Rooms[x - 1, y].hasPlayer;
+                Room tmp = Rooms[xMinusOne, y];
+                w = w || tmp.hasWumpus;
+                b = b || tmp.hasBats;
+                p = p || tmp.hasPlayer;
             }
 
             if ( !((e & Room.Edge.RIGHT) > 0) )
             {
-                w = w || Rooms[x + 1, y].hasWumpus;
-                b = b || Rooms[x + 1, y].hasBats;
-                p = p || Rooms[x + 1, y].hasPlayer;
+                Room tmp = Rooms[xPlusOne, y];
+                w = w || tmp.hasWumpus;
+                b = b || tmp.hasBats;
+                p = p || tmp.hasPlayer;
             }
 
             if ( !((e & Room.Edge.TOP) > 0) )
             {
-                w = w || Rooms[x, y - 1].hasWumpus;
-                b = b || Rooms[x, y - 1].hasBats;
-                p = p || Rooms[x, y - 1].hasPlayer;
+                Room tmp = Rooms[x, yMinusOne];
+                w = w || tmp.hasWumpus;
+                b = b || tmp.hasBats;
+                p = p || tmp.hasPlayer;
             }
 
             if ( !((e & Room.Edge.BOTTOM) > 0) )
             {
-                w = w || Rooms[x, y + 1].hasWumpus;
-                b = b || Rooms[x, y + 1].hasBats;
-                p = p || Rooms[x, y + 1].hasPlayer;
+                Room tmp = Rooms[x, yPlusOne];
+                w = w || tmp.hasWumpus;
+                b = b || tmp.hasBats;
+                p = p || tmp.hasPlayer;
             }
             //
             if ( !((e & Room.Edge.TOP) > 0) && !((e & Room.Edge.LEFT) > 0) )
             {
-                w = w || Rooms[x - 1, y - 1].hasWumpus;
-                b = b || Rooms[x - 1, y - 1].hasBats;
-                p = p || Rooms[x - 1, y - 1].hasPlayer;
+                Room tmp = Rooms[xMinusOne, yMinusOne];
+                w = w || tmp.hasWumpus;
+                b = b || tmp.hasBats;
+                p = p || tmp.hasPlayer;
             }
 
             if ( !((e & Room.Edge.TOP) > 0) && !((e & Room.Edge.RIGHT) > 0) )
             {
-                w = w || Rooms[x + 1, y - 1].hasWumpus;
-                b = b || Rooms[x + 1, y - 1].hasBats;
-                p = p || Rooms[x + 1, y - 1].hasPlayer;
+                Room tmp = Rooms[xPlusOne, yMinusOne];
+                w = w || tmp.hasWumpus;
+                b = b || tmp.hasBats;
+                p = p || tmp.hasPlayer;
             }
 
             if ( !((e & Room.Edge.BOTTOM) > 0) && !((e & Room.Edge.LEFT) > 0) )
             {
-                w = w || Rooms[x - 1, y + 1].hasWumpus;
-                b = b || Rooms[x - 1, y + 1].hasBats;
-                p = p || Rooms[x - 1, y + 1].hasPlayer;
+                Room tmp = Rooms[xMinusOne, yPlusOne];
+                w = w || tmp.hasWumpus;
+                b = b || tmp.hasBats;
+                p = p || tmp.hasPlayer;
             }
 
             if ( !((e & Room.Edge.BOTTOM) > 0) && !((e & Room.Edge.RIGHT) > 0) )
             {
-                w = w || Rooms[x + 1, y + 1].hasWumpus;
-                b = b || Rooms[x + 1, y + 1].hasBats;
-                p = p || Rooms[x + 1, y + 1].hasPlayer;
+                Room tmp = Rooms[xPlusOne, yPlusOne];
+                w = w || tmp.hasWumpus;
+                b = b || tmp.hasBats;
+                p = p || tmp.hasPlayer;
             }
 
             wumpus = w;
