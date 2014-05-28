@@ -451,64 +451,153 @@ namespace HuntTheWumpus
         public void GetAdjacent(int X, int Y, out bool wumpus, out bool bats, out bool pit)
         {
             int x = X, y = Y;
+            int x2, y2;
             Room.Edge e = Rooms[x, y].GetEdge();
             bool w = false, b = false, p = false;
 
             // if touching left, check hex to the right
             if ((e & Room.Edge.LEFT) > 0)
             {
-                w = w || Rooms[locationPlayer.X + 1, locationPlayer.Y].hasWumpus;
-                b = b || Rooms[locationPlayer.X + 1, locationPlayer.Y].hasBats;
-                p = p || Rooms[locationPlayer.X + 1, locationPlayer.Y].hasPit;
+                x2 = x;
+                y2 = y;
+                if (x == 5) {
+                    x2 = 0;
+                }
+                else {
+                    x2 = x + 1;
+                }
+                w = w || Rooms[x2, y2].hasWumpus;
+                b = b || Rooms[x2, y2].hasBats;
+                p = p || Rooms[x2, y2].hasPit;
             }
             // if touching right, check hex to the left
             if ((e & Room.Edge.RIGHT) > 0)
             {
-                w = w || Rooms[locationPlayer.X - 1, locationPlayer.Y].hasWumpus;
-                b = b || Rooms[locationPlayer.X - 1, locationPlayer.Y].hasBats;
-                p = p || Rooms[locationPlayer.X - 1, locationPlayer.Y].hasPit;
+                x2 = x;
+                y2 = y;
+                if (x == 0) {
+                    x2 = 5;
+                }
+                else {
+                    x2 = x - 1;
+                }
+                w = w || Rooms[x2, y2].hasWumpus;
+                b = b || Rooms[x2, y2].hasBats;
+                p = p || Rooms[x2, y2].hasPit;
             }
             // if touching top, check hex to the bottom
             if ((e & Room.Edge.TOP) > 0)
             {
-                w = w || Rooms[locationPlayer.X, locationPlayer.Y + 1].hasWumpus;
-                b = b || Rooms[locationPlayer.X, locationPlayer.Y + 1].hasBats;
-                p = p || Rooms[locationPlayer.X, locationPlayer.Y + 1].hasPit;
+                x2 = x;
+                y2 = y;
+                if (y == 4) {
+                    y2 = 0;
+                }
+                else {
+                    y2 = y + 1;
+                }
+                w = w || Rooms[x2,y2].hasWumpus;
+                b = b || Rooms[x2,y2].hasBats;
+                p = p || Rooms[x2,y2].hasPit;
             }
             // if touching bottom, check hex to the top
             if ((e & Room.Edge.BOTTOM) > 0)
             {
-                w = w || Rooms[locationPlayer.X, locationPlayer.Y - 1].hasWumpus;
-                b = b || Rooms[locationPlayer.X, locationPlayer.Y - 1].hasBats;
-                p = p || Rooms[locationPlayer.X, locationPlayer.Y - 1].hasPit;
+                x2 = x;
+                y2 = y;
+                if (y == 0) {
+                    y2 = 4;
+                }
+                else {
+                    y2 = y - 1;
+                }
+                w = w || Rooms[x2, y2].hasWumpus;
+                b = b || Rooms[x2, y2].hasBats;
+                p = p || Rooms[x2, y2].hasPit;
             }
             // if touching left and top, check bottom-right
             if ((e & (Room.Edge.LEFT | Room.Edge.TOP)) > 0)
             {
-                w = w || Rooms[locationPlayer.X + 1, locationPlayer.Y + 1].hasWumpus;
-                b = b || Rooms[locationPlayer.X + 1, locationPlayer.Y + 1].hasBats;
-                p = p || Rooms[locationPlayer.X + 1, locationPlayer.Y + 1].hasPit;
+                x2 = x;
+                y2 = y;
+                if (y == 4) {
+                    y2 = 0;
+                }
+                else {
+                    y2 = y + 1;
+                }
+                if (x == 5) {
+                    x2 = 0;
+                }
+                else {
+                    x2 = x + 1;
+                }
+                w = w || Rooms[x2, y2].hasWumpus;
+                b = b || Rooms[x2, y2].hasBats;
+                p = p || Rooms[x2, y2].hasPit;
             }
             // if touching right and top, check bottom-left
             if ((e & (Room.Edge.RIGHT | Room.Edge.TOP)) > 0)
             {
-                w = w || Rooms[locationPlayer.X - 1, locationPlayer.Y + 1].hasWumpus;
-                b = b || Rooms[locationPlayer.X - 1, locationPlayer.Y + 1].hasBats;
-                p = p || Rooms[locationPlayer.X - 1, locationPlayer.Y + 1].hasPit;
+                x2 = x;
+                y2 = y;
+                if (y == 4) {
+                    y2 = 0;
+                }
+                else {
+                    y2 = y + 1;
+                }
+                if (x == 0) {
+                    x2 = 5;
+                }
+                else {
+                    x2 = x - 1;
+                }
+                w = w || Rooms[x2, y2].hasWumpus;
+                b = b || Rooms[x2, y2].hasBats;
+                p = p || Rooms[x2, y2].hasPit;
             }
             // if touching left and bottom, check top-right
             if ((e & (Room.Edge.LEFT | Room.Edge.BOTTOM)) > 0)
             {
-                w = w || Rooms[locationPlayer.X + 1, locationPlayer.Y - 1].hasWumpus;
-                b = b || Rooms[locationPlayer.X + 1, locationPlayer.Y - 1].hasBats;
-                p = p || Rooms[locationPlayer.X + 1, locationPlayer.Y - 1].hasPit;
+                x2 = x;
+                y2 = y;
+                if (y == 0) {
+                    y2 = 4;
+                }
+                else {
+                    y2 = y - 1;
+                }
+                if (x == 5) {
+                    x2 = 0;
+                }
+                else {
+                    x2 = x + 1;
+                }
+                w = w || Rooms[x2, y2].hasWumpus;
+                b = b || Rooms[x2, y2].hasBats;
+                p = p || Rooms[x2, y2].hasPit;
             }
             // if touching right and bottom, check top-left
             if ((e & (Room.Edge.RIGHT | Room.Edge.BOTTOM)) > 0)
             {
-                w = w || Rooms[locationPlayer.X - 1, locationPlayer.Y - 1].hasWumpus;
-                b = b || Rooms[locationPlayer.X - 1, locationPlayer.Y - 1].hasBats;
-                p = p || Rooms[locationPlayer.X - 1, locationPlayer.Y - 1].hasPit;
+                x2 = x;
+                y2 = y;
+                if (y == 0) {
+                    y2 = 4;
+                }
+                else {
+                    y2 = y - 1;
+                }
+                if (x == 0) {
+                    x2 = 5;
+                }
+                else {
+                    x2 = x - 1;
+                }
+                w = w || Rooms[x2, y2].hasWumpus;
+                b = b || Rooms[x2, y2].hasBats;
+                p = p || Rooms[x2, y2].hasPit;
             }
 
             wumpus = w;

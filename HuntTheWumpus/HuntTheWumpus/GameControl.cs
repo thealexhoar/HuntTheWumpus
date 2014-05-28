@@ -15,10 +15,11 @@ namespace HuntTheWumpus
     /// This is a game component that implements IUpdateable
     /// </summary>
     /// 
-    enum State 
+    public enum State 
     {
         MOVING,
-        SWITCHING
+        SWITCHING,
+        TRANSPORTED
     }
 
     public class GameControl : Microsoft.Xna.Framework.GameComponent
@@ -37,7 +38,7 @@ namespace HuntTheWumpus
 
         ScoreHandler scoreHandler;
 
-        State state = State.MOVING;
+        public State state = State.MOVING;
         Vector2 moveVector;
         int moveCounter;
         ScoreHandler.Score score = new ScoreHandler.Score();
@@ -51,6 +52,7 @@ namespace HuntTheWumpus
         Texture2D selectionImage;
         public Texture2D arrow;
         public int roomSwitch;
+        public Vector2 transportDelta;
 
         public byte currentSelectionBox = 0;
 
@@ -100,6 +102,7 @@ namespace HuntTheWumpus
             displaySprites = new List<Sprite>();
             cave = new Cave("test.cave");
             Vector2 _position = new Vector2();
+            cave.moveWumpus(0, 0);
 
             for (int x = 0; x < cave.Width; x++) {
                 for (int y = 0; y < cave.Height; y++) {
@@ -111,7 +114,10 @@ namespace HuntTheWumpus
                     bool w,b,p;
                     cave.GetAdjacent(x,y,out w, out b, out p);
                     if(w){
-                        cave.Rooms[x, y].image.nearWumpus = true;
+                       cave.Rooms[x, y].image.nearWumpus = true;
+                    }
+                    if (cave.Rooms[x, y].hasWumpus) {
+                        cave.Rooms[x, y].image.nearWumpus = true;                        
                     }
                 }
             }
@@ -130,6 +136,7 @@ namespace HuntTheWumpus
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Update(GameTime gameTime) {
             // TODO: Add your update code here
+            #region Moving State
             if (state == State.MOVING) {
                 player.speed.X = 0;
                 player.speed.Y = 0;
@@ -138,6 +145,9 @@ namespace HuntTheWumpus
                 if (Input.isKeyDown(Keys.Q))
                 {
                     //triviaString = GetTrivia(3);
+                }
+                if (Input.isKeyPressed(Keys.B)) {
+                    EncounterBats();
                 }
                 if (Keyboard.GetState().IsKeyDown(Keys.Left) || Input.isKeyDown(Keys.A))
                     player.speed.X -= 3;
@@ -203,7 +213,8 @@ namespace HuntTheWumpus
                 }
 
             }
-
+            #endregion
+            #region Switching State
             else if (state == State.SWITCHING) {
                     moveCounter++;
                     if (moveCounter >= 30) {
@@ -321,6 +332,21 @@ namespace HuntTheWumpus
                     }
             }
 
+            #endregion
+            #region Transport State
+            if (state == State.TRANSPORTED) {
+                moveCounter++;
+                if (moveCounter <= 30) {
+                    foreach (RoomImage r in roomImages) {
+                        r.Position += (transportDelta / 30);
+                    }
+                }
+                else {
+                    cave.locationPlayer.image.revealed = true;
+                    state = State.MOVING;
+                }
+            }
+            #endregion
             player.Update(gameTime);
             foreach (RoomImage r in roomImages) {
                 r.Update();
@@ -449,15 +475,25 @@ namespace HuntTheWumpus
         /// Run this if user enters room with bats.
         /// Sets the current room value to a random room in the map range.
         /// </summary>
-        public static void EncounterBats()
+        public void EncounterBats()
         {
             Random rnd = new Random();
+            int rx = rnd.Next(6);
+            int ry = rnd.Next(5);
+            while (rx == cave.locationPlayer.X && ry == cave.locationPlayer.Y) {
+                rx = rnd.Next(6);
+                ry = rnd.Next(5);
+            }
+            Vector2 delta;
+            delta = cave.locationPlayer.image.Position - cave.Rooms[rx, ry].image.Position;
+            cave.locationPlayer.image.currentRoom = false;
+            cave.movePlayer(rx, ry);
+            cave.locationPlayer.image.currentRoom = true;
+            state = State.TRANSPORTED;
+            transportDelta = delta;
+            moveCounter = 0;
+            
 
-            // Get the current room position from map
-            int currentRoom = 7;
-
-            // Send the player to a random room in the map
-            currentRoom = rnd.Next(1, 31);                  // THERE IS ONE PROBLEM WITH THIS. If the player is randomly dropped into a room with a pit, or the wumpus, however unlikely, the player will not like that.
         }
 
         /// <summary>
