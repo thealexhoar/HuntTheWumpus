@@ -128,7 +128,7 @@ namespace HuntTheWumpus
                 }
             }
 
-            playerHitBox.X = (int)position.X;
+            playerHitBox.X = (int)position.X + 10;
             playerHitBox.Y = (int)position.Y + 25;
             base.Update(gameTime);
         }
