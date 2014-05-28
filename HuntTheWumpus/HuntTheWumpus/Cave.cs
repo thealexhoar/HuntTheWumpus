@@ -457,7 +457,7 @@ namespace HuntTheWumpus
         public void GetAdjacent(int X, int Y, out bool wumpus, out bool bats, out bool pit) // This function is broken
         {
             int x = X, y = Y;
-            int x2, y2;
+            // int x2, y2;
             Room.Edge e = Rooms[x, y].GetEdge();
             bool w = false, b = false, p = false;
 
