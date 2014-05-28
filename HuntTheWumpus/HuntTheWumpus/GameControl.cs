@@ -50,6 +50,7 @@ namespace HuntTheWumpus
         Texture2D selectionImage2;
         Texture2D selectionImage3;
         Texture2D selectionImage;
+        Texture2D HUD;
         public Texture2D arrow;
         public int roomSwitch;
         public Vector2 transportDelta;
@@ -390,6 +391,7 @@ namespace HuntTheWumpus
             foreach (RoomImage i in roomImages) {
                 i.Draw(spriteBatch);
             }
+            spriteBatch.Draw(HUD, new Vector2(), Color.White);
             // Draw the string in trivia at position 300, 600 in golden consolas font
             spriteBatch.DrawString(consolas, triviaString, new Vector2(300, 600), Color.Gold);
             // Draw the string in hint at position 900,10 in golden consolas font
@@ -419,6 +421,7 @@ namespace HuntTheWumpus
             highscoreImage = content.Load<Texture2D>(@"Images/Highscores");
             arrow = content.Load<Texture2D>(@"Images/ArrowSprite");
             background = content.Load<Texture2D>(@"Images/SpaceBackground");
+            HUD = content.Load<Texture2D>(@"Images/HUD");
             player.LoadContent(content);
             foreach (RoomImage i in roomImages) {
                 i.LoadContent(content);
