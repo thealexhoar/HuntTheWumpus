@@ -448,7 +448,7 @@ namespace HuntTheWumpus
             return c;
         }
         */
-        public void GetAdjacent(int X, int Y, out bool wumpus, out bool bats, out bool pit)
+        public void GetAdjacent(int X, int Y, out bool wumpus, out bool bats, out bool pit) // This function is broken
         {
             int x = X, y = Y;
             int x2, y2;
@@ -458,6 +458,7 @@ namespace HuntTheWumpus
             // if touching left, check hex to the right
             if ((e & Room.Edge.LEFT) > 0)
             {
+                /*
                 x2 = x;
                 y2 = y;
                 if (x == 5) {
@@ -469,10 +470,17 @@ namespace HuntTheWumpus
                 w = w || Rooms[x2, y2].hasWumpus;
                 b = b || Rooms[x2, y2].hasBats;
                 p = p || Rooms[x2, y2].hasPit;
+                */
+                Room tmp = Rooms[locationPlayer.X > 4 ? 0 : locationPlayer.X + 1, locationPlayer.Y];
+                
+                w = w || tmp.hasWumpus;
+                b = b || tmp.hasBats;
+                p = p || tmp.hasPit;
             }
             // if touching right, check hex to the left
             if ((e & Room.Edge.RIGHT) > 0)
             {
+                /*
                 x2 = x;
                 y2 = y;
                 if (x == 0) {
@@ -484,10 +492,17 @@ namespace HuntTheWumpus
                 w = w || Rooms[x2, y2].hasWumpus;
                 b = b || Rooms[x2, y2].hasBats;
                 p = p || Rooms[x2, y2].hasPit;
+                */
+                Room tmp = Rooms[locationPlayer.X < 1 ? 5 : locationPlayer.X - 1, locationPlayer.Y];
+
+                w = w || tmp.hasWumpus;
+                b = b || tmp.hasBats;
+                p = p || tmp.hasPit;
             }
             // if touching top, check hex to the bottom
             if ((e & Room.Edge.TOP) > 0)
             {
+                /*
                 x2 = x;
                 y2 = y;
                 if (y == 4) {
@@ -499,10 +514,17 @@ namespace HuntTheWumpus
                 w = w || Rooms[x2,y2].hasWumpus;
                 b = b || Rooms[x2,y2].hasBats;
                 p = p || Rooms[x2,y2].hasPit;
+                */
+                Room tmp = Rooms[locationPlayer.X, locationPlayer.Y > 3 ? 0 : locationPlayer.Y + 1];
+
+                w = w || tmp.hasWumpus;
+                b = b || tmp.hasBats;
+                p = p || tmp.hasPit;
             }
             // if touching bottom, check hex to the top
             if ((e & Room.Edge.BOTTOM) > 0)
             {
+                /*
                 x2 = x;
                 y2 = y;
                 if (y == 0) {
@@ -514,10 +536,17 @@ namespace HuntTheWumpus
                 w = w || Rooms[x2, y2].hasWumpus;
                 b = b || Rooms[x2, y2].hasBats;
                 p = p || Rooms[x2, y2].hasPit;
+                 * */
+                Room tmp = Rooms[locationPlayer.X, locationPlayer.Y < 1 ? 4 : locationPlayer.Y - 1];
+
+                w = w || tmp.hasWumpus;
+                b = b || tmp.hasBats;
+                p = p || tmp.hasPit;
             }
             // if touching left and top, check bottom-right
             if ((e & (Room.Edge.LEFT | Room.Edge.TOP)) > 0)
             {
+                /*
                 x2 = x;
                 y2 = y;
                 if (y == 4) {
@@ -535,10 +564,17 @@ namespace HuntTheWumpus
                 w = w || Rooms[x2, y2].hasWumpus;
                 b = b || Rooms[x2, y2].hasBats;
                 p = p || Rooms[x2, y2].hasPit;
+                */
+                Room tmp = Rooms[locationPlayer.X > 4 ? 0 : locationPlayer.X + 1, locationPlayer.Y > 3 ? 0 : locationPlayer.Y + 1];
+
+                w = w || tmp.hasWumpus;
+                b = b || tmp.hasBats;
+                p = p || tmp.hasPit;
             }
             // if touching right and top, check bottom-left
             if ((e & (Room.Edge.RIGHT | Room.Edge.TOP)) > 0)
             {
+                /*
                 x2 = x;
                 y2 = y;
                 if (y == 4) {
@@ -553,13 +589,22 @@ namespace HuntTheWumpus
                 else {
                     x2 = x - 1;
                 }
+                
                 w = w || Rooms[x2, y2].hasWumpus;
                 b = b || Rooms[x2, y2].hasBats;
                 p = p || Rooms[x2, y2].hasPit;
+                */
+
+                Room tmp = Rooms[locationPlayer.X < 1 ? 5 : locationPlayer.X - 1, locationPlayer.Y > 3 ? 0 : locationPlayer.Y + 1];
+
+                w = w || tmp.hasWumpus;
+                b = b || tmp.hasBats;
+                p = p || tmp.hasPit;
             }
             // if touching left and bottom, check top-right
             if ((e & (Room.Edge.LEFT | Room.Edge.BOTTOM)) > 0)
             {
+                /*
                 x2 = x;
                 y2 = y;
                 if (y == 0) {
@@ -577,10 +622,17 @@ namespace HuntTheWumpus
                 w = w || Rooms[x2, y2].hasWumpus;
                 b = b || Rooms[x2, y2].hasBats;
                 p = p || Rooms[x2, y2].hasPit;
+                 * */
+                Room tmp = Rooms[locationPlayer.X > 4 ? 0 : locationPlayer.X + 1, locationPlayer.Y < 1 ? 4 : locationPlayer.Y - 1];
+
+                w = w || tmp.hasWumpus;
+                b = b || tmp.hasBats;
+                p = p || tmp.hasPit;
             }
             // if touching right and bottom, check top-left
             if ((e & (Room.Edge.RIGHT | Room.Edge.BOTTOM)) > 0)
             {
+                /*
                 x2 = x;
                 y2 = y;
                 if (y == 0) {
@@ -598,6 +650,12 @@ namespace HuntTheWumpus
                 w = w || Rooms[x2, y2].hasWumpus;
                 b = b || Rooms[x2, y2].hasBats;
                 p = p || Rooms[x2, y2].hasPit;
+                */
+                Room tmp = Rooms[locationPlayer.X < 1 ? 5 : locationPlayer.X - 1, locationPlayer.Y < 1 ? 4 : locationPlayer.Y - 1];
+
+                w = w || tmp.hasWumpus;
+                b = b || tmp.hasBats;
+                p = p || tmp.hasPit;
             }
 
             wumpus = w;

@@ -26,6 +26,7 @@ namespace HuntTheWumpus
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
+            graphics.SynchronizeWithVerticalRetrace = true;
             Content.RootDirectory = "Content";
             graphics.PreferredBackBufferWidth = 1024;
             graphics.PreferredBackBufferHeight = 768;
