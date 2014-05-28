@@ -187,5 +187,23 @@ namespace HuntTheWumpus
 
             return true;
         }
+
+        private static Vector2 GetLineIntersection(Point p1, Point p2, Point p3, Point p4)
+        {
+            // http://flassari.is/2008/11/line-line-intersection-in-cplusplus/
+            float d = (p1.X - p2.X) * (p3.Y - p4.Y) - (p1.Y - p2.Y) * (p3.X - p4.X);
+            if (d == 0) return new Vector2(float.NaN, float.NaN);
+
+            float pre = (p1.X * p2.Y - p1.Y * p2.X), post = (p3.X * p4.Y - p3.Y * p4.X);
+            float x = (pre * (p3.X - p4.X) - (p1.X - p2.X) * post) / d;
+            float y = (pre * (p3.Y - p4.Y) - (p1.Y - p2.Y) * post) / d;
+
+            if (x < Math.Min(p1.X, p2.X) || x > Math.Max(p1.X, p2.X) ||
+                x < Math.Min(p3.X, p4.X) || x > Math.Max(p3.X, p4.X) ||
+                y < Math.Min(p1.Y, p2.Y) || x > Math.Max(p1.Y, p2.Y) ||
+                y < Math.Min(p3.Y, p4.Y) || x > Math.Max(p3.Y, p4.Y)) return new Vector2(float.NaN, float.NaN);
+
+            return new Vector2(x, y);
+        }
     }
 }
