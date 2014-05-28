@@ -107,9 +107,10 @@ namespace HuntTheWumpus {
                 else {
                     if (currentRoom) {
                         spriteBatch.Draw(arrowDirections[i], Position, Color.White);
-                        if (nearWumpus) {
-                            spriteBatch.Draw(greenHex, Position, Color.White);
-                        }
+                        
+                    }
+                    if (nearWumpus && revealed) {
+                        spriteBatch.Draw(greenHex, Position, Color.White);
                     }
                     
                 }
