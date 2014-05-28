@@ -23,8 +23,13 @@ namespace HuntTheWumpus {
         private Texture2D graphic;
         private Texture2D corners;
         private Texture2D greenHex;
+        private Texture2D pitHex;
+        private Texture2D batHex;
         private Cave.Room.Exit[] exits;
         public bool currentRoom = false;
+        public bool pit = false;
+        public bool bat = false;
+        public bool resolved = true;
         public bool nearWumpus = false;
         public bool[] edgeDraws;
         public bool revealed = false;
@@ -85,13 +90,23 @@ namespace HuntTheWumpus {
             arrowDirections[4] = content.Load<Texture2D>("images/ArrowBR");
             arrowDirections[5] = content.Load<Texture2D>("images/ArrowBM");
             greenHex = content.Load<Texture2D>("images/GreenHex");
+            batHex = content.Load<Texture2D>("images/BatHex");
+            pitHex = content.Load<Texture2D>("images/PitHex");
             graphic = texture;
             corners = content.Load<Texture2D>("images/TopHex");
         }
 
         public void Update() {
             if (revealed) {
-                graphic = texture;
+                if (bat) {
+                    graphic = batHex;
+                }
+                else if (pit) {
+                    graphic = pitHex;
+                }
+                else {
+                    graphic = texture;
+                }
             }
             else {
                 graphic = texture2;
@@ -99,23 +114,29 @@ namespace HuntTheWumpus {
         }
         public void Draw(SpriteBatch spriteBatch) {
             spriteBatch.Draw(graphic, Position, Color.White);
-            spriteBatch.Draw(baseEdge, Position, Color.White);
+            if (revealed) {
+                spriteBatch.Draw(baseEdge, Position, Color.White);
+            }
             if (nearWumpus && revealed) {
                 spriteBatch.Draw(greenHex, Position, Color.White);
             }
             for (int i = 0; i < 6; i++) {
-                if (edgeDraws[i]) {
-                    spriteBatch.Draw(edges[i], Position, Color.White);
-                }
-                else {
-                    if (currentRoom) {
-                        spriteBatch.Draw(arrowDirections[i], Position, Color.White);
-                        
+                if (revealed) {
+                    if (edgeDraws[i]) {
+                        spriteBatch.Draw(edges[i], Position, Color.White);
                     }
-                    
+                    else {
+                        if (currentRoom) {
+                            spriteBatch.Draw(arrowDirections[i], Position, Color.White);
+
+                        }
+                    }
                 }
+                
             }
-            spriteBatch.Draw(corners, Position, Color.White);
+            if (revealed) {
+                spriteBatch.Draw(corners, Position, Color.White);
+            }
         }
         
     }

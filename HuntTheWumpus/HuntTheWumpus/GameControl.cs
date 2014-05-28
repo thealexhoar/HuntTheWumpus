@@ -103,7 +103,8 @@ namespace HuntTheWumpus
             displaySprites = new List<Sprite>();
             cave = new Cave("test.cave");
             Vector2 _position = new Vector2();
-            cave.moveWumpus(0, 0);
+            cave.moveWumpus(1, 1);
+            cave.Rooms[0, 0].hasBats = true;
             
 
             for (int x = 0; x < cave.Width; x++) {
@@ -119,9 +120,14 @@ namespace HuntTheWumpus
                     if(w){
                        cave.Rooms[x, y].image.nearWumpus = true;
                     }
-                    //if (cave.Rooms[x, y].hasWumpus) {
-                    //    cave.Rooms[x, y].image.nearWumpus = true;                        
-                    //}
+                    if (cave.Rooms[x, y].hasBats) {
+                        cave.Rooms[x, y].image.bat = true;
+                        cave.Rooms[x, y].image.resolved = false;
+                    }
+                    if (cave.Rooms[x, y].hasPit) {
+                        cave.Rooms[x, y].image.pit = true;
+                        cave.Rooms[x, y].image.resolved = false;
+                    }
                 }
             }
             cave.movePlayer(0, 0);
@@ -376,8 +382,8 @@ namespace HuntTheWumpus
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            triviaString = " ";
-            hint = " ";
+            triviaString = "trivia";
+            hint = "hint";
             output = "Arrows: " + player.arrows;
             if (wumpus)
                 hint += "\nYou hear heavy breathing and rustling nearby";
@@ -385,7 +391,7 @@ namespace HuntTheWumpus
                 hint += "\nYou hear wings flapping nearby";
             if (pit)
                 hint += "\nYou feel a gust of wind";
-            triviaString = Convert.ToString(trivia.SendQuestions(3));
+            //triviaString = Convert.ToString(trivia.SendQuestions(3));
             spriteBatch.Draw(background, new Vector2(), Color.White);
 
             foreach (RoomImage i in roomImages) {
@@ -395,9 +401,9 @@ namespace HuntTheWumpus
             // Draw the string in trivia at position 300, 600 in golden consolas font
             spriteBatch.DrawString(consolas, triviaString, new Vector2(300, 600), Color.Gold);
             // Draw the string in hint at position 900,10 in golden consolas font
-            spriteBatch.DrawString(consolas, hint, new Vector2(900, 50), Color.Gold);
+            spriteBatch.DrawString(consolas, hint, new Vector2(910,50), Color.Gold);
             // Draw the string in output at position 10,10 in golden consolas font
-            spriteBatch.DrawString(consolas, output, fontPos, Color.Gold);
+            spriteBatch.DrawString(consolas, output, new Vector2(30,580), Color.Gold);
             // Draw the coins# at position (10,30) in golden consolas font
             spriteBatch.DrawString(consolas, "Coins: " + Player.gold, new Vector2(10, 30), Color.Gold);
             player.Draw(spriteBatch);            
