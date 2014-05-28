@@ -289,6 +289,9 @@ namespace HuntTheWumpus
                                     locationWumpus.hasWumpus = true;
                                     locationWumpus.hasThing = true;
                                     placedWumpus = true;
+                                    Console.Write(x);
+                                    Console.Write(" ");
+                                    Console.WriteLine(y);
                                 }
                             }
                             // otherwise it's gucci, assign
@@ -298,6 +301,9 @@ namespace HuntTheWumpus
                                 locationWumpus.hasWumpus = true;
                                 locationWumpus.hasThing = true;
                                 placedWumpus = true;
+                                Console.Write(x);
+                                Console.Write(" ");
+                                Console.WriteLine(y);
                             }
                         }
 

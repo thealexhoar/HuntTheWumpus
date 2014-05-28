@@ -103,6 +103,7 @@ namespace HuntTheWumpus
             cave = new Cave("test.cave");
             Vector2 _position = new Vector2();
             cave.moveWumpus(0, 0);
+            
 
             for (int x = 0; x < cave.Width; x++) {
                 for (int y = 0; y < cave.Height; y++) {
@@ -113,12 +114,13 @@ namespace HuntTheWumpus
                     roomImages.Add(cave.Rooms[x, y].image);
                     bool w,b,p;
                     cave.GetAdjacent(x,y,out w, out b, out p);
+                    Console.WriteLine(w);
                     if(w){
                        cave.Rooms[x, y].image.nearWumpus = true;
                     }
-                    if (cave.Rooms[x, y].hasWumpus) {
-                        cave.Rooms[x, y].image.nearWumpus = true;                        
-                    }
+                    //if (cave.Rooms[x, y].hasWumpus) {
+                    //    cave.Rooms[x, y].image.nearWumpus = true;                        
+                    //}
                 }
             }
             cave.movePlayer(0, 0);
