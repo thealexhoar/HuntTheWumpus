@@ -511,6 +511,7 @@ namespace HuntTheWumpus
 
             }
             else {
+                scoreHandler = new ScoreHandler(score);
                 Game1.currentGameState = Game1.GameState.GameOver;
             }
             return true;
