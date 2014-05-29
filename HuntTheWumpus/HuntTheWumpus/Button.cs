@@ -20,9 +20,9 @@ namespace HuntTheWumpus {
         private Texture2D graphic;
         public bool pressed = false;
         public bool revealed = true;
-        public string answerKey;
+        public int answerKey;
 
-        public Button(Vector2 Pos, string answer, Game game)
+        public Button(Vector2 Pos, int answer, Game game)
             :base(game) {
             Position = Pos;
             answerKey = answer;
@@ -31,20 +31,29 @@ namespace HuntTheWumpus {
         public void LoadContent(ContentManager content) {
             texture = content.Load<Texture2D>(@"Textures/Button1");
             texture2 = content.Load<Texture2D>(@"Textures/Button2");
+            texture3 = content.Load<Texture2D>(@"Textures/Button3");
             graphic = texture;
         }
 
-        public void Update() { 
+        public void Update() {
+            //Console.WriteLine(checkMouse());
             if (Input.isLeftMouseDown() && checkMouse()) {
                 graphic = texture2;
             }
-            else if (Input.isLeftMouseReleased() && checkMouse()) {
-                pressed = true;
-                graphic = texture;
+            else if (checkMouse()) {
+                graphic = texture3;
             }
             else {
                 graphic = texture;
             }
+            if (Input.isLeftMouseReleased() && checkMouse()) {
+                pressed = true;
+                graphic = texture;
+            }
+            else {
+                pressed = false;    
+            }
+            
         }
 
         private bool checkMouse() {

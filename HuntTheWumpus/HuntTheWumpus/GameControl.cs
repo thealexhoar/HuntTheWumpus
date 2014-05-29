@@ -114,10 +114,10 @@ namespace HuntTheWumpus
             cave.Rooms[0, 0].hasBats = true;
 
             buttons = new Button[4];
-            buttons[0] = new Button(new Vector2(5, 640), "a", game);
-            buttons[1] = new Button(new Vector2(5, 675), "b", game);
-            buttons[2] = new Button(new Vector2(5, 710), "c", game);
-            buttons[3] = new Button(new Vector2(5, 745), "d", game);
+            buttons[0] = new Button(new Vector2(5, 620), 0, game);
+            buttons[1] = new Button(new Vector2(5, 655), 1, game);
+            buttons[2] = new Button(new Vector2(5, 690), 2, game);
+            buttons[3] = new Button(new Vector2(5, 725), 3, game);
 
                       
 
@@ -144,6 +144,7 @@ namespace HuntTheWumpus
                     }
                 }
             }
+            hint = "";
             cave.movePlayer(0, 0);
             cave.Rooms[cave.locationPlayer.X, cave.locationPlayer.Y].image.revealed = true;
             cave.Rooms[cave.locationPlayer.X, cave.locationPlayer.Y].image.currentRoom = true;
@@ -159,15 +160,17 @@ namespace HuntTheWumpus
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Update(GameTime gameTime) {
             // TODO: Add your update code here
+
+            Input.Update();
+            hint = (Input.mousePos().X.ToString() + ", " + Input.mousePos().Y.ToString());
             #region Moving State
             if (state == State.MOVING) {
                 player.speed.X = 0;
                 player.speed.Y = 0;
 
-                Input.Update();
-                if (Input.isKeyDown(Keys.Q))
+                if (Input.isKeyPressed(Keys.Q))
                 {
-                    SetTrivia(trivia.CreateQuestionArray(1));
+                    SetTrivia(trivia.CreateQuestionArray(5),2);
                 }
                 if (Keyboard.GetState().IsKeyDown(Keys.Left) || Input.isKeyDown(Keys.A))
                     player.speed.X -= 3;
@@ -353,7 +356,18 @@ namespace HuntTheWumpus
             #endregion
             #region Question State
             if (state == State.QUESTIONING) {
-                
+                for (int i = 0; i < 4; i++) {
+                    if (buttons[i].pressed) {
+                        Console.WriteLine(buttons[i].answerKey);
+                        if (buttons[i].answerKey == questions[triviaCount].Answer) {
+                            triviaResults++;
+                        }
+                        if (!continueTrivia()) {
+                            triviaSucceeded = (triviaResults >= triviaResultsNeeded);
+                            state = State.MOVING;
+                        }
+                    }
+                }
             }
             #endregion
             player.Update(gameTime);
@@ -384,7 +398,6 @@ namespace HuntTheWumpus
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            hint = "hint";
             arrowCount = "Arrows: " + player.arrows;
             if (wumpus)
                 hint += "\nYou hear heavy breathing and rustling nearby";
@@ -400,19 +413,20 @@ namespace HuntTheWumpus
             }
             spriteBatch.Draw(HUD, new Vector2(), Color.White);
             if (state == State.QUESTIONING) {
-                spriteBatch.DrawString(consolas, triviaString, new Vector2(29, 619), Color.Gainsboro);
-                spriteBatch.DrawString(consolas, triviaString, new Vector2(30, 620), Color.Gold);
-                spriteBatch.DrawString(consolas, answer1, new Vector2(75, 640), Color.Gold);
-                spriteBatch.DrawString(consolas, answer2, new Vector2(75, 675), Color.Gold);
-                spriteBatch.DrawString(consolas, answer3, new Vector2(75, 710), Color.Gold);
-                spriteBatch.DrawString(consolas, answer4, new Vector2(75, 745), Color.Gold);
                 for (int i = 0; i < 4; i++) {
                     buttons[i].Draw(spriteBatch);
                 }
+                //spriteBatch.DrawString(consolas, triviaString, new Vector2(29, 619), Color.Gainsboro);
+                spriteBatch.DrawString(consolas, triviaString, new Vector2(30, 600), Color.Gold);
+                spriteBatch.DrawString(consolas, answer1, new Vector2(45, 625), Color.Gold);
+                spriteBatch.DrawString(consolas, answer2, new Vector2(45, 660), Color.Gold);
+                spriteBatch.DrawString(consolas, answer3, new Vector2(45, 695), Color.Gold);
+                spriteBatch.DrawString(consolas, answer4, new Vector2(45, 730), Color.Gold);
+                
             }
             spriteBatch.DrawString(consolas, hint, new Vector2(910,50), Color.Gold);
             spriteBatch.DrawString(consolas, arrowCount, new Vector2(30,580), Color.Gold);
-            spriteBatch.DrawString(consolas, "Coins: " + Player.gold, new Vector2(30, 600), Color.Gold);
+            spriteBatch.DrawString(consolas, "Coins: " + Player.gold, new Vector2(150, 580), Color.Gold);
             player.Draw(spriteBatch);            
             foreach (Sprite x in spriteList)
             {
@@ -573,12 +587,13 @@ namespace HuntTheWumpus
             }
         }
 
-        public void SetTrivia(Trivia.Question[] q) {
+        public void SetTrivia(Trivia.Question[] q,int score) {
             questions = q;
             triviaCount = 0;
             triviaMax = q.Length;
             state = State.QUESTIONING;
             triviaResults = 0;
+            triviaResultsNeeded = score;
             triviaString = questions[0].QuestionText;
             answer1 = questions[0].Choices[0];
             answer2 = questions[0].Choices[1];
