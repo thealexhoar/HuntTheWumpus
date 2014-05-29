@@ -456,14 +456,18 @@ namespace HuntTheWumpus
             selectionImage2 = content.Load<Texture2D>(@"Textures/selection2");
             selectionImage3 = content.Load<Texture2D>(@"Textures/selection3");
             selectionImage = selectionImage1;
+
             consolas = content.Load<SpriteFont>(@"Consolas");
+
             introImage = content.Load<Texture2D>(@"Textures/Menu");
             highscoreImage = content.Load<Texture2D>(@"Images/Highscores");
             arrow = content.Load<Texture2D>(@"Images/ArrowSprite");
             background = content.Load<Texture2D>(@"Images/SpaceBackground");
             HUD = content.Load<Texture2D>(@"Images/HUD");
+
             player.LoadContent(content);
-            foreach (RoomImage i in roomImages) {
+            foreach (RoomImage i in roomImages) 
+            {
                 i.LoadContent(content);
             }
 
@@ -692,13 +696,16 @@ namespace HuntTheWumpus
         public void DrawGameOver(SpriteBatch spriteBatch)
         {
 
+            spriteBatch.Draw(highscoreImage, new Rectangle(0, 0, 1024, 768), Color.White);
+
+            spriteBatch.DrawString(consolas, "Name    Points    Time    Turns", new Vector2(125, 125), Color.Cyan);
+
             for (int i = 0; i <= 9; i++)
             {
-                string playerScore = this.score.Name + this.score.Points + this.score.Time + this.score.Turns; 
-                spriteBatch.DrawString(consolas, playerScore, new Vector2(100, i * 100), Color.Cyan);
+                string playerScore = this.score.Name.ToString() + "    " + this.score.Points.ToString() + "    " + 
+                    this.score.Time.ToString() + "    " + this.score.Turns.ToString();
+                spriteBatch.DrawString(consolas, playerScore, new Vector2(125, 175 + i * 50), Color.Cyan);
             }
-            
-            spriteBatch.Draw(highscoreImage, new Rectangle(0, 0, 1024, 768), Color.White);
         }
 
         public void ShootArrow(Player player)
