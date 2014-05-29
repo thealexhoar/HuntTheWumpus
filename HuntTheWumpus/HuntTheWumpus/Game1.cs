@@ -45,7 +45,7 @@ namespace HuntTheWumpus
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            background = Content.Load<Song>("iamthewumpus");
+            background = Content.Load<Song>("The Jungle Book (Genesis) Music - Bear Necessities");
             MediaPlayer.IsRepeating = true;
             MediaPlayer.Play(background);
 

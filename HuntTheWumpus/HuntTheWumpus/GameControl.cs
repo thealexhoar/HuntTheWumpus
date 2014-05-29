@@ -698,7 +698,7 @@ namespace HuntTheWumpus
             foreach(ScoreHandler.Score x in scoreHandler.HighScores)
                 spriteBatch.DrawString(consolas, "Name: " + Convert.ToString(x), new Vector2(50, 50), Color.Gold);
             
-            spriteBatch.Draw(highscoreImage, new Rectangle(0, 0, 819, 460), Color.White);
+            spriteBatch.Draw(highscoreImage, new Rectangle(0, 0, 1024, 768), Color.White);
         }
 
         public void ShootArrow(Player player)
