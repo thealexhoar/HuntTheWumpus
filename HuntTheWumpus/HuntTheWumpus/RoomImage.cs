@@ -29,7 +29,7 @@ namespace HuntTheWumpus {
         public bool currentRoom = false;
         public bool pit = false;
         public bool bat = false;
-        public bool resolved = true;
+        public bool resolved = false;
         public bool nearWumpus = false;
         public bool[] edgeDraws;
         public bool revealed = false;

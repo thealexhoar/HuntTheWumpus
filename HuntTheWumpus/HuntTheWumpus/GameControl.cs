@@ -111,8 +111,6 @@ namespace HuntTheWumpus
             displaySprites = new List<Sprite>();
             cave = new Cave("test.cave");
             Vector2 _position = new Vector2();
-            cave.moveWumpus(1, 1);
-            cave.Rooms[0, 0].hasBats = true;
 
             buttons = new Button[4];
             buttons[0] = new Button(new Vector2(5, 620), 0, game);
@@ -146,7 +144,6 @@ namespace HuntTheWumpus
                 }
             }
             hint = "";
-            cave.movePlayer(0, 0);
             cave.Rooms[cave.locationPlayer.X, cave.locationPlayer.Y].image.revealed = true;
             cave.Rooms[cave.locationPlayer.X, cave.locationPlayer.Y].image.currentRoom = true;
             base.Initialize();
@@ -332,10 +329,10 @@ namespace HuntTheWumpus
                         }
                         cave.locationPlayer.image.revealed = true;
                         cave.locationPlayer.image.currentRoom = true;
-                        if (cave.locationPlayer.hasPit) {
+                        if (cave.locationPlayer.hasPit && cave.locationPlayer.image.resolved == false) {
                             EncounterPit();
                         }
-                        if (cave.locationPlayer.hasBats) {
+                        if (cave.locationPlayer.hasBats && cave.locationPlayer.image.resolved == false) {
                             EncounterBats();
                         }
                         if (cave.locationPlayer.hasWumpus) {
@@ -360,6 +357,15 @@ namespace HuntTheWumpus
                 }
                 else {
                     cave.locationPlayer.image.revealed = true;
+                    if (cave.locationPlayer.hasPit && cave.locationPlayer.image.resolved == false) {
+                        EncounterPit();
+                    }
+                    if (cave.locationPlayer.hasBats && cave.locationPlayer.image.resolved == false) {
+                        EncounterBats();
+                    }
+                    if (cave.locationPlayer.hasWumpus) {
+                        EncounterWumpus();
+                    }
                     state = State.MOVING;
                 }
             }
@@ -508,7 +514,7 @@ namespace HuntTheWumpus
 
         public bool ResolvePit() {
             if (triviaSucceeded) {
-
+                cave.locationPlayer.image.resolved = true;
             }
             else {
                 Game1.currentGameState = Game1.GameState.GameOver;
@@ -519,8 +525,7 @@ namespace HuntTheWumpus
         /// Run this if user enters room with bats.
         /// Sets the current room value to a random room in the map range.
         /// </summary>
-        public void EncounterBats()
-        {
+        public void EncounterBats() {
             ResolveBats();
         }
 
