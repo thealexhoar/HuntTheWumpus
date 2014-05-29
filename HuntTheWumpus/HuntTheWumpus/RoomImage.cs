@@ -91,7 +91,7 @@ namespace HuntTheWumpus {
             arrowDirections[5] = content.Load<Texture2D>("images/ArrowBM");
             greenHex = content.Load<Texture2D>("images/GreenHex");
             batHex = content.Load<Texture2D>("images/BatHex");
-            pitHex = content.Load<Texture2D>("images/PitHex");
+            pitHex = content.Load<Texture2D>("images/BottomlessPitTrial");
             graphic = texture;
             corners = content.Load<Texture2D>("images/TopHex");
         }
