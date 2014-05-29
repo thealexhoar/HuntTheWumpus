@@ -140,7 +140,7 @@ namespace HuntTheWumpus
 
         public int numberOfQuestions = 1; 
        
-        private Question[] CreateQuestionArray(int numberOfQuestions)
+        public Question[] CreateQuestionArray(int numberOfQuestions)
         {
            Question[] Questions = new Question[numberOfQuestions]; 
 
@@ -160,7 +160,7 @@ namespace HuntTheWumpus
 
         }
 
-        public string[] SendQuestions(int numberOfquestions)
+        public string[] SendQuestionStrings(int numberOfquestions)
         {
 
             string[] questions = new string[numberOfQuestions];

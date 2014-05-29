@@ -19,7 +19,8 @@ namespace HuntTheWumpus
     {
         MOVING,
         SWITCHING,
-        TRANSPORTED
+        TRANSPORTED,
+        QUESTIONING
     }
 
     public class GameControl : Microsoft.Xna.Framework.GameComponent
@@ -28,6 +29,12 @@ namespace HuntTheWumpus
         // Add a SpriteFont object to display text
         SpriteFont consolas;
         Vector2 fontPos;
+        Trivia.Question[] questions;
+        int triviaResults = 0;
+        int triviaResultsNeeded = 0;
+        bool triviaSucceeded;
+        int triviaCount, triviaMax;
+        public Button[] buttons;
 
         public static Point[] vertices = { new Point(4, 256), new Point(130, 38), new Point(380, 38), new Point(509, 256), new Point(380, 474), new Point(130, 474)};
         public static List<RoomImage> roomImages;
@@ -74,7 +81,7 @@ namespace HuntTheWumpus
 
         public string arrowCount;
         public string hint;
-        public string triviaString;
+        public string triviaString, answer1, answer2, answer3, answer4;
 
         public static bool wumpusDefeated;
 
@@ -106,9 +113,13 @@ namespace HuntTheWumpus
             cave.moveWumpus(1, 1);
             cave.Rooms[0, 0].hasBats = true;
 
+            buttons = new Button[4];
+            buttons[0] = new Button(new Vector2(5, 640), "a", game);
+            buttons[1] = new Button(new Vector2(5, 675), "b", game);
+            buttons[2] = new Button(new Vector2(5, 710), "c", game);
+            buttons[3] = new Button(new Vector2(5, 745), "d", game);
 
-            triviaString = "trivia";
-            
+                      
 
             for (int x = 0; x < cave.Width; x++) {
                 for (int y = 0; y < cave.Height; y++) {
@@ -156,10 +167,7 @@ namespace HuntTheWumpus
                 Input.Update();
                 if (Input.isKeyDown(Keys.Q))
                 {
-                    //triviaString = GetTrivia(3);
-                }
-                if (Input.isKeyPressed(Keys.B)) {
-                    triviaString = Convert.ToString(trivia.SendQuestions(1)[0]);
+                    SetTrivia(trivia.CreateQuestionArray(1));
                 }
                 if (Keyboard.GetState().IsKeyDown(Keys.Left) || Input.isKeyDown(Keys.A))
                     player.speed.X -= 3;
@@ -173,23 +181,7 @@ namespace HuntTheWumpus
                 if (Input.isKeyDown(Keys.Down) || Input.isKeyDown(Keys.S))
                     player.speed.Y += 3;
 
-                if (Input.isKeyDown(Keys.B))
-                    BuyArrow();
 
-                if (Input.isKeyPressed(Keys.F)) 
-                {
-                    if (player.arrows <= 0)
-                    {
-
-                    }
-                    else
-                    {
-                        player.arrows -= 1;
-                        ShootWumpus();
-                        ShootArrow(player);
-                    }
-                        
-                }
 
                 if (Input.isKeyDown(Keys.R))
                     EncounterWumpus();
@@ -359,11 +351,18 @@ namespace HuntTheWumpus
                 }
             }
             #endregion
+            #region Question State
+            if (state == State.QUESTIONING) {
+                
+            }
+            #endregion
             player.Update(gameTime);
             foreach (RoomImage r in roomImages) {
                 r.Update();
             }
-
+            for (int i = 0; i < 4; i++) {
+                buttons[i].Update();
+            }
             foreach (RoomImage r in roomImages) {
                 if (r.Position.X < -380 * 3) {
                     r.Position.X += 6 * 380;
@@ -400,13 +399,19 @@ namespace HuntTheWumpus
                 i.Draw(spriteBatch);
             }
             spriteBatch.Draw(HUD, new Vector2(), Color.White);
-            // Draw the string in trivia at position 300, 600 in golden consolas font
-            spriteBatch.DrawString(consolas, triviaString, new Vector2(30, 620), Color.Gold);
-            // Draw the string in hint at position 900,10 in golden consolas font
+            if (state == State.QUESTIONING) {
+                spriteBatch.DrawString(consolas, triviaString, new Vector2(29, 619), Color.Gainsboro);
+                spriteBatch.DrawString(consolas, triviaString, new Vector2(30, 620), Color.Gold);
+                spriteBatch.DrawString(consolas, answer1, new Vector2(75, 640), Color.Gold);
+                spriteBatch.DrawString(consolas, answer2, new Vector2(75, 675), Color.Gold);
+                spriteBatch.DrawString(consolas, answer3, new Vector2(75, 710), Color.Gold);
+                spriteBatch.DrawString(consolas, answer4, new Vector2(75, 745), Color.Gold);
+                for (int i = 0; i < 4; i++) {
+                    buttons[i].Draw(spriteBatch);
+                }
+            }
             spriteBatch.DrawString(consolas, hint, new Vector2(910,50), Color.Gold);
-            // Draw the string in output at position 10,10 in golden consolas font
             spriteBatch.DrawString(consolas, arrowCount, new Vector2(30,580), Color.Gold);
-            // Draw the coins# at position (10,30) in golden consolas font
             spriteBatch.DrawString(consolas, "Coins: " + Player.gold, new Vector2(30, 600), Color.Gold);
             player.Draw(spriteBatch);            
             foreach (Sprite x in spriteList)
@@ -420,6 +425,9 @@ namespace HuntTheWumpus
 
         public void LoadContent(ContentManager content)
         {
+            for (int i = 0; i < 4; i++) {
+                buttons[i].LoadContent(content);
+            }
             selectionImage1 = content.Load<Texture2D>(@"Textures/selection1");
             selectionImage2 = content.Load<Texture2D>(@"Textures/selection2");
             selectionImage3 = content.Load<Texture2D>(@"Textures/selection3");
@@ -520,7 +528,7 @@ namespace HuntTheWumpus
         /// </summary>
         public static void EncounterWumpus()
         {
-            trivia.SendQuestions(6);
+            trivia.SendQuestionStrings(6);
 
             if (wumpusDefeated)                    // Work out with trivia how to check if answered correctly
             {
@@ -563,6 +571,33 @@ namespace HuntTheWumpus
             {
                 // Wumpus runs away
             }
+        }
+
+        public void SetTrivia(Trivia.Question[] q) {
+            questions = q;
+            triviaCount = 0;
+            triviaMax = q.Length;
+            state = State.QUESTIONING;
+            triviaResults = 0;
+            triviaString = questions[0].QuestionText;
+            answer1 = questions[0].Choices[0];
+            answer2 = questions[0].Choices[1];
+            answer3 = questions[0].Choices[2];
+            answer4 = questions[0].Choices[3];
+        }
+
+        public bool continueTrivia() {
+            triviaCount++;
+            if (triviaCount == triviaMax) { return false; }
+            else {
+                triviaString = questions[triviaCount].QuestionText;
+                answer1 = questions[triviaCount].Choices[0];
+                answer2 = questions[triviaCount].Choices[1];
+                answer3 = questions[triviaCount].Choices[2];
+                answer4 = questions[triviaCount].Choices[3];
+                return true;
+            }
+
         }
 
 
