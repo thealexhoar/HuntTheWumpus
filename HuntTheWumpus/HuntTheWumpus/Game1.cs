@@ -60,9 +60,19 @@ namespace HuntTheWumpus
 
         protected override void Update(GameTime gameTime)
         {
+            Input.Update();
 
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
                 this.Exit();
+
+            if (Input.isKeyPressed(Keys.M))
+            {
+                if (MediaPlayer.State == MediaState.Playing)
+                    MediaPlayer.Pause();
+                else
+                    MediaPlayer.Resume();
+            }
+
             switch (currentGameState)
             {
                 case GameState.IntroScreen:
