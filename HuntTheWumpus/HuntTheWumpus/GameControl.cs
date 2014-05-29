@@ -34,6 +34,7 @@ namespace HuntTheWumpus
         int triviaResultsNeeded = 0;
         bool triviaSucceeded;
         int triviaCount, triviaMax;
+        Func<bool> triviaResolve;
         public Button[] buttons;
 
         public static Point[] vertices = { new Point(4, 256), new Point(130, 38), new Point(380, 38), new Point(509, 256), new Point(380, 474), new Point(130, 474)};
@@ -331,6 +332,15 @@ namespace HuntTheWumpus
                         }
                         cave.locationPlayer.image.revealed = true;
                         cave.locationPlayer.image.currentRoom = true;
+                        if (cave.locationPlayer.hasPit) {
+                            EncounterPit();
+                        }
+                        if (cave.locationPlayer.hasBats) {
+                            EncounterBats();
+                        }
+                        if (cave.locationPlayer.hasWumpus) {
+                            EncounterWumpus();
+                        }
                     }
 
                     player.position += (moveVector / 60);
@@ -365,6 +375,7 @@ namespace HuntTheWumpus
                         if (!continueTrivia()) {
                             triviaSucceeded = (triviaResults >= triviaResultsNeeded);
                             state = State.MOVING;
+                            triviaResolve();
                         }
                     }
                 }
@@ -489,29 +500,31 @@ namespace HuntTheWumpus
         /// It gets and asks trivia.
         /// If user answered correctly, reset his position to the previous room he was in.
         /// </summary>
-        public static void EncounterBottomlessPit()
+        public void EncounterPit()
         {
-            int prevRoom = 1;
-            int currentRoom = 7;
-            bool triviaCorrect = true;
-
-            GetTrivia(3);
-
-            // Insert trivia class method which checks if user answered correctly
-            // Check if trivia answered correctly
-
-            if (triviaCorrect)
-            {
-                currentRoom = prevRoom;
-            }
+            triviaResolve = ResolvePit;
+            SetTrivia(trivia.CreateQuestionArray(3), 2);
         }
 
+        public bool ResolvePit() {
+            if (triviaSucceeded) {
+
+            }
+            else {
+                Game1.currentGameState = Game1.GameState.GameOver;
+            }
+            return true;
+        }
         /// <summary>
         /// Run this if user enters room with bats.
         /// Sets the current room value to a random room in the map range.
         /// </summary>
         public void EncounterBats()
         {
+            ResolveBats();
+        }
+
+        public bool ResolveBats() {
             Random rnd = new Random();
             int rx = rnd.Next(6);
             int ry = rnd.Next(5);
@@ -527,8 +540,7 @@ namespace HuntTheWumpus
             state = State.TRANSPORTED;
             transportDelta = delta;
             moveCounter = 0;
-            
-
+            return true;
         }
 
         /// <summary>
@@ -540,21 +552,19 @@ namespace HuntTheWumpus
         /// Remove them all from the Update List
         /// Initialize highscore
         /// </summary>
-        public static void EncounterWumpus()
+        public void EncounterWumpus()
         {
-            trivia.SendQuestionStrings(6);
+            triviaResolve = ResolveWumpus;
+            SetTrivia(trivia.CreateQuestionArray(6), 5);
+        }
+        public bool ResolveWumpus() {
+            if (triviaSucceeded) {
 
-            if (wumpusDefeated)                    // Work out with trivia how to check if answered correctly
-            {
-                // Wumpus runs away                // Send to map that wumpus has run away, or find how other stuff
-                // Define who owns WumpusRun()
             }
-
-            else
-            {
+            else {
                 Game1.currentGameState = Game1.GameState.GameOver;
             }
-
+            return true;
         }
 
         /// <summary>
