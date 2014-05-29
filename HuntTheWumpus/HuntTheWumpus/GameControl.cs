@@ -677,6 +677,14 @@ namespace HuntTheWumpus
             base.Update(gameTime);
         }
 
+        public void DrawHighscores(ScoreHandler sc)
+        {
+            foreach (var stuff in sc.HighScores)
+            {
+                //
+            }
+        }
+
         
 
         public void DrawIntro(SpriteBatch spriteBatch)
