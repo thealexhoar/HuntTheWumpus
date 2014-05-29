@@ -144,6 +144,7 @@ namespace HuntTheWumpus
                 }
             }
             hint = "";
+            cave.movePlayer(0, 0);
             cave.Rooms[cave.locationPlayer.X, cave.locationPlayer.Y].image.revealed = true;
             cave.Rooms[cave.locationPlayer.X, cave.locationPlayer.Y].image.currentRoom = true;
             base.Initialize();
@@ -424,10 +425,10 @@ namespace HuntTheWumpus
                 hint += "\nYou feel a gust of wind";
             
             spriteBatch.Draw(background, new Vector2(), Color.White);
-
             foreach (RoomImage i in roomImages) {
                 i.Draw(spriteBatch);
             }
+            
             spriteBatch.Draw(HUD, new Vector2(), Color.White);
             if (state == State.QUESTIONING) {
                 for (int i = 0; i < 4; i++) {
@@ -450,6 +451,7 @@ namespace HuntTheWumpus
                 x.Draw(spriteBatch);
                 Console.WriteLine("Arrows are drawn");
             }
+            
         }
 
 
