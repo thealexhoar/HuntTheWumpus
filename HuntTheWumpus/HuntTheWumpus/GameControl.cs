@@ -44,12 +44,12 @@ namespace HuntTheWumpus
         public static Cave cave;
         public static Player player = new Player(game);
 
-        ScoreHandler scoreHandler;
+        public ScoreHandler scoreHandler;
 
         public State state = State.MOVING;
         Vector2 moveVector;
         int moveCounter;
-        ScoreHandler.Score score = new ScoreHandler.Score();
+        public ScoreHandler.Score score = null;
 
         Texture2D background;
         Texture2D introImage;
@@ -101,9 +101,6 @@ namespace HuntTheWumpus
         public override void Initialize()
         {
             // TODO: Add your initialization code here
-
-            scoreHandler = new ScoreHandler(score);
-            Console.WriteLine("ScoreHandler: " + scoreHandler.HighScores);
 
             GUIStubb graphicsInterface = new GUIStubb();
             spriteManager = new SpriteManager(game, player);
@@ -700,10 +697,11 @@ namespace HuntTheWumpus
 
             spriteBatch.DrawString(consolas, "Name    Points    Time    Turns", new Vector2(125, 125), Color.Cyan);
 
-            for (int i = 0; i <= 9; i++)
+            for (int i = 0; i < scoreHandler.HighScores.Count; i++)
             {
-                string playerScore = this.score.Name.ToString() + "    " + this.score.Points.ToString() + "    " + 
-                    this.score.Time.ToString() + "    " + this.score.Turns.ToString();
+                var tmpScore = scoreHandler.HighScores[i];
+                string playerScore = tmpScore.Name.ToString() + "    " + tmpScore.Points.ToString() + "    " + 
+                    tmpScore.Time.ToString() + "    " + tmpScore.Turns.ToString();
                 spriteBatch.DrawString(consolas, playerScore, new Vector2(125, 175 + i * 50), Color.Cyan);
             }
         }
