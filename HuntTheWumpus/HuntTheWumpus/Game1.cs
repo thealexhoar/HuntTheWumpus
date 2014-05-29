@@ -22,6 +22,7 @@ namespace HuntTheWumpus
         public static GameState currentGameState = GameState.IntroScreen;
 
         public static SpriteManager spriteManager;
+        Song background;
 
         public Game1()
         {
@@ -43,6 +44,10 @@ namespace HuntTheWumpus
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            background = Content.Load<Song>("iamthewumpus");
+            MediaPlayer.IsRepeating = true;
+            MediaPlayer.Play(background);
 
             // TODO: use this.Content to load your game content here
             gameControl.LoadContent(Content);
