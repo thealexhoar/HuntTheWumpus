@@ -562,7 +562,9 @@ namespace HuntTheWumpus
             if (triviaSucceeded) {
 
             }
-            else {
+            else
+            {
+                scoreHandler = new ScoreHandler(score);
                 Game1.currentGameState = Game1.GameState.GameOver;
             }
             return true;
@@ -584,12 +586,13 @@ namespace HuntTheWumpus
             }
         }
 
-        public static void ShootWumpus()
+        public void ShootWumpus()
         {
             bool didHit = false;
             
             if (didHit)
             {
+                scoreHandler = new ScoreHandler(score);
                 Game1.currentGameState = Game1.GameState.GameOver;
             }
             else
