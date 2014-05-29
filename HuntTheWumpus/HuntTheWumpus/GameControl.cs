@@ -398,7 +398,8 @@ namespace HuntTheWumpus
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            arrowCount = "Arrows: " + player.arrows;
+            //arrowCount = "Arrows: " + player.arrows;
+            arrowCount = triviaSucceeded.ToString();
             if (wumpus)
                 hint += "\nYou hear heavy breathing and rustling nearby";
             if (bat)
