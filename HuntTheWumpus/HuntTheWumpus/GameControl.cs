@@ -676,13 +676,7 @@ namespace HuntTheWumpus
             base.Update(gameTime);
         }
 
-        public void DrawHighscores(ScoreHandler sc)
-        {
-            foreach (var stuff in sc.HighScores)
-            {
-                //
-            }
-        }
+        
 
         
 
@@ -697,8 +691,12 @@ namespace HuntTheWumpus
 
         public void DrawGameOver(SpriteBatch spriteBatch)
         {
-            foreach(ScoreHandler.Score x in scoreHandler.HighScores)
-                spriteBatch.DrawString(consolas, "Name: " + Convert.ToString(x), new Vector2(50, 50), Color.Gold);
+
+            for (int i = 0; i <= 9; i++)
+            {
+                string playerScore = this.score.Name + this.score.Points + this.score.Time + this.score.Turns; 
+                spriteBatch.DrawString(consolas, playerScore, new Vector2(100, i * 100), Color.Cyan);
+            }
             
             spriteBatch.Draw(highscoreImage, new Rectangle(0, 0, 1024, 768), Color.White);
         }
