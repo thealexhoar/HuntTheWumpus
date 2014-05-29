@@ -160,7 +160,6 @@ namespace HuntTheWumpus
         public override void Update(GameTime gameTime) {
             // TODO: Add your update code here
 
-            Input.Update();
             hint = (Input.mousePos().X.ToString() + ", " + Input.mousePos().Y.ToString());
             #region Moving State
             if (state == State.MOVING) {
