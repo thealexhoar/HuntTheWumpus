@@ -128,7 +128,9 @@
     <Content Include="Game.ico" />
     <Content Include="GameThumbnail.png" />
     <Content Include="Hints.txt" />
-    <Content Include="Questions.txt" />
+    <Content Include="Questions.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\HuntTheWumpusContent\HuntTheWumpusContent.contentproj">

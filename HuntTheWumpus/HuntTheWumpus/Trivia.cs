@@ -13,6 +13,8 @@ namespace HuntTheWumpus
 
         public bool isInitialized = false;
         List<Question> questions = new List<Question>();
+        List<Question> questions2 = new List<Question>();
+        Question[] qq;
         Queue<Question> q = new Queue<Question>();
        
         public struct Question
@@ -27,6 +29,11 @@ namespace HuntTheWumpus
         public Trivia()
         {
             this.isInitialized = true;
+            
+            
+            
+            
+            this.triviaReader();
             //this.questions = new Question[12];
 
         }
@@ -35,14 +42,16 @@ namespace HuntTheWumpus
         {
 
 
-            using (StreamReader sr = new StreamReader(@"C:\Computer Programming\Wumpus\Wumpus\Questions.txt"))
+            using (StreamReader sr = new StreamReader(@"Questions.txt"))
             {
                 string line;
                 Question question;
 
                 // Read and display lines from the file until 
                 // the end of the file is reached. 
-                while ((line = sr.ReadLine()) != null)
+                line = sr.ReadLine();
+
+                while (line != null)
                 {
                     //// Skip this loop if the line is empty.
                     // if (line.Length == 0)
@@ -63,22 +72,19 @@ namespace HuntTheWumpus
                          sr.ReadLine()
                         }
                     };
-
-                    question.formattedString = question.QuestionText + "/n" + question.Choices[0] + "/n" + question.Choices[1 ] + "/n" + question.Choices[2] + "/n" + question.Choices[3]; 
-                    // Initially set the correct answer to -1, which means that no choice marked as correct has yet been found.
-                    question.Answer = -1;
-
                     // Check each choice to see if it begins with the '!' char (marked as correct).
-                    for (int i = 0; i < question.Choices.Length; i++)
-                    {
-                        if (question.Choices[i].StartsWith("!"))
-                        {
+                    for (int i = 0; i < question.Choices.Length; i++) {
+                        if (question.Choices[i].StartsWith("!")) {
                             // Current choice is marked as correct. 
                             question.Choices[i] = question.Choices[i].Substring(1);
                             question.Answer = i;
                             break; // Stop looking through the choices.
                         }
                     }
+                    question.formattedString = question.QuestionText + "\n" + question.Choices[0] + "\n" + question.Choices[1 ] + "\n" + question.Choices[2] + "\n" + question.Choices[3]; 
+                    
+
+                    
 
                     
 
@@ -90,11 +96,13 @@ namespace HuntTheWumpus
 
                     // Finally, add the question to the complete list of questions.
                     questions.Add(question);
+
+                    line = sr.ReadLine();
                 }
             }
 
 
-            Console.ReadKey();
+
         }
 
 
@@ -136,14 +144,15 @@ namespace HuntTheWumpus
         {
            Question[] Questions = new Question[numberOfQuestions]; 
 
-            for (int i = 0; i < numberOfQuestions + 1; i++)
-            {
+            for (int i = 0; i < numberOfQuestions; i++)
+            { 
                 if (q.Count() == 0)
                 {
                     RandomizeQuestions();
                 }
 
-                //Questions[i] = q.Dequeue();
+                
+                Questions[i] = q.Dequeue();
 
             }
 

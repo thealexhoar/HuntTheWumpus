@@ -116,6 +116,7 @@ namespace HuntTheWumpus {
             spriteBatch.Draw(graphic, Position, Color.White);
             if (revealed) {
                 spriteBatch.Draw(baseEdge, Position, Color.White);
+                spriteBatch.Draw(corners, Position, Color.White);
             }
             if (nearWumpus && revealed) {
                 spriteBatch.Draw(greenHex, Position, Color.White);
@@ -127,15 +128,12 @@ namespace HuntTheWumpus {
                     }
                     else {
                         if (currentRoom) {
-                            spriteBatch.Draw(arrowDirections[i], Position, Color.White);
+                            //spriteBatch.Draw(arrowDirections[i], Position, Color.White);
 
                         }
                     }
                 }
                 
-            }
-            if (revealed) {
-                spriteBatch.Draw(corners, Position, Color.White);
             }
         }
         

@@ -252,4 +252,4 @@ Carpal Tunnel Syndrome affects which part of the human body?
 a. eyes
 b. heart
 c. tounge
-d. wrist 
+!d. wrist 
