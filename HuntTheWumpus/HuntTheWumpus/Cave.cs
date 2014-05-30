@@ -299,7 +299,7 @@ namespace HuntTheWumpus
                                 // otherwise assign
                                 else
                                 {
-                                    locationWumpus = this.Rooms[x, y];
+                                    locationWumpus = this.Rooms[x,y];
                                     locationWumpus.hasWumpus = true;
                                     locationWumpus.hasThing = true;
                                     placedWumpus = true;

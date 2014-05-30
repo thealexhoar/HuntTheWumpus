@@ -454,7 +454,7 @@ namespace HuntTheWumpus
                     if (Input.isKeyPressed(Keys.D6) &&
                         cave.locationPlayer.image.edgeDraws[0] == false) {
                         ShootArrow(new Vector2(-3, 2));
-                        aimRoom = 6;
+                        aimRoom = 0;
                         player.arrows -= 1;
                         firing = true;
                     }
