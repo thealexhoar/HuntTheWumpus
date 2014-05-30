@@ -118,7 +118,6 @@ namespace HuntTheWumpus
             buttons[2] = new Button(new Vector2(5, 690), 2, game);
             buttons[3] = new Button(new Vector2(5, 725), 3, game);
 
-                      
 
             for (int x = 0; x < cave.Width; x++) {
                 for (int y = 0; y < cave.Height; y++) {
