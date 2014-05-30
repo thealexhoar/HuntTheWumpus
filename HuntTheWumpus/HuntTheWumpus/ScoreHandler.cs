@@ -99,11 +99,11 @@ namespace HuntTheWumpus
             /// gamestate changes, the function clears the file and creates a new, blank scores file
             /// consider creating a deicated content file for the scores that we can use instead. It's less sophisticated 
             /// and advanced, but I know that this works. And don't you dare go "but when I tested it it worked" on my ass. 
-            /// That doesn't count fo rshit right now! We need to get something that works with teh rest of the code. 
+            /// That doesn't count for shit right now! We need to get something that works with teh rest of the code. 
             /// 
             public string Serialize()
             {
-                return Name + ';' + Convert.ToString(Points) + ':' + Convert.ToString(Turns) + '|' + Convert.ToString(Time) + '\n';
+                return Convert.ToString(Name + ';' + Convert.ToString(Points) + ':' + Convert.ToString(Turns) + '|' + Convert.ToString(Time) + '\n');
             }
 
             /// <summary>

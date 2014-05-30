@@ -1,9 +1,11 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HuntTheWumpus", "HuntTheWumpus\HuntTheWumpus\HuntTheWumpus.csproj", "{D3D45FBD-800D-4BBE-BD50-B8A816A4D68B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HuntTheWumpusContent", "HuntTheWumpus\HuntTheWumpusContent\HuntTheWumpusContent.contentproj", "{C678EE5A-FFFA-407C-8530-1E083377F153}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HuntTheWumpusContent", "huntthewumpus\HuntTheWumpusContent\HuntTheWumpusContent.contentproj", "{C678EE5A-FFFA-407C-8530-1E083377F153}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,17 +13,17 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{C678EE5A-FFFA-407C-8530-1E083377F153}.Debug|x86.ActiveCfg = Debug|x86
-		{C678EE5A-FFFA-407C-8530-1E083377F153}.Release|x86.ActiveCfg = Release|x86
 		{D3D45FBD-800D-4BBE-BD50-B8A816A4D68B}.Debug|x86.ActiveCfg = Debug|x86
 		{D3D45FBD-800D-4BBE-BD50-B8A816A4D68B}.Debug|x86.Build.0 = Debug|x86
 		{D3D45FBD-800D-4BBE-BD50-B8A816A4D68B}.Release|x86.ActiveCfg = Release|x86
 		{D3D45FBD-800D-4BBE-BD50-B8A816A4D68B}.Release|x86.Build.0 = Release|x86
-	EndGlobalSection
-	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = HuntTheWumpus\HuntTheWumpus\HuntTheWumpus.csproj
+		{C678EE5A-FFFA-407C-8530-1E083377F153}.Debug|x86.ActiveCfg = Debug|x86
+		{C678EE5A-FFFA-407C-8530-1E083377F153}.Release|x86.ActiveCfg = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = HuntTheWumpus\HuntTheWumpus\HuntTheWumpus.csproj
 	EndGlobalSection
 EndGlobal
