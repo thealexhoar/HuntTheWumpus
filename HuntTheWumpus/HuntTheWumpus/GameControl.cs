@@ -49,7 +49,7 @@ namespace HuntTheWumpus
         public State state = State.MOVING;
         Vector2 moveVector;
         int moveCounter;
-        public ScoreHandler.Score score = null;
+        public ScoreHandler.Score score = new ScoreHandler.Score();
 
         Texture2D background;
         Texture2D introImage;
