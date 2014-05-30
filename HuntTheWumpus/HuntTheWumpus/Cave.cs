@@ -471,6 +471,7 @@ namespace HuntTheWumpus
         public void GetAdjacent(int x, int y, out bool wumpus, out bool bats, out bool pit) // This function is broken
         {
             /*
+            FFUUCCKK the ternary operator
             int TLx = (x==0) ? (this.Width-1) : (x-1), TLy = (y==0) ? (this.Height-1) : (y-1);
             int TMx = x, TMy = (y==0) ? (this.Height-1) : (y-1);
             int TRx = (x==this.Width-1) ? (0) : (x+1), TRy = (y==0) ? (this.Height-1) : (y-1);
@@ -482,14 +483,9 @@ namespace HuntTheWumpus
             bool w = false, b = false, p = false;
             Room.Edge e = Rooms[x, y].GetEdge();
             Room tmp;
-            /*
-            int xPlusOne = x + 1 > 5 ? 0 : x + 1;
-            int xMinusOne = x - 1 < 0 ? 5 : x - 1;
-            int yPlusOne = y + 1 > 4 ? 0 : y + 1;
-            int yMinusOne = y - 1 < 0 ? 4 : y - 1;
-             */
+
             int xPlusOne, xMinusOne, yPlusOne, yMinusOne;
-            if (x == 5) 
+            if (x == this.Width-1) 
             { 
                 xPlusOne = 0; 
             }
@@ -507,7 +503,7 @@ namespace HuntTheWumpus
                 xMinusOne = x - 1; 
             }
 
-            if (y == 4) 
+            if (y == this.Height) 
             { 
                 yPlusOne = 0; 
             }
@@ -544,8 +540,9 @@ namespace HuntTheWumpus
             w = w || tmp.hasWumpus;
             b = b || tmp.hasBats;
             p = p || tmp.hasPlayer;
-            //
-            if (x % 2 == 1) {
+
+            if (x % 2 == 1) 
+            {
                 tmp = Rooms[xMinusOne, yMinusOne];
                 w = w || tmp.hasWumpus;
                 b = b || tmp.hasBats;
@@ -557,7 +554,8 @@ namespace HuntTheWumpus
                 b = b || tmp.hasBats;
                 p = p || tmp.hasPlayer;
             }
-            else {
+            else 
+            {
                 tmp = Rooms[xMinusOne, yPlusOne];
                 w = w || tmp.hasWumpus;
                 b = b || tmp.hasBats;
@@ -568,29 +566,7 @@ namespace HuntTheWumpus
                 b = b || tmp.hasBats;
                 p = p || tmp.hasPlayer;
             }
-            /*
 
-            w = w || this.Rooms[TLx, TLy].hasWumpus;
-            w = w || this.Rooms[TMx, TMy].hasWumpus;
-            w = w || this.Rooms[TRx, TRy].hasWumpus;
-            w = w || this.Rooms[MLx, MLy].hasWumpus;
-            w = w || this.Rooms[MRx, MRy].hasWumpus;
-            w = w || this.Rooms[BMx, BMy].hasWumpus;
-
-            b = b || this.Rooms[TLx, TLy].hasBats;
-            b = b || this.Rooms[TMx, TMy].hasBats;
-            b = b || this.Rooms[TRx, TRy].hasBats;
-            b = b || this.Rooms[MLx, MLy].hasBats;
-            b = b || this.Rooms[MRx, MRy].hasBats;
-            b = b || this.Rooms[BMx, BMy].hasBats;
-
-            p = p || this.Rooms[TLx, TLy].hasPit;
-            p = p || this.Rooms[TMx, TMy].hasPit;
-            p = p || this.Rooms[TRx, TRy].hasPit;
-            p = p || this.Rooms[MLx, MLy].hasPit;
-            p = p || this.Rooms[MRx, MRy].hasPit;
-            p = p || this.Rooms[BMx, BMy].hasPit;
-            */
             wumpus = w;
             bats = b;
             pit = p;
