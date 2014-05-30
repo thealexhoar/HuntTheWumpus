@@ -101,7 +101,7 @@ namespace HuntTheWumpus {
                 if (bat) {
                     graphic = batHex;
                 }
-                else if (pit) {
+                else if (pit && !resolved) {
                     graphic = pitHex;
                 }
                 else {
