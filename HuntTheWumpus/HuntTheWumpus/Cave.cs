@@ -485,7 +485,7 @@ namespace HuntTheWumpus
             Room tmp;
 
             int xPlusOne, xMinusOne, yPlusOne, yMinusOne;
-            if (x == this.Width-1) 
+            if (x == Width - 1) 
             { 
                 xPlusOne = 0; 
             }
@@ -496,14 +496,14 @@ namespace HuntTheWumpus
 
             if (x == 0) 
             { 
-                xMinusOne = 5; 
+                xMinusOne = Width - 1; 
             }
             else 
             { 
                 xMinusOne = x - 1; 
             }
 
-            if (y == this.Height) 
+            if (y == Height - 1) 
             { 
                 yPlusOne = 0; 
             }
@@ -514,7 +514,7 @@ namespace HuntTheWumpus
 
             if (y == 0) 
             { 
-                yMinusOne = 4; 
+                yMinusOne = Height - 1; 
             }
             else 
             { 
