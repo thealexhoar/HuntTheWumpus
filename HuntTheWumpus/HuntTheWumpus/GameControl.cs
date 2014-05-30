@@ -559,7 +559,6 @@ namespace HuntTheWumpus
                         if (cave.Rooms[dx, dy].hasWumpus) {
                             //WIN GAME
                             cave.Rooms[dx, dy].killWumpus();
-
                         }
                     }
                 }
@@ -568,6 +567,10 @@ namespace HuntTheWumpus
                         foreach (Sprite s in spriteList) {
                             s.Update();
                             if ((s.position.X > 740 || s.position.X < 0) || (s.position.Y > 640 || s.position.Y < 0)) {
+                                score.Time = (ulong)Game1.clock.Elapsed.Seconds + (ulong)Game1.clock.Elapsed.Minutes * 60;
+                                Game1.clock.Reset();
+                                scoreHandler = new ScoreHandler(score);
+                                Game1.currentGameState = Game1.GameState.GameOver;
                                 s.kill = true;
                                 hitList.Add(s);
                             }
@@ -789,10 +792,7 @@ namespace HuntTheWumpus
         public bool ResolveWumpus() {
             if (triviaSucceeded)
             {
-                score.Time = (ulong)Game1.clock.Elapsed.Seconds + (ulong)Game1.clock.Elapsed.Minutes * 60;
-                Game1.clock.Reset();
-                scoreHandler = new ScoreHandler(score);
-                Game1.currentGameState = Game1.GameState.GameOver;
+                ResolveBats();
             }
             else
             {
@@ -802,7 +802,7 @@ namespace HuntTheWumpus
             return true;
         }
 
-        /// <summary>
+        /// <summary> 
         /// If user presses the buyArrow key (to be determined) call this method
         /// Gets 3 trivia questions
         /// If answered correctly, arrows are added to the arrowCount
