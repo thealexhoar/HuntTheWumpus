@@ -45,7 +45,9 @@ namespace HuntTheWumpus
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            background = Content.Load<Song>("Audio/Deep Space Ambient Mix");
+            
+            //background = Content.Load<Song>("Audio/Deep Space Ambient Mix");
+            background = Content.Load<Song>("iamthewumpus");
             MediaPlayer.IsRepeating = true;
             MediaPlayer.Play(background);
 

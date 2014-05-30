@@ -268,13 +268,15 @@
       <Name>iamthewumpus</Name>
       <Importer>Mp3Importer</Importer>
       <Processor>SongProcessor</Processor>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="The Jungle Book %28Genesis%29 Music - Bear Necessities.mp3">
-      <Name>The Jungle Book %28Genesis%29 Music - Bear Necessities</Name>
+    <Compile Include="BearNecessities.mp3">
+      <Name>BearNecessities</Name>
       <Importer>Mp3Importer</Importer>
       <Processor>SongProcessor</Processor>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
   </ItemGroup>
   <ItemGroup>
