@@ -656,6 +656,8 @@ namespace HuntTheWumpus
             spriteBatch.DrawString(consolas, hint, new Vector2(910,50), Color.Gold);
             spriteBatch.DrawString(consolas, arrowCount, new Vector2(30,580), Color.Gold);
             spriteBatch.DrawString(consolas, "Coins: " + player.gold, new Vector2(150, 580), Color.Gold);
+            spriteBatch.DrawString(consolas, "Points: " + score.Points, new Vector2(270, 580), Color.Gold);
+            spriteBatch.DrawString(consolas, "Time: " + Game1.clock.Elapsed.Seconds, new Vector2(390, 580), Color.Gold);
             player.Draw(spriteBatch);            
            
             
@@ -910,14 +912,18 @@ namespace HuntTheWumpus
 
             spriteBatch.Draw(highscoreImage, new Rectangle(0, 0, 1024, 768), Color.White);
 
-            spriteBatch.DrawString(consolas, "Name    Points    Time    Turns", new Vector2(125, 125), Color.Cyan);
+            spriteBatch.DrawString(consolas, "Name", new Vector2(125, 125), Color.Cyan);
+            spriteBatch.DrawString(consolas, "Points", new Vector2(350, 125), Color.Cyan);
+            spriteBatch.DrawString(consolas, "Time", new Vector2(550, 125), Color.Cyan);
+            spriteBatch.DrawString(consolas, "Turns", new Vector2(750, 125), Color.Cyan);
 
             for (int i = 0; i < scoreHandler.HighScores.Count; i++)
             {
                 var tmpScore = scoreHandler.HighScores[i];
-                string playerScore = tmpScore.Name.ToString() + "    " + tmpScore.Points.ToString() + "    " + 
-                    tmpScore.Time.ToString() + "    " + tmpScore.Turns.ToString();
-                spriteBatch.DrawString(consolas, playerScore, new Vector2(125, 175 + i * 50), Color.Cyan);
+                spriteBatch.DrawString(consolas, tmpScore.Name, new Vector2(125, 175 + i * 50), Color.Cyan);
+                spriteBatch.DrawString(consolas, tmpScore.Points.ToString(), new Vector2(350, 175 + i * 50), Color.Cyan);
+                spriteBatch.DrawString(consolas, tmpScore.Time.ToString(), new Vector2(550, 175 + i * 50), Color.Cyan);
+                spriteBatch.DrawString(consolas, tmpScore.Turns.ToString(), new Vector2(750, 175 + i * 50), Color.Cyan);
             }
         }
 
