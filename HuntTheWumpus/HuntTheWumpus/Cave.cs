@@ -186,7 +186,7 @@ namespace HuntTheWumpus
         public Room[,] Rooms;
 
         public Room locationWumpus { get; private set; }
-        public void moveWumpus(ushort x, ushort y)
+        public void moveWumpus(int x, int y)
         {
             // remove wumpus from current location
             locationWumpus.hasWumpus = false;

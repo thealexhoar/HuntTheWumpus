@@ -132,7 +132,6 @@ namespace HuntTheWumpus
                     roomImages.Add(cave.Rooms[x, y].image);
                     bool w,b,p;
                     cave.GetAdjacent(x,y,out w, out b, out p);
-                    Console.WriteLine(w);
                     if(w){
                        cave.Rooms[x, y].image.nearWumpus = true;
                     }
@@ -756,7 +755,7 @@ namespace HuntTheWumpus
             ResolveBats();
         }
 
-        public bool ResolveBats() {
+        public bool ResolveBats(bool isWumpus = false) {
             Random rnd = new Random();
             int rx = rnd.Next(6);
             int ry = rnd.Next(5);
@@ -772,6 +771,31 @@ namespace HuntTheWumpus
             state = State.TRANSPORTED;
             transportDelta = delta;
             moveCounter = 0;
+
+            if (isWumpus) {
+                cave.locationWumpus.image.wumpus = false;
+                int rx2 = rnd.Next(6);
+                int ry2 = rnd.Next(5);
+                while ((rx2 == rx && ry2 == ry)||
+                    cave.Rooms[rx2,ry2].hasPit||
+                    cave.Rooms[rx2,ry2].hasBats||
+                    cave.Rooms[rx2,ry2].hasWumpus) {
+                    rx2 = rnd.Next(6);
+                    ry2 = rnd.Next(5);
+                }
+                cave.moveWumpus(rx2, ry2);
+                for(int x = 0; x < cave.Width; x++) {
+                    for (int y = 0; y < cave.Height; y++) {
+                        cave.Rooms[x, y].image.nearWumpus = false;
+                        bool w, b, p;
+                        cave.GetAdjacent(x, y, out w, out b, out p);
+                        if (w) {
+                            cave.Rooms[x, y].image.nearWumpus = true;
+                        }
+                    }
+                }
+
+            }
             return true;
         }
 
@@ -792,7 +816,7 @@ namespace HuntTheWumpus
         public bool ResolveWumpus() {
             if (triviaSucceeded)
             {
-                ResolveBats();
+                ResolveBats(true);
             }
             else
             {
