@@ -217,6 +217,7 @@ namespace HuntTheWumpus
                             player.resolveCollision(lastpoint, thispoint);
                         else if (cave.Rooms[cave.locationPlayer.X, cave.locationPlayer.Y].image.edgeDraws[i] != true) {
                             state = State.SWITCHING;
+                            score.Turns++;
                             moveVector = new Vector2(vertices[i].X - vertices[(i + 2) % 6].X, vertices[i].Y - vertices[(i + 2) % 6].Y) * -1;
                             moveCounter = 0;
                             roomSwitch = i;
@@ -335,6 +336,7 @@ namespace HuntTheWumpus
                         cave.movePlayer(dx, dy);
                         if (!cave.locationPlayer.image.revealed) {
                             player.addGold((int)cave.locationPlayer.Gold);
+                            score.Points += cave.locationPlayer.Gold * 10;
                         }
                         cave.locationPlayer.image.revealed = true;
                         cave.locationPlayer.image.currentRoom = true;
@@ -389,6 +391,7 @@ namespace HuntTheWumpus
                         }
                         if (!continueTrivia()) {
                             triviaSucceeded = (triviaResults >= triviaResultsNeeded);
+                            score.Points += (ulong)(triviaResults * 15);
                             state = State.MOVING;
                             triviaResolve();
                         }
