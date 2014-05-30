@@ -609,6 +609,12 @@ namespace HuntTheWumpus
                 }
             }
 
+            if (Game1.clock.Elapsed.Hours >= 1)
+            {
+                scoreHandler = new ScoreHandler();
+                Game1.currentGameState = Game1.GameState.GameOver;
+            }
+
             base.Update(gameTime);
        }
 
@@ -657,7 +663,7 @@ namespace HuntTheWumpus
             spriteBatch.DrawString(consolas, arrowCount, new Vector2(30,580), Color.Gold);
             spriteBatch.DrawString(consolas, "Coins: " + player.gold, new Vector2(150, 580), Color.Gold);
             spriteBatch.DrawString(consolas, "Points: " + score.Points, new Vector2(270, 580), Color.Gold);
-            spriteBatch.DrawString(consolas, "Time: " + Game1.clock.Elapsed.Seconds, new Vector2(390, 580), Color.Gold);
+            spriteBatch.DrawString(consolas, "Time: " + (Game1.clock.Elapsed.Seconds + Game1.clock.Elapsed.Minutes * 60), new Vector2(390, 580), Color.Gold);
             player.Draw(spriteBatch);            
            
             
