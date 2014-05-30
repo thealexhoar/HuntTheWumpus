@@ -40,10 +40,12 @@ namespace HuntTheWumpus
         /// </summary>
         public bool IsGlobalCached = false;
 
+#if GLOBAL_SCORES
         /// <summary>
         /// Networking client
         /// </summary>
         public UdpClient udp = new UdpClient(10000);
+#endif
 
         /// <summary>
         /// Represents a single score
@@ -95,12 +97,6 @@ namespace HuntTheWumpus
             /// Serialization into a unit that will go into the file
             /// </summary>
             /// <returns>The object as a string</returns>
-            /// dylan: README: what I think is happening here is that everytime the 
-            /// gamestate changes, the function clears the file and creates a new, blank scores file
-            /// consider creating a deicated content file for the scores that we can use instead. It's less sophisticated 
-            /// and advanced, but I know that this works. And don't you dare go "but when I tested it it worked" on my ass. 
-            /// That doesn't count for shit right now! We need to get something that works with teh rest of the code. 
-            /// 
             public string Serialize()
             {
                 return Convert.ToString(Name + ';' + Convert.ToString(Points) + ':' + Convert.ToString(Turns) + '|' + Convert.ToString(Time) + '\n');
@@ -143,8 +139,10 @@ namespace HuntTheWumpus
             LoadScores(score);
 #endif
 
-            //var globalThread = new Thread(new ParameterizedThreadStart(ManageServer));
-            //globalThread.Start(score);
+#if GLOBAL_SCORES
+            var globalThread = new Thread(new ParameterizedThreadStart(ManageServer));
+            globalThread.Start(score);
+#endif
         }
 
         /// <summary>
@@ -220,11 +218,11 @@ namespace HuntTheWumpus
             }
         }
 
+#if GLOBAL_SCORES
         /// <summary>
         /// Method for connecting to a server, sending score, and downloading new scores
         /// </summary>
         /// <param name="obj">The score value</param>
-
         public void ManageServer(Object obj=null)
         {
             var score = (Score)obj;
@@ -259,5 +257,6 @@ namespace HuntTheWumpus
                 IsGlobalCached = true;
             }
         }
+#endif
     }
 }
