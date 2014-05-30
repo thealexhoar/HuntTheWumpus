@@ -778,6 +778,8 @@ namespace HuntTheWumpus
         public bool ResolveWumpus() {
             if (triviaSucceeded)
             {
+                score.Time = (ulong)Game1.clock.Elapsed.Seconds;
+                Game1.clock.Reset();
                 scoreHandler = new ScoreHandler(score);
                 Game1.currentGameState = Game1.GameState.GameOver;
             }

@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using System.Diagnostics;
 
 namespace HuntTheWumpus
 {
@@ -23,6 +24,7 @@ namespace HuntTheWumpus
 
         public static SpriteManager spriteManager;
         Song background;
+        public static Stopwatch clock;
 
         public Game1()
         {
@@ -31,6 +33,7 @@ namespace HuntTheWumpus
             Content.RootDirectory = "Content";
             graphics.PreferredBackBufferWidth = 1024;
             graphics.PreferredBackBufferHeight = 768;
+            clock = new Stopwatch();
         }
 
         protected override void Initialize()
@@ -84,6 +87,7 @@ namespace HuntTheWumpus
                         switch (gameControl.currentSelectionBox)
                         {
                             case(0):
+                                clock.Restart();
                                 currentGameState = GameState.InGame;
                                 break;
                             case(1):
