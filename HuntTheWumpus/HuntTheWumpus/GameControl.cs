@@ -38,6 +38,7 @@ namespace HuntTheWumpus
         int triviaCount, triviaMax;
         Func<bool> triviaResolve;
         public Button[] buttons;
+        bool winning = false;
 
         public static Point[] vertices = { new Point(4, 256), new Point(130, 38), new Point(380, 38), new Point(509, 256), new Point(380, 474), new Point(130, 474)};
         public static List<RoomImage> roomImages;
@@ -557,6 +558,7 @@ namespace HuntTheWumpus
                     if (aimRoom != -1) {
                         if (cave.Rooms[dx, dy].hasWumpus) {
                             //WIN GAME
+                            winning = true;
                             cave.Rooms[dx, dy].killWumpus();
                         }
                     }
@@ -566,12 +568,15 @@ namespace HuntTheWumpus
                         foreach (Sprite s in spriteList) {
                             s.Update();
                             if ((s.position.X > 740 || s.position.X < 0) || (s.position.Y > 640 || s.position.Y < 0)) {
-                                score.Time = (ulong)Game1.clock.Elapsed.Seconds + (ulong)Game1.clock.Elapsed.Minutes * 60;
-                                Game1.clock.Reset();
-                                scoreHandler = new ScoreHandler(score);
-                                Game1.currentGameState = Game1.GameState.GameOver;
                                 s.kill = true;
                                 hitList.Add(s);
+                                if (winning) {
+
+                                    score.Time = (ulong)Game1.clock.Elapsed.Seconds + (ulong)Game1.clock.Elapsed.Minutes * 60;
+                                    Game1.clock.Reset();
+                                    scoreHandler = new ScoreHandler(score);
+                                    Game1.currentGameState = Game1.GameState.GameOver;
+                                }
                             }
                             
                         }
@@ -787,6 +792,9 @@ namespace HuntTheWumpus
                 for(int x = 0; x < cave.Width; x++) {
                     for (int y = 0; y < cave.Height; y++) {
                         cave.Rooms[x, y].image.nearWumpus = false;
+                        #region YOLO
+                        //swiggity swag
+                        #endregion
                         bool w, b, p;
                         cave.GetAdjacent(x, y, out w, out b, out p);
                         if (w) {
