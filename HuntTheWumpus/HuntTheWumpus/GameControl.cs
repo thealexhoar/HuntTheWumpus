@@ -729,7 +729,7 @@ namespace HuntTheWumpus
                 cave.locationPlayer.image.resolved = true;
             }
             else {
-                scoreHandler = new ScoreHandler(score);
+                scoreHandler = new ScoreHandler();
                 Game1.currentGameState = Game1.GameState.GameOver;
             }
             return true;
@@ -776,12 +776,14 @@ namespace HuntTheWumpus
             SetTrivia(trivia.CreateQuestionArray(6), 5);
         }
         public bool ResolveWumpus() {
-            if (triviaSucceeded) {
-                ResolveBats();
+            if (triviaSucceeded)
+            {
+                scoreHandler = new ScoreHandler(score);
+                Game1.currentGameState = Game1.GameState.GameOver;
             }
             else
             {
-                scoreHandler = new ScoreHandler(score);
+                scoreHandler = new ScoreHandler();
                 Game1.currentGameState = Game1.GameState.GameOver;
             }
             return true;
