@@ -783,7 +783,7 @@ namespace HuntTheWumpus
         public bool ResolveWumpus() {
             if (triviaSucceeded)
             {
-                score.Time = (ulong)Game1.clock.Elapsed.Seconds;
+                score.Time = (ulong)Game1.clock.Elapsed.Seconds + (ulong)Game1.clock.Elapsed.Minutes * 60;
                 Game1.clock.Reset();
                 scoreHandler = new ScoreHandler(score);
                 Game1.currentGameState = Game1.GameState.GameOver;
@@ -920,10 +920,13 @@ namespace HuntTheWumpus
             for (int i = 0; i < scoreHandler.HighScores.Count; i++)
             {
                 var tmpScore = scoreHandler.HighScores[i];
-                spriteBatch.DrawString(consolas, tmpScore.Name, new Vector2(125, 175 + i * 50), Color.Cyan);
-                spriteBatch.DrawString(consolas, tmpScore.Points.ToString(), new Vector2(350, 175 + i * 50), Color.Cyan);
-                spriteBatch.DrawString(consolas, tmpScore.Time.ToString(), new Vector2(550, 175 + i * 50), Color.Cyan);
-                spriteBatch.DrawString(consolas, tmpScore.Turns.ToString(), new Vector2(750, 175 + i * 50), Color.Cyan);
+                Color tmpColor = Color.Cyan;
+                if (tmpScore == score)
+                    tmpColor = Color.Gold;
+                spriteBatch.DrawString(consolas, tmpScore.Name, new Vector2(125, 175 + i * 50), tmpColor);
+                spriteBatch.DrawString(consolas, tmpScore.Points.ToString(), new Vector2(350, 175 + i * 50), tmpColor);
+                spriteBatch.DrawString(consolas, tmpScore.Time.ToString(), new Vector2(550, 175 + i * 50), tmpColor);
+                spriteBatch.DrawString(consolas, tmpScore.Turns.ToString(), new Vector2(750, 175 + i * 50), tmpColor);
             }
         }
 
