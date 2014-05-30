@@ -11,7 +11,7 @@ namespace HuntTheWumpus
     /// <summary>
     /// Manages the storage and sorting of scores.
     /// </summary>
-    class ScoreHandler
+    public class ScoreHandler
     {
         /// <summary>
         /// Represents the list of highscores from the file
@@ -95,6 +95,12 @@ namespace HuntTheWumpus
             /// Serialization into a unit that will go into the file
             /// </summary>
             /// <returns>The object as a string</returns>
+            /// dylan: README: what I think is happening here is that everytime the 
+            /// gamestate changes, the function clears the file and creates a new, blank scores file
+            /// consider creating a deicated content file for the scores that we can use instead. It's less sophisticated 
+            /// and advanced, but I know that this works. And don't you dare go "but when I tested it it worked" on my ass. 
+            /// That doesn't count fo rshit right now! We need to get something that works with teh rest of the code. 
+            /// 
             public string Serialize()
             {
                 return Name + ';' + Convert.ToString(Points) + ':' + Convert.ToString(Turns) + '|' + Convert.ToString(Time) + '\n';
@@ -145,7 +151,7 @@ namespace HuntTheWumpus
         /// Handles loading from file, sorting, and rewriting the file
         /// </summary>
         /// <param name="score">The score of the game</param>
-        void LoadScores(Object obj=null)
+        public void LoadScores(Object obj=null)
         {
             if (obj != null)
             {
@@ -178,7 +184,7 @@ namespace HuntTheWumpus
         /// </summary>
         /// <param name="serial">Contents of the file</param>
         /// <param name="">List to deposit data</param>
-        void Deserialize(string serial, ref List<Score> scoreList)
+        public void Deserialize(string serial, ref List<Score> scoreList)
         {
             string temp = "";
             Score score = new Score();
@@ -219,7 +225,7 @@ namespace HuntTheWumpus
         /// </summary>
         /// <param name="obj">The score value</param>
 
-        void ManageServer(Object obj=null)
+        public void ManageServer(Object obj=null)
         {
             var score = (Score)obj;
 

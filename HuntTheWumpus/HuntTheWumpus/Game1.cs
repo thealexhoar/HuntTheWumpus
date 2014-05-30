@@ -56,6 +56,7 @@ namespace HuntTheWumpus
 
         protected override void UnloadContent()
         {
+            background.Dispose();
         }
 
         protected override void Update(GameTime gameTime)
@@ -84,6 +85,7 @@ namespace HuntTheWumpus
                                 currentGameState = GameState.InGame;
                                 break;
                             case(1):
+                                gameControl.scoreHandler = new ScoreHandler();
                                 currentGameState = GameState.GameOver;
                                 break;
                             case(2):

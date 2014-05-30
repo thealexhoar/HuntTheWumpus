@@ -44,12 +44,12 @@ namespace HuntTheWumpus
         public static Cave cave;
         public static Player player = new Player(game);
 
-        ScoreHandler scoreHandler;
+        public ScoreHandler scoreHandler;
 
         public State state = State.MOVING;
         Vector2 moveVector;
         int moveCounter;
-        ScoreHandler.Score score = new ScoreHandler.Score();
+        public ScoreHandler.Score score = new ScoreHandler.Score();
 
         Texture2D background;
         Texture2D introImage;
@@ -101,9 +101,6 @@ namespace HuntTheWumpus
         public override void Initialize()
         {
             // TODO: Add your initialization code here
-
-            scoreHandler = new ScoreHandler(score);
-            Console.WriteLine("ScoreHandler: " + scoreHandler.HighScores);
 
             GUIStubb graphicsInterface = new GUIStubb();
             spriteManager = new SpriteManager(game, player);
@@ -463,14 +460,18 @@ namespace HuntTheWumpus
             selectionImage2 = content.Load<Texture2D>(@"Textures/selection2");
             selectionImage3 = content.Load<Texture2D>(@"Textures/selection3");
             selectionImage = selectionImage1;
+
             consolas = content.Load<SpriteFont>(@"Consolas");
+
             introImage = content.Load<Texture2D>(@"Textures/Menu");
             highscoreImage = content.Load<Texture2D>(@"Images/Highscores");
             arrow = content.Load<Texture2D>(@"Images/ArrowSprite");
             background = content.Load<Texture2D>(@"Images/SpaceBackground");
             HUD = content.Load<Texture2D>(@"Images/HUD");
+
             player.LoadContent(content);
-            foreach (RoomImage i in roomImages) {
+            foreach (RoomImage i in roomImages) 
+            {
                 i.LoadContent(content);
             }
 
@@ -517,6 +518,7 @@ namespace HuntTheWumpus
                 cave.locationPlayer.image.resolved = true;
             }
             else {
+                scoreHandler = new ScoreHandler(score);
                 Game1.currentGameState = Game1.GameState.GameOver;
             }
             return true;
@@ -566,7 +568,9 @@ namespace HuntTheWumpus
             if (triviaSucceeded) {
 
             }
-            else {
+            else
+            {
+                scoreHandler = new ScoreHandler(score);
                 Game1.currentGameState = Game1.GameState.GameOver;
             }
             return true;
@@ -588,12 +592,13 @@ namespace HuntTheWumpus
             }
         }
 
-        public static void ShootWumpus()
+        public void ShootWumpus()
         {
             bool didHit = false;
             
             if (didHit)
             {
+                scoreHandler = new ScoreHandler(score);
                 Game1.currentGameState = Game1.GameState.GameOver;
             }
             else
@@ -684,6 +689,8 @@ namespace HuntTheWumpus
 
         
 
+        
+
         public void DrawIntro(SpriteBatch spriteBatch)
         {            
             foreach (Sprite x in displaySprites)
@@ -695,10 +702,18 @@ namespace HuntTheWumpus
 
         public void DrawGameOver(SpriteBatch spriteBatch)
         {
-            foreach(ScoreHandler.Score x in scoreHandler.HighScores)
-                spriteBatch.DrawString(consolas, "Name: " + Convert.ToString(x), new Vector2(50, 50), Color.Gold);
-            
+
             spriteBatch.Draw(highscoreImage, new Rectangle(0, 0, 1024, 768), Color.White);
+
+            spriteBatch.DrawString(consolas, "Name    Points    Time    Turns", new Vector2(125, 125), Color.Cyan);
+
+            for (int i = 0; i < scoreHandler.HighScores.Count; i++)
+            {
+                var tmpScore = scoreHandler.HighScores[i];
+                string playerScore = tmpScore.Name.ToString() + "    " + tmpScore.Points.ToString() + "    " + 
+                    tmpScore.Time.ToString() + "    " + tmpScore.Turns.ToString();
+                spriteBatch.DrawString(consolas, playerScore, new Vector2(125, 175 + i * 50), Color.Cyan);
+            }
         }
 
         public void ShootArrow(Player player)

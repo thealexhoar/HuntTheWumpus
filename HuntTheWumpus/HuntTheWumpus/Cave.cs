@@ -233,6 +233,8 @@ namespace HuntTheWumpus
 
                     this.Rooms = new Room[Width, Height];
 
+                    this.Filename = filename;
+
                     // after that, each line is a 3-number string, representing the enum values of the 3 exits for each room 
                     // counter-clockwise, starting top-left
                     // (e.g. "135" means this room has exits on top left, top right, bottom middle)
@@ -252,10 +254,7 @@ namespace HuntTheWumpus
                     }
                     // write your own caves nerd
 
-                    this.Filename = filename;
-                    locationPlayer = Rooms[0, 0];
-
-                    // working on this, will make a cave manually
+                    //locationPlayer = Rooms[0, 0];
 
                     if (map)
                     {
@@ -263,8 +262,8 @@ namespace HuntTheWumpus
                         // order: player, wumpus, bats, pits
                         bool placedPlayer = false, placedWumpus = false, placedBats = false, placedPits = false;
 
-                        // place player
-                        locationPlayer = this.Rooms[rand.Next(0, this.Width), rand.Next(0, this.Height)];
+                        // place player at 0, 0
+                        locationPlayer = this.Rooms[0, 0];
                         locationPlayer.hasPlayer = true;
                         locationPlayer.hasThing = true;
                         placedPlayer = true;
@@ -275,12 +274,22 @@ namespace HuntTheWumpus
                             // generate x and y
                             ushort x = (ushort)rand.Next(0, this.Width), y = (ushort)rand.Next(0, this.Height);
 
+                            if (this.Rooms[x, y].hasThing)
+                                continue;
+
                             // if cave is big enough, space player and wumpus out
                             if (this.Width >= 3 && this.Height >= 3)
                             {
+                                int TLx = (x == 0) ? (this.Width - 1) : (x - 1), TLy = (y == 0) ? (this.Height - 1) : (y - 1);
+                                int TMx = x, TMy = (y == 0) ? (this.Height - 1) : (y - 1);
+                                int TRx = (x == this.Width - 1) ? (0) : (x + 1), TRy = (y == 0) ? (this.Height - 1) : (y - 1);
+                                int MLx = (x == 0) ? (this.Width - 1) : (x - 1), MLy = y;
+                                int MRx = (x == this.Width - 1) ? (0) : (x + 1), MRy = y;
+                                int BMx = x, BMy = (y == this.Height - 1) ? (0) : (y + 1);
+
                                 // https://github.com/thealexhoar/HuntTheWumpus/blob/master/this.png
                                 // if generated x/y are adjacent to player, get a new set
-                                if ((y == locationPlayer.Y - 1 && Math.Abs(x - locationPlayer.X) < 2) || (y == locationPlayer.Y && Math.Abs(x - locationPlayer.X) < 2) || (y == locationPlayer.Y + 1 && x == locationPlayer.X))
+                                if (this.Rooms[TLx, TLy].hasPlayer || this.Rooms[TMx, TMy].hasPlayer || this.Rooms[TRx, TRy].hasPlayer || this.Rooms[MLx, MLy].hasPlayer || this.Rooms[MRx, MRy].hasPlayer || this.Rooms[BMx, BMy].hasPlayer)
                                     continue;
                                 // otherwise assign
                                 else
@@ -326,7 +335,7 @@ namespace HuntTheWumpus
 
                         // place pits
                         // certain amount per cave
-                        // shouldn't be adjacent to any other obstacles
+                        // can end up adjacent to other obstacles
                         // place per 2 rows of cave
                         for (ushort i = 0; i < this.Height / 2; ++i)
                         {
@@ -456,13 +465,35 @@ namespace HuntTheWumpus
         */
         public void GetAdjacent(int x, int y, out bool wumpus, out bool bats, out bool pit) // This function is broken
         {
-            Room.Edge e = Rooms[x, y].GetEdge();
-            bool w = false, b = false, p = false;
+            /*
+            int TLx = (x==0) ? (this.Width-1) : (x-1), TLy = (y==0) ? (this.Height-1) : (y-1);
+            int TMx = x, TMy = (y==0) ? (this.Height-1) : (y-1);
+            int TRx = (x==this.Width-1) ? (0) : (x+1), TRy = (y==0) ? (this.Height-1) : (y-1);
+            int MLx = (x==0) ? (this.Width-1) : (x-1), MLy = y;
+            int MRx = (x==this.Width-1) ? (0) : (x+1), MRy = y;
+            int BMx = x, BMy = (y==this.Height-1) ? (0) : (y+1);
+            */
 
+            bool w = false, b = false, p = false;
+            Room.Edge e = Rooms[x, y].GetEdge();
+            /*
             int xPlusOne = x + 1 > 5 ? 0 : x + 1;
             int xMinusOne = x - 1 < 0 ? 5 : x - 1;
             int yPlusOne = y + 1 > 4 ? 0 : y + 1;
             int yMinusOne = y - 1 < 0 ? 4 : y - 1;
+             */
+            int xPlusOne, xMinusOne, yPlusOne, yMinusOne;
+            if (x == 5) { xPlusOne = 0; }
+            else { xPlusOne = x + 1; }
+
+            if (x == 0) { xMinusOne = 5; }
+            else { xMinusOne = x - 1; }
+
+            if (y == 4) { yPlusOne = 0; }
+            else { yPlusOne = y + 1; }
+
+            if (y == 0) { yMinusOne = 4; }
+            else { yMinusOne = y - 1; }
 
             if ( !((e & Room.Edge.LEFT) > 0) )
             {
@@ -526,6 +557,29 @@ namespace HuntTheWumpus
                     p = p || tmp.hasPlayer;
                 }
             }
+            /*
+
+            w = w || this.Rooms[TLx, TLy].hasWumpus;
+            w = w || this.Rooms[TMx, TMy].hasWumpus;
+            w = w || this.Rooms[TRx, TRy].hasWumpus;
+            w = w || this.Rooms[MLx, MLy].hasWumpus;
+            w = w || this.Rooms[MRx, MRy].hasWumpus;
+            w = w || this.Rooms[BMx, BMy].hasWumpus;
+
+            b = b || this.Rooms[TLx, TLy].hasBats;
+            b = b || this.Rooms[TMx, TMy].hasBats;
+            b = b || this.Rooms[TRx, TRy].hasBats;
+            b = b || this.Rooms[MLx, MLy].hasBats;
+            b = b || this.Rooms[MRx, MRy].hasBats;
+            b = b || this.Rooms[BMx, BMy].hasBats;
+
+            p = p || this.Rooms[TLx, TLy].hasPit;
+            p = p || this.Rooms[TMx, TMy].hasPit;
+            p = p || this.Rooms[TRx, TRy].hasPit;
+            p = p || this.Rooms[MLx, MLy].hasPit;
+            p = p || this.Rooms[MRx, MRy].hasPit;
+            p = p || this.Rooms[BMx, BMy].hasPit;
+            */
             wumpus = w;
             bats = b;
             pit = p;
