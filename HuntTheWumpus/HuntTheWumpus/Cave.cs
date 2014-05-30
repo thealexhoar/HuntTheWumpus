@@ -137,6 +137,11 @@ namespace HuntTheWumpus
                 this.Y = y;
             }
 
+            public void killWumpus() {
+                this.hasWumpus = false;
+                this.image.wumpus = false;
+            }
+
             /// <summary>
             /// Returned by GetEdge function, represents which (if any) edges of the cave this room resides on 
             /// </summary>
@@ -294,7 +299,7 @@ namespace HuntTheWumpus
                                 // otherwise assign
                                 else
                                 {
-                                    locationWumpus = this.Rooms[5, 4];
+                                    locationWumpus = this.Rooms[x, y];
                                     locationWumpus.hasWumpus = true;
                                     locationWumpus.hasThing = true;
                                     placedWumpus = true;

@@ -35,8 +35,8 @@ namespace HuntTheWumpus
 
         
 
-        public int arrows = 5;
-        public static int gold = 5;
+        public int arrows = 0;
+        public int gold = 0;
 
         public bool isInitialized
         {

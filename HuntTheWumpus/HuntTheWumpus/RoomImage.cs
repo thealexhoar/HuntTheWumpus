@@ -25,10 +25,12 @@ namespace HuntTheWumpus {
         private Texture2D greenHex;
         private Texture2D pitHex;
         private Texture2D batHex;
+        private Texture2D wumpusHex;
         private Cave.Room.Exit[] exits;
         public bool currentRoom = false;
         public bool pit = false;
         public bool bat = false;
+        public bool wumpus = false;
         public bool resolved = false;
         public bool nearWumpus = false;
         public bool[] edgeDraws;
@@ -92,6 +94,7 @@ namespace HuntTheWumpus {
             greenHex = content.Load<Texture2D>("images/GreenHex");
             batHex = content.Load<Texture2D>("images/BatHex");
             pitHex = content.Load<Texture2D>("images/BottomlessPitTrial");
+            wumpusHex = content.Load<Texture2D>("images/WumpusHex");
             graphic = texture;
             corners = content.Load<Texture2D>("images/TopHex");
         }
@@ -104,6 +107,9 @@ namespace HuntTheWumpus {
                 else if (pit && !resolved) {
                     graphic = pitHex;
                 }
+                else if (wumpus) {
+                    graphic = wumpusHex;
+                }
                 else {
                     graphic = texture;
                 }
@@ -112,7 +118,7 @@ namespace HuntTheWumpus {
                 graphic = texture2;
             }
         }
-        public void Draw(SpriteBatch spriteBatch) {
+        public void Draw(SpriteBatch spriteBatch, bool arrows = false) {
             spriteBatch.Draw(graphic, Position, Color.White);
             if (revealed) {
                 spriteBatch.Draw(baseEdge, Position, Color.White);
@@ -127,8 +133,8 @@ namespace HuntTheWumpus {
                         spriteBatch.Draw(edges[i], Position, Color.White);
                     }
                     else {
-                        if (currentRoom) {
-                            //spriteBatch.Draw(arrowDirections[i], Position, Color.White);
+                        if (currentRoom && arrows) {
+                            spriteBatch.Draw(arrowDirections[i], Position, Color.White);
 
                         }
                     }

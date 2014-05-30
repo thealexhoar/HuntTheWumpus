@@ -21,6 +21,7 @@ namespace HuntTheWumpus
         const int defaultMILLISECONDS_PER_FRAME = 16;
         protected Vector2 speed;
         public Vector2 position;
+        public bool kill = false;
 
         protected float originalScale = 1;
         Vector2 originalSpeed;
@@ -83,21 +84,9 @@ namespace HuntTheWumpus
             this.speed = speed;
             originalSpeed = speed;
         }
-        public virtual void Update(GameTime gameTime, Rectangle clientBounds)
+        public virtual void Update()
         {
-            timeSinceLastFrame += gameTime.ElapsedGameTime.Milliseconds;
-            if (timeSinceLastFrame >= millisecondsPerFrame)
-            {
-                timeSinceLastFrame -= millisecondsPerFrame;
-                ++currentFrame.X;
-                if (currentFrame.X >= sheetSize.X)
-                {
-                    currentFrame.X = 0;
-                    ++currentFrame.Y;
-                    if (currentFrame.Y >= sheetSize.Y)
-                        currentFrame.Y = 0;
-                }
-            }
+            this.position += this.speed;
         }
 
         public virtual void Draw(SpriteBatch spriteBatch)
