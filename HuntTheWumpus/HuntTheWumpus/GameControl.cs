@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
@@ -155,6 +156,18 @@ namespace HuntTheWumpus
             cave.Rooms[cave.locationPlayer.X, cave.locationPlayer.Y].image.revealed = true;
             cave.Rooms[cave.locationPlayer.X, cave.locationPlayer.Y].image.currentRoom = true;
             base.Initialize();
+
+            if (File.Exists(".user-config"))
+            {
+                using (var sr = new StreamReader(".user-config"))
+                    score.Name = sr.ReadToEnd();
+            }
+            else
+            {
+                score.Name = "User";
+                using (var sw = new StreamWriter(".user-config"))
+                    sw.WriteLine("User");
+            }
         }
 
         /// <summary>

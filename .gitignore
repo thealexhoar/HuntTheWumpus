@@ -153,6 +153,7 @@ $RECYCLE.BIN/
 .scores
 .crashlog
 .wumpus*
+.user-config
 
 # Mac crap
 .DS_Store
