@@ -159,15 +159,13 @@ namespace HuntTheWumpus
             base.Initialize();
 
             if (File.Exists(".user-config"))
-            {
                 using (var sr = new StreamReader(".user-config"))
                     score.Name = sr.ReadToEnd();
-            }
             else
             {
                 score.Name = "User";
                 using (var sw = new StreamWriter(".user-config"))
-                    sw.WriteLine("User");
+                    sw.Write("User");
             }
         }
 
